@@ -1,17 +1,17 @@
 <template>
     <UserCell />
-    <t-fab :buttonProps="{ style: 'heigth: 12vw' }" :icon="iconFunc" @click="onClick"
-        style="bottom: 8vh; right: 5vw;" />
+    <t-fab :icon="iconFunc" @click="onClick" :style="fabStyle" />
 </template>
-
 
 <script setup lang="ts">
 
 import UserCell from '../../components/UserCell.vue'
-import { h } from 'vue';
+import { h, type VNode } from 'vue';
 import { AddIcon } from 'tdesign-icons-vue-next';
 
-const iconFunc = () => h(AddIcon, { size: '30px' });
+const iconFunc = () => () =>  h(AddIcon, { size: '30px' });
+const fabStyle = "bottom: 80px; right: 5vw"
+
 const onClick = () => {
     console.log('click Fab');
 };

@@ -15,11 +15,10 @@ import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { Icon as TIcon } from 'tdesign-icons-vue-next';
 import router from '@/router';
 
-
-const value = ref('game');
+const value = ref('setup');
 
 const list = ref([
-  { value: 'game', label: '开始', icon: 'play' },
+  { value: 'setup', label: '开始', icon: 'play' },
   { value: 'players', label: '玩家', icon: 'usergroup' },
   { value: 'history', label: '历史', icon: 'history' },
   { value: 'settings', label: '设定', icon: 'setting-1' },
@@ -35,7 +34,7 @@ watch(
 
 let startX = 0;
 let endX = 0;
-const threshold = window.innerWidth * 0.4;
+const threshold = window.innerWidth * 0.25;
 
 const handleTouchStart = (e: TouchEvent) => {
   startX = e.touches[0].clientX;
@@ -47,8 +46,18 @@ const handleTouchEnd = (e: TouchEvent) => {
   let index = list.value.findIndex(item => item.value === value.value);
   if (endX - startX > threshold) {
     index = index > 0 ? index - 1 : list.value.length - 1;
+    if (router.currentRoute.value.path === '/game') {
+      console.log('game');
+      index = 0;
+      router.push({ name: 'setup' })
+    }
   } else if (startX - endX > threshold) {
     index = index < list.value.length - 1 ? index + 1 : 0;
+    if (router.currentRoute.value.path === '/game') {
+      console.log('game');
+      index = 0;
+      router.push({ name: 'setup' })
+    }
   }
   value.value = list.value[index].value;
 };

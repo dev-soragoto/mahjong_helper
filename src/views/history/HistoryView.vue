@@ -1,21 +1,24 @@
 <template>
     <t-collapse expand-mutex :value="values" @change="handleChange">
-        <t-collapse-panel v-for="i in 4" :key="i" :value="i" header="2024-02-30 11:45:14 "
-            header-right-content="牌搭子1 获胜">
-            <div class="content">
-                <t-table row-key="index" :data="data" :columns="columns" :show-header="showHeader"
-                    cell-empty-content="-" @row-click="handleRowClick">
-                </t-table>
-            </div>
-        </t-collapse-panel>
+        <t-swipe-cell v-for="i in 4" :key="i" :value="i" :right="cellEvent" @touchstart.stop @touchend.stop>
+            <t-collapse-panel :value="i" header="2024-02-30 11:45:14" header-right-content="牌搭子1 获胜">
+                <div class="content">
+                    <t-table row-key="index" :data="data" :columns="columns" :show-header="showHeader"
+                        cell-empty-content="-" @row-click="handleRowClick">
+                    </t-table>
+                </div>
+            </t-collapse-panel>
+        </t-swipe-cell>
     </t-collapse>
 </template>
 
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { h, reactive, ref } from 'vue';
+import { DeleteIcon } from 'tdesign-icons-vue-next';
+import { Toast } from 'tdesign-mobile-vue';
 
-const values = ref([1]);
+const values = ref([0]);
 const handleChange = (val: number[]) => {
     values.value = val;
 };
@@ -60,5 +63,18 @@ const columns = ref([
 const handleRowClick = (e: any) => {
     console.log('row-cliek=====', e);
 };
+
+const handleDelete = () => {
+    Toast.success(`删除成功`);
+};
+
+
+const delIcon = h(DeleteIcon, { size: '20px' });
+
+const cellEvent = reactive(
+    [
+        { text: '删除', icon: delIcon, className: 'delete-btn', onClick: handleDelete },
+    ]
+);
 
 </script>

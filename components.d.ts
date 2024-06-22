@@ -23,6 +23,7 @@ declare module 'vue' {
     TCollapse: typeof import('tdesign-mobile-vue')['Collapse']
     TCollapsePanel: typeof import('tdesign-mobile-vue')['CollapsePanel']
     TDateTimePicker: typeof import('tdesign-mobile-vue')['DateTimePicker']
+    TDialog: typeof import('tdesign-mobile-vue')['Dialog']
     TFab: typeof import('tdesign-mobile-vue')['Fab']
     TForm: typeof import('tdesign-mobile-vue')['Form']
     TFormItem: typeof import('tdesign-mobile-vue')['FormItem']

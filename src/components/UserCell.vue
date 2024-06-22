@@ -19,7 +19,6 @@ import { reactive, h } from 'vue';
 import { Edit1Icon, DeleteIcon } from 'tdesign-icons-vue-next';
 import { Toast } from 'tdesign-mobile-vue';
 
-
 const handleEdit = () => {
   Toast.success(`编辑成功`);
 };
@@ -27,7 +26,6 @@ const handleEdit = () => {
 const handleDelete = () => {
   Toast.success(`删除成功`);
 };
-
 
 const editIcon = h(Edit1Icon, { size: '20px' });
 const delIcon = h(DeleteIcon, { size: '20px' });
@@ -40,7 +38,7 @@ const cellEvent = reactive(
 );
 </script>
 
-<style lang="less">
+<style>
 .edit-btn {
   background-color: #ed7b2f;
 }
