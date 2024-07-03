@@ -1,49 +1,54 @@
 <template>
     <div style="height: 90vh; width: 100vw; position: absolute; margin: auto; 
-        top: 0; left: 0; right: 0; background-color: aqua;">
+        top: 0; left: 0; right: 0; background-color: #fcbad3;">
 
         <div style="position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;
-              background-color: blanchedalmond; display: table;">
+              background-color: blanchedalmond; display: table; border-radius: 3vmin">
             <p class="title"><strong>东一局</strong></p>
             <p class="text"><strong>1本场</strong></p>
             <p class="text"><strong>1000供托</strong></p>
         </div>
 
-        <div style="position: absolute; margin: auto; left: 0; right: 0; bottom: 0;
-              background-color: red; display: flex; flex-direction: column; flex: 0 1 auto">
-            <t-button class="richi" theme="light">立直</t-button>
-            <p class="title"><strong>北 24000</strong></p>
-            <p class="text"><strong>牌搭子1</strong></p>
+        <div style="position: absolute; margin: auto; left: 0; right: 0; bottom: 2vmin;
+              background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
+              width: 40vmin; height: 25vmin;">
+            <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
+            <p class="title" style="margin-bottom: 2vmin"><strong>北 24000</strong></p>
+            <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子1</strong></p>
         </div>
 
-        <div style="position: absolute; margin: auto; top: 0; left: 0; right: 0; 
-              background-color: red; display: table;">
-            <p class="title"><strong>东一局</strong></p>
-            <p class="text"><strong>1本场</strong></p>
-            <p class="text"><strong>1000供托</strong></p>
+        <div style="position: absolute; margin: auto; top: 2vmin; left: 0; right: 0;
+              background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
+              width: 40vmin; height: 25vmin; transform: rotate(180deg);">
+            <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
+            <p class="title" style="margin-bottom: 2vmin"><strong>南 25000</strong></p>
+            <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子2</strong></p>
         </div>
 
-        <div style="position: absolute; margin: auto; top: 0;  right: 0; bottom: 0;
-              background-color: red; display: table;">
-            <p class="title"><strong>东一局</strong></p>
-            <p class="text"><strong>1本场</strong></p>
-            <p class="text"><strong>1000供托</strong></p>
+
+        <div style="position: absolute; margin: auto; top: 0;  right: -5.5vmin; bottom: 0;
+              background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
+              width: 40vmin; height: 25vmin; transform: rotate(270deg);">
+            <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
+            <p class="title" style="margin-bottom: 2vmin"><strong>东 25000</strong></p>
+            <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子3</strong></p>
         </div>
 
-        <div style="position: absolute; margin: auto; top:0; left: 0; bottom: 0;
-              background-color: red; display: table;">
-            <p class="title"><strong>东一局</strong></p>
-            <p class="text"><strong>1本场</strong></p>
-            <p class="text"><strong>1000供托</strong></p>
+
+        <div style="position: absolute; margin: auto; top: 0;  left: -5.5vmin; bottom: 0;
+              background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
+              width: 40vmin; height: 25vmin; transform: rotate(90deg);">
+            <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
+            <p class="title" style="margin-bottom: 2vmin"><strong>东 25000</strong></p>
+            <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子4</strong></p>
         </div>
 
     </div>
 
     <div style="height: 10vh; width: 100vw; position: absolute; margin: auto; 
-        bottom: 0; left: 0; right: 0; background-color: rebeccapurple;">
-
+        bottom: 0; left: 0; right: 0; background-color: #aa96da;">
         <div style="position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;
-              background-color: red; display: table;">
+              background-color: transparent; display: table;">
             <t-button class="actionButton" theme="light">自摸</t-button>
             <t-button class="actionButton" theme="light">和</t-button>
             <t-button class="actionButton" theme="light">流局</t-button>
