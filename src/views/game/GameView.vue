@@ -4,16 +4,16 @@
 
         <div style="position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;
               background-color: blanchedalmond; display: table; border-radius: 3vmin">
-            <p class="title"><strong>东一局</strong></p>
-            <p class="text"><strong>1本场</strong></p>
-            <p class="text"><strong>1000供托</strong></p>
+            <p class="title"><strong>{{ kyokuList[currentKyoku] }}</strong></p>
+            <p class="text"><strong>{{ honBa }}本场</strong></p>
+            <p class="text"><strong>{{ kyoutaku * 1000 }}供托</strong></p>
         </div>
 
         <div style="position: absolute; margin: auto; left: 0; right: 0; bottom: 2vmin;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40vmin; height: 25vmin;">
             <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>北 24000</strong></p>
+            <p class="title" style="margin-bottom: 2vmin"><strong>{{ player1 }} 24000</strong></p>
             <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子1</strong></p>
         </div>
 
@@ -21,7 +21,7 @@
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40vmin; height: 25vmin; transform: rotate(180deg);">
             <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>南 25000</strong></p>
+            <p class="title" style="margin-bottom: 2vmin"><strong>{{ player2 }} 25000</strong></p>
             <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子2</strong></p>
         </div>
 
@@ -30,7 +30,7 @@
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40vmin; height: 25vmin; transform: rotate(270deg);">
             <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>东 25000</strong></p>
+            <p class="title" style="margin-bottom: 2vmin"><strong>{{ player3 }} 25000</strong></p>
             <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子3</strong></p>
         </div>
 
@@ -39,7 +39,7 @@
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40vmin; height: 25vmin; transform: rotate(90deg);">
             <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>东 25000</strong></p>
+            <p class="title" style="margin-bottom: 2vmin"><strong>{{ player4 }} 25000</strong></p>
             <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子4</strong></p>
         </div>
 
@@ -67,8 +67,16 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref } from 'vue';
 import { onBeforeRouteLeave, type RouteLocationNormalized } from 'vue-router';
+import { player } from '../../ts/common.ts'
+
+// 局内逻辑
+const kyokuList = ["东一局", "东二局", "东三局", "东四局", "南一局", "南二局", "南三局", "南四局", "西一局", "西二局", "西三局", "西四局"]
+const currentKyoku = ref(0)
+const honBa = ref(0)
+const kyoutaku = ref(0)
 
 
+// 界面逻辑
 const leave = ref({
     showAlert: false,
     to: {} as RouteLocationNormalized,
