@@ -34,18 +34,17 @@
 </template>
 
 <script lang="ts" setup>
+import { useGameStore } from '@/stores/storage';
 import { reactive, ref } from 'vue';
-import { useGameStore } from '@/stores/storage'
-import { Player } from '@/ts/common'
 
 const gameStore = useGameStore()
 
 //设置逻辑
 const startPoint = reactive({
-    value: gameStore.startPoint
+    value: (String)(gameStore.startPoint)
 })
 const returnPoint = reactive({
-    value: gameStore.returnPoint
+    value: (String)(gameStore.returnPoint)
 })
 
 const showStartPointInput = ref({
@@ -55,8 +54,8 @@ const showReturnPointInput = ref({
     on: false
 })
 
-const startPointInput = ref('')
-const returnPointInput = ref('')
+const startPointInput = ref<number>(25000)
+const returnPointInput = ref<number>(30000)
 
 
 interface CheckedObject {
@@ -83,7 +82,7 @@ const onChange = (key: keyof CheckedObject, val: boolean) => {
 };
 
 const onChangeStartPoint = () => {
-    startPoint.value = startPointInput.value
+    startPoint.value = (String)(startPointInput.value)
     gameStore.setConfig(
         checked.continuingIntoWest, 
         checked.bankruptcy,
@@ -91,11 +90,11 @@ const onChangeStartPoint = () => {
         startPoint.value,
         returnPoint.value
     )
-    showStartPointInput.on = false
+    showStartPointInput.value.on = false
 }
 
 const onChangeReturnPoint = () => {
-    returnPoint.value = returnPointInput.value
+    returnPoint.value = (String)(returnPointInput.value)
     gameStore.setConfig(
         checked.continuingIntoWest, 
         checked.bankruptcy,
@@ -103,7 +102,7 @@ const onChangeReturnPoint = () => {
         startPoint.value,
         returnPoint.value
     )
-    showReturnPointInput.on = false
+    showReturnPointInput.value.on = false
 }
 
 

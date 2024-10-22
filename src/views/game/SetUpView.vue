@@ -28,49 +28,36 @@
 </template>
 
 <script lang="ts" setup>
-import type { PickerValue } from 'tdesign-mobile-vue/es/picker/type';
-import { h, reactive } from 'vue';
-import { PlayIcon } from 'tdesign-icons-vue-next';
 import router from '@/router';
-import { useGameStore } from '@/stores/storage'
-import { Player } from '@/ts/common'
+import { useGameStore } from '@/stores/storage';
+import { PlayIcon } from 'tdesign-icons-vue-next';
+import type { PickerValue } from 'tdesign-mobile-vue/es/picker/type';
+import { h, onMounted, reactive, ref } from 'vue';
 
 const gameStore = useGameStore()
-
 const titles = ['自家', '下家', '对家', '上家'];
 
-/*
-const players = [[
-    { label: '牌搭子1', value: '牌搭子1' },
-    { label: '牌搭子2', value: '牌搭子2' },
-    { label: '牌搭子3', value: '牌搭子3' },
-    { label: '牌搭子4', value: '牌搭子4' },
-]];
-*/
 
-const players = () => {
-    var result = [[]]
-    for (const player of gameStore.playerList) {
+const players = ref<{ label: string, value: string }[][]>([]);
+
+onMounted(() => {
+    var result: { label: string, value: string }[][] = [[]];
+    for (const player of gameStore.playerList as { name: string }[]) {
         result[0].push({
             label: player.name,
             value: player.name
-        })
+        });
     }
-
-    return result
-}
-
+    players.value = result;
+});
 
 const playerState = Array(4).fill(0).map(() => reactive({
     show: false,
     player: []
 }));
 
-const onChange = (value: string[]) => {
-    console.log('change')
-    console.log(value);
-
-    //playerState[i].player = [val.join('')]
+const onChange = (selectedPlayer: string[]) => {
+    players.value = players.value.map(group => group.filter(player => !selectedPlayer.includes(player.value)));
 }
 
 const onCancel = () => {
@@ -81,13 +68,6 @@ const onCancel = () => {
 };
 
 const onConfirm = (val: string[], context: number[]) => {
-    /*
-    for (var i = 0; i < playerState.length; i++) {
-        if (playerState[i].player.join('') === val.join('')) {
-            playerState[i].player = []
-        }
-    }
-    */
     console.log(val);
     console.log('context', context);
     playerState.forEach(state => state.show = false);
@@ -114,7 +94,6 @@ const onClick = () => {
     router.push('/game');
 };
 </script>
-
 
 <style>
 .no-hover {
