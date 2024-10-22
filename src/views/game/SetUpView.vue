@@ -81,11 +81,13 @@ const onCancel = () => {
 };
 
 const onConfirm = (val: string[], context: number[]) => {
+    /*
     for (var i = 0; i < playerState.length; i++) {
         if (playerState[i].player.join('') === val.join('')) {
             playerState[i].player = []
         }
     }
+    */
     console.log(val);
     console.log('context', context);
     playerState.forEach(state => state.show = false);
