@@ -8,14 +8,14 @@ export const useGameStore = defineStore("game", {
     state: () => {
         return{
             count: 0,
-            playerList: reactive(new Array<object>()),
+            playerList: reactive<Array<object>>(new Array<object>()),
             playerListMap: new Map<string, number>(),
             continuingIntoWest: true,
             bankruptcy: true,
             negativeRiichi: false,
             startPoint: 25000,
             returnPoint: 30000,
-            playerListRef: reactive(new Array<object>())
+            playerListRef: reactive<Array<object>>(new Array<object>())
         }
     },
 
@@ -37,8 +37,8 @@ export const useGameStore = defineStore("game", {
                 this.playerListRef.push(
                     {
                         visible: false,
-                        inputModel: ref(''),
-                        key: ref(0)
+                        inputModel: ref<number>(0),
+                        key: ref<number>(0)
                     }
                 )                
                 this.playerList.push(player)

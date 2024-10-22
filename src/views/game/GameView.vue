@@ -13,7 +13,7 @@
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40vmin; height: 25vmin;">
             <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>{{ player1 }} 24000</strong></p>
+            <p class="title" style="margin-bottom: 2vmin"><strong>东 24000</strong></p>
             <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子1</strong></p>
         </div>
 
@@ -21,7 +21,7 @@
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40vmin; height: 25vmin; transform: rotate(180deg);">
             <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>{{ player2 }} 25000</strong></p>
+            <p class="title" style="margin-bottom: 2vmin"><strong>南 25000</strong></p>
             <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子2</strong></p>
         </div>
 
@@ -30,7 +30,7 @@
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40vmin; height: 25vmin; transform: rotate(270deg);">
             <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>{{ player3 }} 25000</strong></p>
+            <p class="title" style="margin-bottom: 2vmin"><strong>西 25000</strong></p>
             <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子3</strong></p>
         </div>
 
@@ -39,7 +39,7 @@
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40vmin; height: 25vmin; transform: rotate(90deg);">
             <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>{{ player4 }} 25000</strong></p>
+            <p class="title" style="margin-bottom: 2vmin"><strong>北 25000</strong></p>
             <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子4</strong></p>
         </div>
 
@@ -67,13 +67,18 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref } from 'vue';
 import { onBeforeRouteLeave, type RouteLocationNormalized } from 'vue-router';
-import { player } from '../../ts/common.ts'
+import { useGameStore } from '@/stores/storage';
+
+const gameStore = useGameStore()
 
 // 局内逻辑
-const kyokuList = ["东一局", "东二局", "东三局", "东四局", "南一局", "南二局", "南三局", "南四局", "西一局", "西二局", "西三局", "西四局"]
-const currentKyoku = ref(0)
-const honBa = ref(0)
-const kyoutaku = ref(0)
+const kyokuList = ['东一局', '东二局', '东三局', '东四局', '南一局', '南二局', '南三局', '南四局', '西一局', '西二局', '西三局', '西四局']
+const kazeList = ['东', '南', '西', '北']
+const fanList = ['一番', '两番', '三番', '四番', '满贯', '跳满', '倍满', '三倍满', '役满', '两倍役满', '三倍役满', '四倍役满', '五倍役满', '六倍役满']
+const fuList = ['20', '25', '30', '40', '50', '60', '70', '80', '90', '100', '110']
+const currentKyoku = ref<number>(0)
+const honBa = ref<number>(0)
+const kyoutaku = ref<number>(0)
 
 
 // 界面逻辑
