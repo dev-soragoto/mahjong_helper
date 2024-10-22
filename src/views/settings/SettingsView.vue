@@ -36,6 +36,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import { useGameStore } from '@/stores/storage'
+import { Player } from '@/ts/common'
 
 const gameStore = useGameStore()
 

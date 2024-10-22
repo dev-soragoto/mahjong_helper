@@ -11,7 +11,11 @@ import { TDesignResolver } from 'unplugin-vue-components/resolvers';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      script: {
+        defineModel: true
+      }
+    }),
     vueJsx(),
     AutoImport({
       resolvers: [TDesignResolver({
