@@ -1,52 +1,52 @@
 <template>
-    <div style="height: 90vh; width: 100vw; position: absolute; margin: auto; 
+    <div style="height: 90dvh; width: 100dvw; position: absolute; margin: auto; 
         top: 0; left: 0; right: 0; background-color: #fcbad3;">
 
         <div style="position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;
               background-color: blanchedalmond; display: flex; flex-direction: column; flex: 0 1 auto;
-              width: 35vmin; height: 35vmin;">
+              width: 35dvmin; height: 35dvmin;">
             <p class="title"><strong>{{ kyokuList[currentKyoku] }}</strong></p>
             <p class="text"><strong>{{ honba }}本场</strong></p>
             <p class="text"><strong>{{ kyoutaku * 1000 }}供托</strong></p>
         </div>
 
-        <div style="position: absolute; margin: auto; left: 0; right: 0; bottom: 2vmin;
+        <div style="position: absolute; margin: auto; left: 0; right: 0; bottom: 2dvmin;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
-              width: 40vmin; height: 25vmin;">
-            <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(0).seat }} {{ gameStore.getSeat(0).point }}</strong></p>
-            <p class="text" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(0).name }}</strong></p>
+              width: 40dvmin; height: 25dvmin;">
+            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light">立直</t-button>
+            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).seat }} {{ gameStore.getSeat(0).point }}</strong></p>
+            <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).name }}</strong></p>
         </div>
 
-        <div style="position: absolute; margin: auto; top: 2vmin; left: 0; right: 0;
+        <div style="position: absolute; margin: auto; top: 2dvmin; left: 0; right: 0;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
-              width: 40vmin; height: 25vmin; transform: rotate(180deg);">
-            <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(2).seat }} {{ gameStore.getSeat(2).point }}</strong></p>
-            <p class="text" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(2).name }}</strong></p>
-        </div>
-
-
-        <div style="position: absolute; margin: auto; top: 0;  right: -5.5vmin; bottom: 0;
-              background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
-              width: 40vmin; height: 25vmin; transform: rotate(270deg);">
-            <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(1).seat }} {{ gameStore.getSeat(1).point }}</strong></p>
-            <p class="text" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(1).name }}</strong></p>
+              width: 40dvmin; height: 25dvmin; transform: rotate(180deg);">
+            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light">立直</t-button>
+            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).seat }} {{ gameStore.getSeat(2).point }}</strong></p>
+            <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).name }}</strong></p>
         </div>
 
 
-        <div style="position: absolute; margin: auto; top: 0;  left: -5.5vmin; bottom: 0;
+        <div style="position: absolute; margin: auto; top: 0;  right: -5.5dvmin; bottom: 0;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
-              width: 40vmin; height: 25vmin; transform: rotate(90deg);">
-            <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(3).seat }} {{ gameStore.getSeat(3).point }}</strong></p>
-            <p class="text" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(3).name }}</strong></p>
+              width: 40dvmin; height: 25dvmin; transform: rotate(270deg);">
+            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light">立直</t-button>
+            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).seat }} {{ gameStore.getSeat(1).point }}</strong></p>
+            <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).name }}</strong></p>
+        </div>
+
+
+        <div style="position: absolute; margin: auto; top: 0;  left: -5.5dvmin; bottom: 0;
+              background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
+              width: 40dvmin; height: 25dvmin; transform: rotate(90deg);">
+            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light">立直</t-button>
+            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).seat }} {{ gameStore.getSeat(3).point }}</strong></p>
+            <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).name }}</strong></p>
         </div>
 
     </div>
 
-    <div style="height: 10vh; width: 100vw; position: absolute; margin: auto; 
+    <div style="height: 10dvh; width: 100dvw; position: absolute; margin: auto; 
         bottom: 0; left: 0; right: 0; background-color: #aa96da;">
         <div style="position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;
               background-color: transparent; display: table;">
@@ -421,30 +421,30 @@ onUnmounted(() => {
 
 <style scoped lang="less">
 .actionButton {
-    width: 10vmin;
-    height: 7vmin;
-    margin-left: 4vmin;
-    margin-right: 4vmin;
+    width: 10dvmin;
+    height: 7dvmin;
+    margin-left: 4dvmin;
+    margin-right: 4dvmin;
 }
 
 
 .richi {
-    width: 20vmin;
-    height: 10vmin;
+    width: 20dvmin;
+    height: 10dvmin;
     margin: auto;
     right: 0;
     left: 0;
 }
 
 .title {
-    font-size: 8vmin;
-    line-height: 0.5vmin;
+    font-size: 8dvmin;
+    line-height: 0.5dvmin;
     text-align: center;
 }
 
 .text {
-    font-size: 4vmin;
-    line-height: 0.8vmin;
+    font-size: 4dvmin;
+    line-height: 0.8dvmin;
     text-align: center;
 }
 </style>

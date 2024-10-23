@@ -36,7 +36,7 @@ import type { PickerValue } from 'tdesign-mobile-vue/es/picker/type';
 import { h, onMounted, reactive, ref } from 'vue';
 
 const iconFunc = () => h(PlayIcon, { size: '30px' });
-const fabStyle = "bottom: 80px; right: 5vw"
+const fabStyle = "bottom: 80px; right: 5dvw"
 
 const gameStore = useGameStore()
 const titles = ['自家', '下家', '对家', '上家'];

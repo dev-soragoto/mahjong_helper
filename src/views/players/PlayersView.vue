@@ -14,7 +14,7 @@ import UserCell from '../../components/UserCell.vue';
 const gameStore = useGameStore()
 
 const iconFunc = () =>  h(AddIcon, { size: '30px' })
-const fabStyle = "bottom: 80px; right: 5vw"
+const fabStyle = "bottom: 80px; right: 5dvw"
 
 const onClick = () => {
     if (gameStore.count >= 4) {
