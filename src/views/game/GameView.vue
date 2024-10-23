@@ -3,7 +3,8 @@
         top: 0; left: 0; right: 0; background-color: #fcbad3;">
 
         <div style="position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;
-              background-color: blanchedalmond; display: table; border-radius: 3vmin">
+              background-color: blanchedalmond; display: flex; flex-direction: column; flex: 0 1 auto;
+              width: 35vmin; height: 35vmin;">
             <p class="title"><strong>{{ kyokuList[currentKyoku] }}</strong></p>
             <p class="text"><strong>{{ honba }}本场</strong></p>
             <p class="text"><strong>{{ kyoutaku * 1000 }}供托</strong></p>
