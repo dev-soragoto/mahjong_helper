@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
-      - name: delete deployment
+      - name: clean deployment
         uses: strumwolf/delete-deployment-environment@v2
         with:
           token: ${{ secrets.TOKEN }}
