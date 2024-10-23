@@ -49,7 +49,7 @@
     <div style="height: 10dvh; width: 100dvw; position: absolute; margin: auto; 
         bottom: 0; left: 0; right: 0; background-color: #aa96da;">
         <div style="position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;
-              background-color: transparent; display: table;">
+              background-color: transparent; display: flex; justify-content: space-between; align-items: center;">
             <t-button class="actionButton" theme="light" @click="onTsumo">自摸</t-button>
             <t-button class="actionButton" theme="light" @click="onRon">荣和</t-button>
             <t-button class="actionButton" theme="light" @click="onRyuukyoku">流局</t-button>
@@ -117,11 +117,9 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref, reactive } from 'vue';
-import { onBeforeRouteLeave, type RouteLocationNormalized } from 'vue-router';
-import { PlayIcon } from 'tdesign-icons-vue-next';
-import type { PickerValue } from 'tdesign-mobile-vue/es/picker/type';
 import { useGameStore } from '@/stores/storage';
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onBeforeRouteLeave, type RouteLocationNormalized } from 'vue-router';
 
 const gameStore = useGameStore()
 
