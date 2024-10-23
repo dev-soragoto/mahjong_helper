@@ -5,7 +5,7 @@
         <div style="position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;
               background-color: blanchedalmond; display: table; border-radius: 3vmin">
             <p class="title"><strong>{{ kyokuList[currentKyoku] }}</strong></p>
-            <p class="text"><strong>{{ honBa }}本场</strong></p>
+            <p class="text"><strong>{{ honba }}本场</strong></p>
             <p class="text"><strong>{{ kyoutaku * 1000 }}供托</strong></p>
         </div>
 
@@ -93,6 +93,7 @@ function goNextKyoku() {
         goGameOver()
         return
     }
+
     currentKyoku.value++
     for (var i = 0; i < 4; i++) {
         var player = gameStore.getSeat(i)
