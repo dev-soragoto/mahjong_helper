@@ -11,6 +11,7 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+    "less": "^4.2.0",
     "pinia": "^2.1.7",
     "tdesign-icons-vue-next": "^0.2.6",
     "tdesign-mobile-vue": "^1.5.0",
