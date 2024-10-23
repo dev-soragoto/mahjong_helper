@@ -13,16 +13,16 @@
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40vmin; height: 25vmin;">
             <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>东 24000</strong></p>
-            <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子1</strong></p>
+            <p class="title" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(0).seat }} {{ gameStore.getSeat(0).point }}</strong></p>
+            <p class="text" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(0).name }}</strong></p>
         </div>
 
         <div style="position: absolute; margin: auto; top: 2vmin; left: 0; right: 0;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40vmin; height: 25vmin; transform: rotate(180deg);">
             <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>南 25000</strong></p>
-            <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子2</strong></p>
+            <p class="title" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(2).seat }} {{ gameStore.getSeat(2).point }}</strong></p>
+            <p class="text" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(2).name }}</strong></p>
         </div>
 
 
@@ -30,8 +30,8 @@
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40vmin; height: 25vmin; transform: rotate(270deg);">
             <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>西 25000</strong></p>
-            <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子3</strong></p>
+            <p class="title" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(1).seat }} {{ gameStore.getSeat(1).point }}</strong></p>
+            <p class="text" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(1).name }}</strong></p>
         </div>
 
 
@@ -39,8 +39,8 @@
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40vmin; height: 25vmin; transform: rotate(90deg);">
             <t-button class="richi" style="margin-bottom: -2vmin" theme="light">立直</t-button>
-            <p class="title" style="margin-bottom: 2vmin"><strong>北 25000</strong></p>
-            <p class="text" style="margin-bottom: 2vmin"><strong>牌搭子4</strong></p>
+            <p class="title" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(3).seat }} {{ gameStore.getSeat(3).point }}</strong></p>
+            <p class="text" style="margin-bottom: 2vmin"><strong>{{ gameStore.getSeat(3).name }}</strong></p>
         </div>
 
     </div>
@@ -49,11 +49,11 @@
         bottom: 0; left: 0; right: 0; background-color: #aa96da;">
         <div style="position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;
               background-color: transparent; display: table;">
-            <t-button class="actionButton" theme="light">自摸</t-button>
-            <t-button class="actionButton" theme="light">和</t-button>
-            <t-button class="actionButton" theme="light">流局</t-button>
-            <t-button class="actionButton" theme="light">编辑</t-button>
-            <t-button class="actionButton" theme="light">撤销</t-button>
+            <t-button class="actionButton" theme="light" @click="onTsumo">自摸</t-button>
+            <t-button class="actionButton" theme="light" @click="onRon">和</t-button>
+            <t-button class="actionButton" theme="light" @click="onRyuukyoku">流局</t-button>
+            <t-button class="actionButton" theme="light" @click="onEdit">编辑</t-button>
+            <t-button class="actionButton" theme="light" @click="onRevoke">撤销</t-button>
         </div>
 
     </div>
@@ -77,9 +77,68 @@ const kazeList = ['东', '南', '西', '北']
 const fanList = ['一番', '两番', '三番', '四番', '满贯', '跳满', '倍满', '三倍满', '役满', '两倍役满', '三倍役满', '四倍役满', '五倍役满', '六倍役满']
 const fuList = ['20', '25', '30', '40', '50', '60', '70', '80', '90', '100', '110']
 const currentKyoku = ref<number>(0)
-const honBa = ref<number>(0)
+const honba = ref<number>(0)
 const kyoutaku = ref<number>(0)
 
+onMounted(() => {
+    for (var i = 0; i < 4; i++) {
+        var player = gameStore.getSeat(i)
+        player.seat = kazeList[(i + 4 - gameStore.startSeat) % 4]
+        gameStore.setPlayer(player.name, player)
+    }
+})
+
+function goNextKyoku() {
+    if (checkGameOver()) {
+        goGameOver()
+        return
+    }
+    currentKyoku.value++
+    for (var i = 0; i < 4; i++) {
+        var player = gameStore.getSeat(i)
+        player.seat = kazeList[(i + 4 - gameStore.startSeat + 12 - currentKyoku.value) % 4]
+        gameStore.setPlayer(player.name, player)
+    }
+}
+
+function setHonba() {
+
+}
+
+function setKyoutaku() {
+
+}
+
+function checkGameOver(): boolean {
+    if (currentKyoku.value >= kyokuList.length - 1) {
+        return true
+    }
+    return false
+}
+
+function goGameOver() {
+
+}
+
+const onTsumo = () => {
+
+}
+
+const onRon = () => {
+
+}
+
+const onRyuukyoku = () => {
+    goNextKyoku()
+}
+
+const onEdit = () => {
+
+}
+
+const onRevoke = () => {
+
+}
 
 // 界面逻辑
 const leave = ref({
