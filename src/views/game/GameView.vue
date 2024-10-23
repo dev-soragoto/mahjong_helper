@@ -128,7 +128,7 @@ const gameStore = useGameStore()
 const kyokuList = ['东一局', '东二局', '东三局', '东四局', '南一局', '南二局', '南三局', '南四局', '西一局', '西二局', '西三局', '西四局']
 const kazeList = ['东', '南', '西', '北']
 const fanList = ['一番', '两番', '三番', '四番', '满贯', '跳满', '倍满', '三倍满', '役满', '两倍役满', '三倍役满', '四倍役满', '五倍役满', '六倍役满']
-const fuList = ['20符', '25符', '30符', '40符', '50符', '60符', '70符', '80符', '90符', '100符', '110符']
+const fuList = [20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 110]
 const kyokuListOptions = ref<{ label: string, value: string }[][]>([]);
 const fanfuList = ref<{ label: string, value: string }[][]>([]);
 const currentKyoku = ref<number>(0)
@@ -155,7 +155,6 @@ const winState: WinState = reactive({
 })
 
 // 编辑
-
 interface EditState {
     on: boolean,
     currentKyoku: Array<string>,
@@ -207,8 +206,8 @@ onMounted(() => {
 
     for (const fu of fuList as string[]) {
         result[1].push({
-            label: fu,
-            value: fu
+            label: fu + '符',
+            value: fu + '符'
         });
     }
 
@@ -284,6 +283,24 @@ const onTsumRadioGroupChange = () => {
 }
 
 const onTsumoChange = () => {
+    var oyaTsumoPoints = []
+    var oyaRonPoints = []
+    var koTsumoPoints = []
+    var koRonPoints = []
+
+    for (var i = 0; i < 4; i++) {
+        oyaTsumoPoints.push([])
+        for (var j = 0; j < fuList.length; j++) {
+            var a = fuList[j] * (2 ** (i + 1 + 2)) 
+            if (a > 2000) {
+                a = 2000
+            }
+
+            oyaTsumoPoints[i].push(Math.ceil( a / 100) * 100)
+        }
+        
+    }
+
     winState.tsumo = false
 }
 

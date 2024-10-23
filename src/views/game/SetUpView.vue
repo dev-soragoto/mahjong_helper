@@ -102,8 +102,8 @@ const startSeatChange = (value: any, context: { e: Event }) => {
 
 
 const onClick = () => {
-    for (const player of gameStore.seatList as string[]) {
-        if (player === '') {
+    for (const player of playerState as { player: Array<string>}[]) {
+        if (player.player.join('') === '') {
             Toast.error('有玩家未选择座位！');
             return;
         }
