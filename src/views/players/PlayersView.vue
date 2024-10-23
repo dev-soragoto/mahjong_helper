@@ -5,15 +5,15 @@
 
 <script setup lang="ts">
 
-import UserCell from '../../components/UserCell.vue'
-import { h, ref, type VNode } from 'vue';
+import { useGameStore } from '@/stores/storage';
+import { Player, genNonDuplicateID } from '@/ts/common';
 import { AddIcon } from 'tdesign-icons-vue-next';
-import { useGameStore} from '@/stores/storage'
-import { Player, genNonDuplicateID } from '@/ts/common'
+import { h } from 'vue';
+import UserCell from '../../components/UserCell.vue';
 
 const gameStore = useGameStore()
 
-const iconFunc = () => () =>  h(AddIcon, { size: '30px' })
+const iconFunc = () =>  h(AddIcon, { size: '30px' })
 const fabStyle = "bottom: 80px; right: 5vw"
 
 const onClick = () => {

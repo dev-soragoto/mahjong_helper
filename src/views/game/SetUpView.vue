@@ -31,9 +31,12 @@
 import router from '@/router';
 import { useGameStore } from '@/stores/storage';
 import { PlayIcon } from 'tdesign-icons-vue-next';
-import type { PickerValue } from 'tdesign-mobile-vue/es/picker/type';
 import { Toast } from 'tdesign-mobile-vue';
+import type { PickerValue } from 'tdesign-mobile-vue/es/picker/type';
 import { h, onMounted, reactive, ref } from 'vue';
+
+const iconFunc = () => h(PlayIcon, { size: '30px' });
+const fabStyle = "bottom: 80px; right: 5vw"
 
 const gameStore = useGameStore()
 const titles = ['自家', '下家', '对家', '上家'];
@@ -97,8 +100,6 @@ const startSeatChange = (value: any, context: { e: Event }) => {
     gameStore.startSeat = titles.indexOf(value);
 };
 
-const iconFunc = () => () => h(PlayIcon, { size: '30px' });
-const fabStyle = "bottom: 80px; right: 5vw"
 
 const onClick = () => {
     for (const player of gameStore.seatList as string[]) {
