@@ -320,23 +320,23 @@ function goNextKyoku() {
         else {
             kyoutaku.value = 0
         }
-        return
-    }
-
-    if (winState.ryuukyokuCheck) {
-        honba.value++
-        kyoutaku.value += riichibous
     }
     else {
-        honba.value = 0
-        kyoutaku.value = 0
-    }
+        if (winState.ryuukyokuCheck) {
+            honba.value++
+            kyoutaku.value += riichibous
+        }
+        else {
+            honba.value = 0
+            kyoutaku.value = 0
+        }
 
-    currentKyoku.value++
-    for (var i = 0; i < 4; i++) {
-        var player = gameStore.getSeat(i)
-        player.seat = kazeList[(i + 4 - gameStore.startSeat + 12 - currentKyoku.value) % 4]
-        gameStore.setPlayer(player.name, player)
+        currentKyoku.value++
+        for (var i = 0; i < 4; i++) {
+            var player = gameStore.getSeat(i)
+            player.seat = kazeList[(i + 4 - gameStore.startSeat + 12 - currentKyoku.value) % 4]
+            gameStore.setPlayer(player.name, player)
+        }
     }
 
     resetWinState()
