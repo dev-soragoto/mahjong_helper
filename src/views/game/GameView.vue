@@ -13,7 +13,7 @@
         <div style="position: absolute; margin: auto; left: 0; right: 0; bottom: 2dvmin;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40dvmin; height: 25dvmin;">
-            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light">立直</t-button>
+            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light" @click="onRiichi(0)">立直</t-button>
             <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).seat }} {{ gameStore.getSeat(0).point }}</strong></p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).name }}</strong></p>
         </div>
@@ -21,7 +21,7 @@
         <div style="position: absolute; margin: auto; top: 2dvmin; left: 0; right: 0;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40dvmin; height: 25dvmin; transform: rotate(180deg);">
-            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light">立直</t-button>
+            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light" @click="onRiichi(2)">立直</t-button>
             <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).seat }} {{ gameStore.getSeat(2).point }}</strong></p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).name }}</strong></p>
         </div>
@@ -30,7 +30,7 @@
         <div style="position: absolute; margin: auto; top: 0;  right: -5.5dvmin; bottom: 0;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40dvmin; height: 25dvmin; transform: rotate(270deg);">
-            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light">立直</t-button>
+            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light" @click="onRiichi(1)">立直</t-button>
             <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).seat }} {{ gameStore.getSeat(1).point }}</strong></p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).name }}</strong></p>
         </div>
@@ -39,7 +39,7 @@
         <div style="position: absolute; margin: auto; top: 0;  left: -5.5dvmin; bottom: 0;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40dvmin; height: 25dvmin; transform: rotate(90deg);">
-            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light">立直</t-button>
+            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light" @click="onRiichi(3)">立直</t-button>
             <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).seat }} {{ gameStore.getSeat(3).point }}</strong></p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).name }}</strong></p>
         </div>
@@ -142,7 +142,6 @@ const currentKyoku = ref<number>(0)
 const honba = ref<number>(0)
 const kyoutaku = ref<number>(0)
 let endingFlag = false
-let oyaWinFlag = false
 
 // 和了，流局
 interface WinState {
@@ -155,7 +154,8 @@ interface WinState {
     tsumo: boolean,
     tsumoCheck: boolean,
     ryuukyoku: boolean,
-    ryuukyokuCheck: boolean
+    ryuukyokuCheck: boolean,
+    oyaWinFlag: boolean
 }
 
 const winState: WinState = reactive({
@@ -169,6 +169,7 @@ const winState: WinState = reactive({
     tsumoCheck: false,
     ryuukyoku: false,
     ryuukyokuCheck: false,
+    oyaWinFlag: false
 })
 
 // 编辑
@@ -279,6 +280,8 @@ function resetWinState() {
     winState.tsumoCheck = false
     winState.ryuukyoku = false
     winState.ryuukyokuCheck = false
+    winState.oyaWinFlag = false
+    
 }
 
 function setEditState() {
@@ -309,7 +312,7 @@ function goNextKyoku() {
             gameStore.playerList[i].riichi = false
         }
     }
-    if (oyaWinFlag) {
+    if (winState.oyaWinFlag) {
         honba.value++
         if (winState.ryuukyokuCheck) {
             kyoutaku.value += riichibous
@@ -359,19 +362,16 @@ function checkGameOver(): boolean {
     // all last
     if (currentKyoku.value >= allLast ) {
         // 检查亲家和了和流局听牌状态
-        oyaWinFlag = false
         var oyaPlayer = {}
         for (var winPlayer of winState.winners as string[]) {
             if (gameStore.getPlayer(winPlayer).seat === '东') {
                 oyaPlayer = gameStore.getPlayer(winPlayer)
-                oyaWinFlag = true
                 break
             }            
         }
 
         if (gameStore.getPlayer(winState.winner).seat === '东') {
             oyaPlayer = gameStore.getPlayer(winState.winner)
-            oyaWinFlag = true
         }
 
         // 寻找当前top
@@ -399,7 +399,7 @@ function checkGameOver(): boolean {
         }
         var topPlayer = gameStore.getSeat(topPlayerSeat)
 
-        if (oyaWinFlag) {
+        if (winState.oyaWinFlag) {
             // 亲家和了或流局听牌
             // 亲家是top，结束游戏
             if (topPlayer.name === oyaPlayer.name) {
@@ -502,6 +502,14 @@ const onFinalConfirm = () => {
     router.push('/setup');
 }
 
+const onRiichi = (seat: number) => {
+    let player = gameStore.getSeat(seat)
+    player.riichi = !player.riichi
+    if (condition) {
+        
+    }
+}
+
 // 自摸
 const onTsumo = () => {
     winState.tsumo = true
@@ -525,8 +533,9 @@ const onTsumoChange = () => {
     var a = calculateA(winFan, winFu)
 
     var riichibous = 0
+    console.log(winPlayer)
     if (winPlayer.seat === '东') {
-        oyaWinFlag = true
+        winState.oyaWinFlag = true
         var payPoint = Math.ceil(2 * a / 100) * 100 + honba.value * 100
         for (var i = 0; i < gameStore.count; i++) {
             if (gameStore.playerList[i].name === winPlayer.name) {
@@ -641,7 +650,7 @@ const onRyuukyokuConfirm = () => {
         var winPlayer = gameStore.getPlayer(winPlayerName)
         winPlayers.push(winPlayer)
         if (winPlayer.seat === '东') {
-            oyaWinFlag = true
+            winState.oyaWinFlag = true
         }
     }
 
