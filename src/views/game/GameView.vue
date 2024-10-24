@@ -13,7 +13,7 @@
         <div style="position: absolute; margin: auto; left: 0; right: 0; bottom: 2dvmin;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40dvmin; height: 25dvmin;">
-            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light" @click="onRiichi(0)">立直</t-button>
+            <t-button class="riichi" style="margin-bottom: -2dvmin" :theme="gameStore.getSeat(0).riichi ? 'primary' : 'light'" @click="onRiichi(0)">立直</t-button>
             <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).seat }} {{ gameStore.getSeat(0).point }}</strong></p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).name }}</strong></p>
         </div>
@@ -21,7 +21,7 @@
         <div style="position: absolute; margin: auto; top: 2dvmin; left: 0; right: 0;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40dvmin; height: 25dvmin; transform: rotate(180deg);">
-            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light" @click="onRiichi(2)">立直</t-button>
+            <t-button class="riichi" style="margin-bottom: -2dvmin" :theme="gameStore.getSeat(2).riichi ? 'primary' : 'light'" @click="onRiichi(2)">立直</t-button>
             <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).seat }} {{ gameStore.getSeat(2).point }}</strong></p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).name }}</strong></p>
         </div>
@@ -30,7 +30,7 @@
         <div style="position: absolute; margin: auto; top: 0;  right: -5.5dvmin; bottom: 0;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40dvmin; height: 25dvmin; transform: rotate(270deg);">
-            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light" @click="onRiichi(1)">立直</t-button>
+            <t-button class="riichi" style="margin-bottom: -2dvmin" :theme="gameStore.getSeat(1).riichi ? 'primary' : 'light'" @click="onRiichi(1)">立直</t-button>
             <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).seat }} {{ gameStore.getSeat(1).point }}</strong></p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).name }}</strong></p>
         </div>
@@ -39,7 +39,7 @@
         <div style="position: absolute; margin: auto; top: 0;  left: -5.5dvmin; bottom: 0;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40dvmin; height: 25dvmin; transform: rotate(90deg);">
-            <t-button class="richi" style="margin-bottom: -2dvmin" theme="light" @click="onRiichi(3)">立直</t-button>
+            <t-button class="riichi" style="margin-bottom: -2dvmin" :theme="gameStore.getSeat(3).riichi ? 'primary' : 'light'" @click="onRiichi(3)">立直</t-button>
             <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).seat }} {{ gameStore.getSeat(3).point }}</strong></p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).name }}</strong></p>
         </div>
@@ -505,9 +505,7 @@ const onFinalConfirm = () => {
 const onRiichi = (seat: number) => {
     let player = gameStore.getSeat(seat)
     player.riichi = !player.riichi
-    if (condition) {
-        
-    }
+    gameStore.setPlayer(player.name, player)
 }
 
 // 自摸
@@ -832,12 +830,16 @@ onUnmounted(() => {
 }
 
 
-.richi {
+.riichi {
     width: 20dvmin;
     height: 10dvmin;
     margin: auto;
     right: 0;
     left: 0;
+}
+
+.riichi0 {
+
 }
 
 .title {
