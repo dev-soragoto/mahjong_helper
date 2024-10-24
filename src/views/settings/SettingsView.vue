@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useGameStore } from '@/stores/storage';
+import { useGameStore, saveConfig } from '@/stores/storage';
 import { reactive, ref } from 'vue';
 
 const gameStore = useGameStore()
@@ -65,9 +65,9 @@ interface CheckedObject {
 }
 
 const checked: CheckedObject = reactive({
-    continuingIntoWest: true,
-    bankruptcy: true,
-    negativeRiichi: false,
+    continuingIntoWest: gameStore.continuingIntoWest,
+    bankruptcy: gameStore.bankruptcy,
+    negativeRiichi: gameStore.negativeRiichi,
 });
 
 const onChange = (key: keyof CheckedObject, val: boolean) => {
@@ -79,6 +79,8 @@ const onChange = (key: keyof CheckedObject, val: boolean) => {
         startPoint.value,
         returnPoint.value
     )
+
+    saveConfig()
 };
 
 const onChangeStartPoint = () => {
@@ -91,6 +93,7 @@ const onChangeStartPoint = () => {
         returnPoint.value
     )
     showStartPointInput.value.on = false
+    saveConfig()
 }
 
 const onChangeReturnPoint = () => {
@@ -103,6 +106,7 @@ const onChangeReturnPoint = () => {
         returnPoint.value
     )
     showReturnPointInput.value.on = false
+    saveConfig()
 }
 
 

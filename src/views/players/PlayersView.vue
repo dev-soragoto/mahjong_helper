@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 
-import { useGameStore } from '@/stores/storage';
+import { useGameStore, saveConfig } from '@/stores/storage';
 import { Player, genNonDuplicateID } from '@/ts/common';
 import { AddIcon } from 'tdesign-icons-vue-next';
 import { h } from 'vue';
@@ -26,6 +26,8 @@ const onClick = () => {
     player.point = gameStore.startPoint,
     player.riichi = false
     gameStore.setPlayer(player.name, player)
+
+    saveConfig()
 };
 
 

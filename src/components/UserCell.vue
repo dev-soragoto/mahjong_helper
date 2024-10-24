@@ -12,7 +12,7 @@
 import { reactive, h } from 'vue';
 import { Edit1Icon, DeleteIcon } from 'tdesign-icons-vue-next';
 import { Toast } from 'tdesign-mobile-vue';
-import { useGameStore } from '@/stores/storage'
+import { useGameStore, saveConfig } from '@/stores/storage'
 import { Player } from '@/ts/common'
 
 const gameStore = useGameStore()
@@ -24,6 +24,8 @@ const handleEdit = (item: Player) => {
 const handleDelete = (item: Player) => {
   gameStore.deletePlayer(item.name)
   Toast.success(`删除成功`);
+
+  saveConfig()
 };
 
 const onChangePlayerName = (item: Player) => {
@@ -41,6 +43,8 @@ const onChangePlayerName = (item: Player) => {
   else {
     Toast.error('用户已存在！')
   }
+
+  saveConfig()
 }
 
 const closeDialog = (item: Player) => {

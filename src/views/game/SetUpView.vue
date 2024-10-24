@@ -15,7 +15,7 @@
         </t-cell>
 
         <t-cell title="起家" class="no-hover">
-            <t-radio-group class="box" default-value="self" borderless @change="startSeatChange">
+            <t-radio-group class="box" :default-value="seats[gameStore.startSeat]" borderless @change="startSeatChange">
                 <t-radio :block="false" name="startSeat" :value="seats[0]" label="自家" />
                 <t-radio :block="false" name="startSeat" :value="seats[1]" label="下家" />
                 <t-radio :block="false" name="startSeat" :value="seats[2]" label="对家" />
@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 import router from '@/router';
-import { useGameStore } from '@/stores/storage';
+import { useGameStore, saveConfig } from '@/stores/storage';
 import { PlayIcon } from 'tdesign-icons-vue-next';
 import { Toast } from 'tdesign-mobile-vue';
 import type { PickerValue } from 'tdesign-mobile-vue/es/picker/type';
@@ -58,6 +58,14 @@ onMounted(() => {
         });
     }
     players.value = result;
+
+    // 加载 playerState
+    for (var i = 0; i < gameStore.count; i++) {
+        if (i > gameStore.seatList.length - 1) {
+            break
+        }
+        playerState[i].player.push(gameStore.seatList[i])
+    }
 });
 
 const onChange = (selectedPlayer: string[]) => {
@@ -68,7 +76,8 @@ const onChange = (selectedPlayer: string[]) => {
     }
 
     gameStore.seatList = seatList
-    console.log(gameStore.seatList)
+
+    saveConfig()
 }
 
 const onCancel = () => {
@@ -79,25 +88,24 @@ const onCancel = () => {
 };
 
 const onConfirm = (val: string[], context: number[]) => {
-    console.log(val);
-    console.log('context', context);
     playerState.forEach(state => state.show = false);
 };
 
 const onPick = (value: PickerValue[], context: any) => {
-    console.log('value', value);
-    console.log('context', context);
+
 };
 
 
 const roundChange = (value: any, context: { e: Event }) => {
-    console.log(value, context);
     gameStore.gameType = value;
+
+    saveConfig();
 };
 
 const startSeatChange = (value: any, context: { e: Event }) => {
-    console.log(value, context);
-    gameStore.startSeat = titles.indexOf(value);
+    gameStore.startSeat = seats.indexOf(value);
+
+    saveConfig()
 };
 
 

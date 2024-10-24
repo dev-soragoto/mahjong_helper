@@ -2,13 +2,15 @@ import { Player } from '@/ts/common'
 import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue';
 
-export const historyStore = "history";
+export const historyStore = 'history';
+export const configStore = 'config'
 
-export const useGameStore = defineStore("game", {
+export const useGameStore = defineStore('game', {
     state: () => {
         return{
             count: 0,
-            playerList: reactive<Array<object>>(new Array<object>()),
+            playerPool: reactive<Array<Player>>(new Array<Player>()),
+            playerList: reactive<Array<Player>>(new Array<Player>()),
             playerListMap: new Map<string, number>(),
             seatList: ref<Array<string>>(new Array<string>()),
             continuingIntoWest: true,
@@ -35,12 +37,17 @@ export const useGameStore = defineStore("game", {
                 this.playerList[index].seat = player.seat;
                 this.playerList[index].point = player.point;
                 this.playerList[index].riichi = player.riichi;
+                for (var i = 0; i < this.seatList.length; i++) {
+                    if (this.seatList[i] === name) {
+                        this.seatList[i] = player.name
+                    } 
+                }
             }
             else {
                 this.playerListRef.push(
                     {
                         visible: false,
-                        inputModel: ref<number>(0),
+                        inputModel: ref<string>(''),
                         key: ref<number>(0)
                     }
                 );    
@@ -62,6 +69,11 @@ export const useGameStore = defineStore("game", {
                 this.count = this.playerList.length;
             }
         },
+        resetPlayer() {
+            for (let i = 0; i < this.count; i++) {
+                this.playerList[i].point = this.startPoint
+            }
+        },
         getPlayer(name: string): Player {
             return this.playerList[this.playerListMap.get(name)];
         },
@@ -71,10 +83,13 @@ export const useGameStore = defineStore("game", {
         setPlayerRef(name: string, visible: boolean): void {
             this.playerListRef[this.playerListMap.get(name)].visible = visible;
         },
-        getResult(): Map<string, number> {
-            var result = new Map<string, number>();
+        getResult(): {timeStamp: number, record: string [][]} {
+            var result = {
+                timeStamp: Date.now(), 
+                record: []
+            }
             for (const player of this.playerList) {
-                result.set(player.name, player.point);
+                result.record.push([player.name, (String)(player.point)])
             }
 
             return result;
@@ -86,15 +101,83 @@ export const useGameStore = defineStore("game", {
             this.continuingIntoWest = continuingIntoWest;
             this.bankruptcy = bankruptcy;
             this.negativeRiichi = negativeRiichi;
-            this.startPoint = startPoint;
-            this.returnPoint = returnPoint;
+            this.startPoint = Number(startPoint);
+            this.returnPoint = Number(returnPoint);
+            for (var i = 0; i < this.count; i++) {
+                this.playerList[i].point = this.startPoint
+            }
         }
     }
 });
 
-export function saveHistory(gameStore): void {
+interface GameConfig {
+    count: number,
+    playerList: Array<Player>,
+    playerListMap: object,
+    seatList: Array<string>,
+    continuingIntoWest: boolean,
+    bankruptcy: boolean,
+    negativeRiichi: boolean,
+    startPoint: number,
+    returnPoint: number,
+    playerListRef: Array<object>,
+    gameType: string,
+    startSeat: number
+}
+
+// 初始化
+export function saveConfig(): void {
+    const gameStore = useGameStore()
+    const gameConfig: GameConfig = {
+        count: gameStore.count,
+        playerList: gameStore.playerList,
+        playerListMap: Object.fromEntries(gameStore.playerListMap),
+        seatList: gameStore.seatList,
+        continuingIntoWest: gameStore.continuingIntoWest,
+        bankruptcy: gameStore.bankruptcy,
+        negativeRiichi: gameStore.negativeRiichi,
+        startPoint: gameStore.startPoint,
+        returnPoint: gameStore.returnPoint,
+        playerListRef: gameStore.playerListRef,
+        gameType: gameStore.gameType,
+        startSeat: gameStore.startSeat
+    };
+    window.localStorage.setItem(configStore, JSON.stringify(gameConfig));
+}
+
+export function loadConfig(): void {
+    const gameStore = useGameStore()
+    var configString = window.localStorage.getItem(configStore);
+    console.log('loadConfig')
+    console.log(configString)
+    if(configString == undefined) {
+        return
+    }
+    const gameConfig: GameConfig = JSON.parse(configString);
+    gameStore.count = gameConfig.count;
+    gameStore.playerList = gameConfig.playerList;
+    gameStore.playerListMap = new Map<string, number>();
+    for (const key of Object.keys(gameConfig.playerListMap)) {
+        gameStore.playerListMap.set(key, gameConfig.playerListMap[key]);
+    }
+    gameStore.seatList = gameConfig.seatList;
+    gameStore.continuingIntoWest = gameConfig.continuingIntoWest;
+    gameStore.bankruptcy = gameConfig.bankruptcy;
+    gameStore.negativeRiichi = gameConfig.negativeRiichi;
+    gameStore.startPoint = gameConfig.startPoint;
+    gameStore.returnPoint = gameConfig.returnPoint;
+    gameStore.playerListRef = gameConfig.playerListRef;
+    gameStore.gameType = gameConfig.gameType;
+    gameStore.startSeat = gameConfig.startSeat;
+}
+
+export function saveHistory(): void {
+    const gameStore = useGameStore()
     var newResult = gameStore.getResult();
     var history = readHistory();
+    if (history == null) {
+        history = [];
+    }
     history.push(newResult);
     window.localStorage.setItem(historyStore, JSON.stringify(history));
 };
