@@ -61,21 +61,31 @@
 
     <t-dialog v-model:visible="winState.tsumo">
         <t-picker v-model="winState.fanfu" :columns="fanfuList" @change="onTsumoChange" @cancel="onTsumoCancel" />
+        <t-cell title="选择自摸玩家" borderless></t-cell>
         <t-radio-group v-model:value="winState.winner" @change="onTsumRadioGroupChange">
             <t-radio v-for="playerName of gameStore.seatList" name="winner" :value="playerName" :label="playerName" />
         </t-radio-group>
     </t-dialog>
 
-    <t-dialog v-model:visible="winState.ron">
-        <t-picker v-model="winState.fanfu" :columns="fanfuList" @change="onRonChange" @cancel="onRonCancel" />
-        <t-checkbox-group v-model:value="winState.winners" @change="onRonCheckboxGroupChange" />
-            <t-checkbox v-for="playerName of gameStore.seatList" :value="playerName" :label="playerName" />
+    <t-dialog v-model:visible="winState.ron" confirm-btn="确定" cancel-btn="取消" @confirm="onRonConfirm">
+        <t-cell title="选择荣和玩家" borderless></t-cell>
+        <t-checkbox-group v-model:value="winState.winners" @change="onRonCheckboxGroupChange">
+        <template v-for="(playerName, index) of gameStore.seatList" :key="index">
+            <t-checkbox :value="playerName" :label="playerName" />
+            <t-dropdown-menu>
+                <t-dropdown-item :options="fanfuList[0]" :value="winState.fanfuRon[index][0]" />
+                <t-dropdown-item :options="fanfuList[1]" :value="winState.fanfuRon[index][1]" />
+            </t-dropdown-menu>
+        </template>
+        </t-checkbox-group>
+        <t-cell title="选择放铳玩家" borderless></t-cell>
         <t-radio-group v-model:value="winState.loser" @change="onRonRadioGroupChange">
             <t-radio v-for="playerName of gameStore.seatList" name="lose" :value="playerName" :label="playerName" />
         </t-radio-group>
     </t-dialog>
 
-    <t-dialog v-model:visible="winState.ryuukyoku" title="选择听牌玩家" confirm-btn="确定" cancel-btn="取消" @confirm="onRyuukyokuConfirm" @cancel="onRyuukyokuCancel">
+    <t-dialog v-model:visible="winState.ryuukyoku" confirm-btn="确定" cancel-btn="取消" @confirm="onRyuukyokuConfirm" @cancel="onRyuukyokuCancel">
+        <t-cell title="选择听牌玩家" borderless></t-cell>
         <t-checkbox-group v-model:value="winState.winners" :options="options" @change="onRyuukyokuCheckboxGroupChange" />
     </t-dialog>
 
@@ -127,7 +137,9 @@ import { useGameStore, saveHistory } from '@/stores/storage';
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { onBeforeRouteLeave, type RouteLocationNormalized } from 'vue-router';
 import { Toast } from 'tdesign-mobile-vue';
-import type { Player } from '@/ts/common'
+import type { CheckboxGroupChangeContext } from 'tdesign-mobile-vue';
+import type { Player } from '@/ts/common';
+import { Console } from 'console';
 
 
 const gameStore = useGameStore()
@@ -144,11 +156,13 @@ const currentKyoku = ref<number>(0)
 const honba = ref<number>(0)
 const kyoutaku = ref<number>(0)
 let endingFlag = false
+const ronWinnerFlag = reactive([false, false, false, false])
 
 // 和了，流局
 interface WinState {
-    fanfu: Array<string>,
-    winners: Array<string>,
+    fanfu: string [],
+    fanfuRon: [string, string] [],
+    winners: string [],
     winner: string,
     loser: string,
     ron: boolean,
@@ -162,6 +176,7 @@ interface WinState {
 
 const winState: WinState = reactive({
     fanfu: [],
+    fanfuRon: Array(4).fill(['一番', '30符']),
     winners: [],
     winner: '',
     loser: '',
@@ -273,6 +288,7 @@ onMounted(() => {
 
 function resetWinState() {
     winState.fanfu = []
+    winState.fanfuRon = Array(4).fill(['一番', '30符'])
     winState.winners = []
     winState.winner = ''
     winState.loser = ''
@@ -538,7 +554,6 @@ const onTsumoChange = () => {
     var a = calculateA(winFan, winFu)
 
     var riichibous = 0
-    console.log(winPlayer)
     if (winPlayer.seat === '东') {
         winState.oyaWinFlag = true
         var payPoint: number [] = [Math.ceil(2 * a / 100) * 100 + honba.value * 100]
@@ -598,15 +613,24 @@ const onRon = () => {
     winState.ron = true
 }
 
-const onRonCheckboxGroupChange = () => {
-
+const onRonCheckboxGroupChange = (value: any, context: { e: Event, current: string, type: string }) => {
+    console.log(context)
+    let seat = gameStore.seatList.indexOf(context.current)
+    if (context.type === 'check') {
+        ronWinnerFlag[seat] = true
+        console.log(ronWinnerFlag)
+    }
+    else {
+        ronWinnerFlag[seat] = false
+        console.log(ronWinnerFlag)
+    }
 }
 
 const onRonRadioGroupChange = () => {
 
 }
 
-const onRonChange = () => {
+const onRonConfirm = () => {
     if (winState.winners.length < 1) {
         Toast.error('未选择和了玩家！')
         return
@@ -618,11 +642,59 @@ const onRonChange = () => {
 
     setRevokeState()
 
-    var winPlayers: Array<object> = []
+    var winPlayers: Array<Player> = []
+    var winSeats: number[] = []
     for (const winPlayerName of winState.winners as string[]) {
-       winPlayers.push(gameStore.getPlayer(winPlayerName))
+       winSeats.push(gameStore.seatList.indexOf(winPlayerName))
     }
     
+    var losePlayer: Player = gameStore.getPlayer(winState.loser)
+    var loseSeat = gameStore.seatList.indexOf(winState.loser)
+    winSeats = winSeats.sort((a, b) => (a - loseSeat) % 4 - (b - loseSeat) % 4)
+    console.log(winSeats)
+    
+    for (const winSeat of winSeats as number[]) {
+       winPlayers.push(gameStore.getSeat(winSeat))
+    }
+    console.log(winState.fanfuRon)
+    
+
+    for (let i = 0; i < winPlayers.length; i++) {
+        var seat = winSeats[i]
+        var winFan = fanList.indexOf(winState.fanfuRon[seat][0]) + 1
+        var winFu = fuList[fuListStr.indexOf(winState.fanfuRon[seat][1])]
+        var a = calculateA(winFan, winFu)
+        if (winPlayers[i].seat === '东') {
+            winState.oyaWinFlag = true
+            var payPoint: number = Math.ceil(2 * a / 100) * 100
+            winPlayers[i].point += 4 * payPoint
+            winPlayers[i].riichi = false
+            losePlayer.point -= 4 * payPoint
+        }
+        else {
+            var payPoint: number = Math.ceil(a / 100) * 100
+            winPlayers[i].point += 4 * payPoint
+            winPlayers[i].riichi = false
+            losePlayer.point -= 4 * payPoint
+        }
+        if (i == 0) {
+            for (var j = 0; j < gameStore.count; j++) {
+                if (gameStore.playerList[j].name === winPlayers[i].name) {
+                    continue
+                }
+                if (gameStore.playerList[j].riichi) {
+                    gameStore.playerList[j].riichi = false
+                    gameStore.playerList[j].point -= 1000
+                    winPlayers[i].point += 1000
+                }
+            }
+
+            winPlayers[i].point += honba.value * 300 + kyoutaku.value * 1000
+        }
+
+        gameStore.setPlayer(winPlayers[i].name, winPlayers[i])
+    }
+    gameStore.setPlayer(losePlayer.name, losePlayer)
 
     winState.ronCheck = true
     if (checkGameOver()) {

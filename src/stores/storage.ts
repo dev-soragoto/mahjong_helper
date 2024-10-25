@@ -72,6 +72,8 @@ export const useGameStore = defineStore('game', {
                     this.playerListMap.set(this.playerList[index].name, index);
                 }
                 this.count = this.playerList.length;
+                let seat = this.seatList.indexOf(name)
+                this.seatList[seat] = ''
             }
 
             return true
