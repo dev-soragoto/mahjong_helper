@@ -4,7 +4,7 @@
             :note="state.player.join('')" @click="state.show = true" />
 
         <t-popup v-for="(state, index) in playerState" :key="index" v-model="state.show" placement="bottom">
-            <t-picker v-model="state.player" :columns="players" @change="onChange" @confirm="onConfirm" @cancel="onCancel" />
+            <t-picker v-model="state.player" :columns="players" @change="(selectedPlayer: string[]) => onChange(selectedPlayer, index)" @confirm="onConfirm" @cancel="onCancel" />
         </t-popup>
 
         <t-cell title="局数" class="no-hover">
@@ -68,8 +68,13 @@ onMounted(() => {
     }
 });
 
-const onChange = (selectedPlayer: string[]) => {
-    players.value = players.value.map(group => group.filter(player => !selectedPlayer.includes(player.value)));
+const onChange = (selectedPlayer: string[], index: number) => {
+    for (let i = 0; i < playerState.length; i++) {
+        if (selectedPlayer.join('') === playerState[i].player.join('') && i != index) {
+            playerState[i].player = []
+        }
+    }
+
     var seatList: Array<string> = [];
     for (const state of playerState as { player: Array<string> }[]) {
         seatList.push(state.player.join(''));
