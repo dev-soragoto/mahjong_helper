@@ -633,6 +633,12 @@ const onRonCancel = () => {
 
 // 流局
 const onRyuukyoku = () => {
+    for (let i = 0; i < gameStore.count; i++) {
+        let player = gameStore.getSeat(i)
+        if (player.riichi) {
+            winState.winners.push(player.name)
+        }
+    }
     winState.ryuukyoku = true
 }
 
@@ -643,10 +649,15 @@ const onRyuukyokuCheckboxGroupChange = () => {
 const onRyuukyokuConfirm = () => {
     setRevokeState()
 
+    console.log(winState.winners)
     var winPlayers: Array<object> = []
     for (const winPlayerName of winState.winners as string[]) {
         var winPlayer = gameStore.getPlayer(winPlayerName)
         winPlayers.push(winPlayer)
+        if (winPlayer.riichi) {
+            winPlayer.point -= 1000
+            gameStore.setPlayer(winPlayer.name, winPlayer)
+        }
         if (winPlayer.seat === '东') {
             winState.oyaWinFlag = true
         }
