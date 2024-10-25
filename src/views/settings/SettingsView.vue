@@ -76,8 +76,8 @@ const onChange = (key: keyof CheckedObject, val: boolean) => {
         checked.continuingIntoWest, 
         checked.bankruptcy,
         checked.negativeRiichi,
-        startPoint.value,
-        returnPoint.value
+        Number(startPoint.value),
+        Number(returnPoint.value)
     )
 
     saveConfig()
@@ -89,8 +89,8 @@ const onChangeStartPoint = () => {
         checked.continuingIntoWest, 
         checked.bankruptcy,
         checked.negativeRiichi,
-        startPoint.value,
-        returnPoint.value
+        Number(startPoint.value),
+        Number(returnPoint.value)
     )
     showStartPointInput.value.on = false
     saveConfig()
@@ -102,8 +102,8 @@ const onChangeReturnPoint = () => {
         checked.continuingIntoWest, 
         checked.bankruptcy,
         checked.negativeRiichi,
-        startPoint.value,
-        returnPoint.value
+        Number(startPoint.value),
+        Number(returnPoint.value)
     )
     showReturnPointInput.value.on = false
     saveConfig()

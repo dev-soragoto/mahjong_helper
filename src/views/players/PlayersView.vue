@@ -6,7 +6,8 @@
 <script setup lang="ts">
 
 import { useGameStore, saveConfig } from '@/stores/storage';
-import { Player, genNonDuplicateID } from '@/ts/common';
+import type { Player } from '@/ts/common';
+import { genNonDuplicateID } from '@/ts/common';
 import { AddIcon } from 'tdesign-icons-vue-next';
 import { h } from 'vue';
 import UserCell from '../../components/UserCell.vue';
@@ -20,11 +21,12 @@ const onClick = () => {
     if (gameStore.count >= 4) {
         return
     }
-    var player = new Player()
-    player.name = '牌搭子' + genNonDuplicateID()
-    player.seat = ''
-    player.point = gameStore.startPoint,
-    player.riichi = false
+    var player: Player = {
+        name: '牌搭子' + genNonDuplicateID(),
+        seat: '',
+        point: gameStore.startPoint,
+        riichi: false
+    }
     gameStore.setPlayer(player.name, player)
 
     saveConfig()

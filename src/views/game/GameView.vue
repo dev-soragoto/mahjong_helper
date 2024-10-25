@@ -68,7 +68,8 @@
 
     <t-dialog v-model:visible="winState.ron">
         <t-picker v-model="winState.fanfu" :columns="fanfuList" @change="onRonChange" @cancel="onRonCancel" />
-        <t-checkbox-group v-model:value="winState.winners" :options="options" @change="onRonCheckboxGroupChange" />
+        <t-checkbox-group v-model:value="winState.winners" @change="onRonCheckboxGroupChange" />
+            <t-checkbox v-for="playerName of gameStore.seatList" :value="playerName" :label="playerName" />
         <t-radio-group v-model:value="winState.loser" @change="onRonRadioGroupChange">
             <t-radio v-for="playerName of gameStore.seatList" name="lose" :value="playerName" :label="playerName" />
         </t-radio-group>
@@ -126,6 +127,7 @@ import { useGameStore, saveHistory } from '@/stores/storage';
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { onBeforeRouteLeave, type RouteLocationNormalized } from 'vue-router';
 import { Toast } from 'tdesign-mobile-vue';
+import type { Player } from '@/ts/common'
 
 
 const gameStore = useGameStore()
@@ -176,17 +178,17 @@ const winState: WinState = reactive({
 interface EditState {
     on: boolean,
     currentKyoku: Array<string>,
-    honba: number,
-    kyoutaku: number,
-    pointList: Array<number>
+    honba: String,
+    kyoutaku: String,
+    pointList: Array<String>
 }
 
 const editState: EditState = reactive({
     on: false,
     currentKyoku: [],
-    honba: 0,
-    kyoutaku: 0,
-    pointList: Array(4).fill(gameStore.startPoint)
+    honba: '0',
+    kyoutaku: '0',
+    pointList: Array(4).fill((String)(gameStore.startPoint))
 })
 
 // 撤销
@@ -296,11 +298,11 @@ function setEditState() {
 
 function setRevokeState() {
     revokeState.currentKyoku = currentKyoku.value
-    revokeState.honba = honba.value
-    revokeState.kyoutaku = kyoutaku.value
+    revokeState.honba = (String)(honba.value)
+    revokeState.kyoutaku = (String)(kyoutaku.value)
     revokeState.pointList = []
     for (var i = 0; i < gameStore.count; i++) {
-        revokeState.pointList.push(gameStore.getSeat(i).point)
+        revokeState.pointList.push((String)(gameStore.getSeat(i).point))
     }
 }
 
@@ -362,7 +364,12 @@ function checkGameOver(): boolean {
     // all last
     if (currentKyoku.value >= allLast ) {
         // 检查亲家和了和流局听牌状态
-        var oyaPlayer = {}
+        var oyaPlayer: Player = {
+            name: '',
+            seat: '',
+            point: 0,
+            riichi: false
+        }
         for (var winPlayer of winState.winners as string[]) {
             if (gameStore.getPlayer(winPlayer).seat === '东') {
                 oyaPlayer = gameStore.getPlayer(winPlayer)
@@ -375,7 +382,7 @@ function checkGameOver(): boolean {
         }
 
         // 寻找当前top
-        var result: Map<string, number> = gameStore.getResult()
+        var result: Map<string, number> = gameStore.getResultMap()
         var topPlayerNames = []
         var topPoint = 0
         for (const [name, point] of result) {
@@ -429,14 +436,14 @@ function checkGameOver(): boolean {
 }
 
 function goGameOver() {
-    var resultPoint = []
+    var resultPoint: number[] = []
     for (var i = 0; i < gameStore.count; i++) {
         resultPoint.push(gameStore.getSeat(i).point)
     }
 
     console.log(resultPoint)
-    var result = gameStore.seatList.slice(0)
-    var resultSeat = [0, 1, 2, 3]
+    var result: string[] = gameStore.seatList.slice(0)
+    var resultSeat: number[] = [0, 1, 2, 3]
     resultSeat = resultSeat.map(seat => (seat + 4 - gameStore.startSeat) % 4)
     for (var i = 0; i < gameStore.count; i++) {
         for (var j = 0; j < gameStore.count - 1 - i; j++) {
@@ -444,24 +451,24 @@ function goGameOver() {
                 var temp = result[j]
                 result[j] = result[j + 1]
                 result[j + 1] = temp
-                temp = resultPoint[j]
+                let temp2 = resultPoint[j]
                 resultPoint[j] = resultPoint[j + 1]
-                resultPoint[j + 1] = temp
-                temp = resultSeat[j]
+                resultPoint[j + 1] = temp2
+                let temp3 = resultSeat[j]
                 resultSeat[j] = resultSeat[j + 1]
-                resultSeat[j + 1] = temp
+                resultSeat[j + 1] = temp3
             }
             if (resultPoint[j] == resultPoint[j + 1]) {
                 if (resultSeat[j] > resultSeat[j + 1]) {
                     var temp = result[j]
                     result[j] = result[j + 1]
                     result[j + 1] = temp
-                    temp = resultPoint[j]
+                    let temp2 = resultPoint[j]
                     resultPoint[j] = resultPoint[j + 1]
-                    resultPoint[j + 1] = temp
-                    temp = resultSeat[j]
+                    resultPoint[j + 1] = temp2
+                    let temp3 = resultSeat[j]
                     resultSeat[j] = resultSeat[j + 1]
-                    resultSeat[j + 1] = temp
+                    resultSeat[j + 1] = temp3
                 }
             }
         }
@@ -534,23 +541,23 @@ const onTsumoChange = () => {
     console.log(winPlayer)
     if (winPlayer.seat === '东') {
         winState.oyaWinFlag = true
-        var payPoint = Math.ceil(2 * a / 100) * 100 + honba.value * 100
+        var payPoint: number [] = [Math.ceil(2 * a / 100) * 100 + honba.value * 100]
         for (var i = 0; i < gameStore.count; i++) {
             if (gameStore.playerList[i].name === winPlayer.name) {
                 continue
             }
-            gameStore.playerList[i].point -= payPoint
+            gameStore.playerList[i].point -= payPoint[0]
             if (gameStore.playerList[i].riichi) {
                 riichibous++
                 gameStore.playerList[i].point -= 1000
             }
         }
-        winPlayer.point += 3 * payPoint + kyoutaku.value * 1000 + riichibous * 1000
+        winPlayer.point += 3 * payPoint[0] + kyoutaku.value * 1000 + riichibous * 1000
         winPlayer.riichi = false
         gameStore.setPlayer(winPlayer.name, winPlayer)
     }
     else {
-        var payPoint: number[] = [Math.ceil(a / 100) * 100 + honba.value * 100, Math.ceil(2 * a / 100) * 100 + honba.value * 100]
+        var payPoint: number [] = [Math.ceil(a / 100) * 100 + honba.value * 100, Math.ceil(2 * a / 100) * 100 + honba.value * 100]
         for (var i = 0; i < gameStore.count; i++) {
             if (gameStore.playerList[i].name === winPlayer.name) {
                 continue
@@ -649,7 +656,6 @@ const onRyuukyokuCheckboxGroupChange = () => {
 const onRyuukyokuConfirm = () => {
     setRevokeState()
 
-    console.log(winState.winners)
     var winPlayers: Array<object> = []
     for (const winPlayerName of winState.winners as string[]) {
         var winPlayer = gameStore.getPlayer(winPlayerName)
@@ -758,11 +764,11 @@ const onRevoke = () => {
 const onRevokeConfirm = () => {
     console.log(revokeState)
     currentKyoku.value = revokeState.currentKyoku
-    honba.value = revokeState.honba
-    kyoutaku.value = revokeState.kyoutaku
+    honba.value = Number(revokeState.honba)
+    kyoutaku.value = Number(revokeState.kyoutaku)
     for (var i = 0; i < gameStore.count; i++) {
         var player = gameStore.getSeat(i)
-        player.point = revokeState.pointList[i]
+        player.point = Number(revokeState.pointList[i])
         player.riichi = false
         gameStore.setPlayer(player.name, player)
     }
@@ -847,10 +853,6 @@ onUnmounted(() => {
     margin: auto;
     right: 0;
     left: 0;
-}
-
-.riichi0 {
-
 }
 
 .title {

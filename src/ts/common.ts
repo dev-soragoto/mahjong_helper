@@ -1,8 +1,16 @@
-export class Player {
+import type { Ref } from 'vue';
+
+export interface Player {
     name: string
     seat: string
     point: number
     riichi: boolean
+}
+
+export interface PlayerRef {
+    visible: boolean,
+    inputModel: string,
+    key: number
 }
 
 export function genNonDuplicateID(){

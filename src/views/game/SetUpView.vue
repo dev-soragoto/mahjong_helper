@@ -46,7 +46,7 @@ const players = ref<{ label: string, value: string }[][]>([]);
 
 const playerState = Array(4).fill(0).map(() => reactive({
     show: false,
-    player: []
+    player: new Array<string>()
 }));
 
 onMounted(() => {
