@@ -118,8 +118,8 @@ export const useGameStore = defineStore('game', {
 
             return true
         },
-        getResult(): { timeStamp: number, record: string[][] } {
-            var result = {
+        getResult(): HistoryData {
+            var result: HistoryData = {
                 timeStamp: Date.now(),
                 record: new Array<string []>()
             }
@@ -162,7 +162,7 @@ export const useGameStore = defineStore('game', {
     }
 });
 
-interface GameConfig {
+export interface GameConfig {
     count: number,
     playerList: Array<Player>,
     playerListMap: {[s: string]: number},
@@ -176,6 +176,11 @@ interface GameConfig {
     gameType: string,
     startSeat: number
 }
+export interface HistoryData {
+    timeStamp: number,
+    record: string [][]
+}
+
 
 // 初始化
 export function saveConfig(): void {
@@ -224,19 +229,21 @@ export function loadConfig(): void {
     gameStore.startSeat = gameConfig.startSeat;
 }
 
-export function saveHistory(): void {
-    const gameStore = useGameStore()
-    var newResult = gameStore.getResult();
+export function saveHistory(newResult: HistoryData): void {
     var history = readHistory();
     history.push(newResult);
     window.localStorage.setItem(historyStore, JSON.stringify(history));
 };
 
-export function readHistory(): Array<object> {
+export function readHistory(): HistoryData [] {
     var historyString = window.localStorage.getItem(historyStore);
     if (historyString == null) {
         return []
     }
     return JSON.parse(historyString);
 };
+
+export function setHistory(historyDataList: HistoryData []): void {
+    window.localStorage.setItem(historyStore, JSON.stringify(historyDataList));
+}
 

@@ -147,6 +147,7 @@
 <script lang="ts" setup>
 import router from '@/router';
 import { useGameStore, saveHistory } from '@/stores/storage';
+import type { HistoryData } from '@/stores/storage';
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { onBeforeRouteLeave, type RouteLocationNormalized } from 'vue-router';
 import { Toast } from 'tdesign-mobile-vue';
@@ -418,6 +419,8 @@ function checkGameOver(): boolean {
         var topPlayerNames = []
         var topPoint = 0
         for (const [name, point] of result) {
+            console.log(name)
+            console.log(point)
             if (point > topPoint) {
                 topPlayerNames = []
                 topPlayerNames.push(name)
@@ -428,21 +431,40 @@ function checkGameOver(): boolean {
                 topPlayerNames.push(name)
             }
         }
+        console.log(topPlayerNames)
 
-        var topPlayerSeat = 4
+        var topPlayerSeat = gameStore.startSeat - 1
         for (const playerName of topPlayerNames as string[]) {
-            var playerSeat = (gameStore.seatList.indexOf(playerName) + 4 - gameStore.startSeat) % 4
-            if (playerSeat < topPlayerSeat) {
+            var playerSeat = gameStore.seatList.indexOf(playerName)
+            if ((playerSeat + 4 - gameStore.startSeat) % 4 < (topPlayerSeat + 4 - gameStore.startSeat) % 4) {
                 topPlayerSeat = playerSeat
             }            
         }
         var topPlayer = gameStore.getSeat(topPlayerSeat)
-
+        console.log(topPlayer)
+        console.log(oyaPlayer)
+        console.log(winState.oyaWinFlag)
         if (winState.oyaWinFlag) {
             // 亲家和了或流局听牌
             // 亲家是top，结束游戏
             if (topPlayer.name === oyaPlayer.name) {
-                return true
+                if (topPoint >=  gameStore.returnPoint) {
+                    return true   
+                }
+                else {
+                    if (gameStore.continuingIntoWest) {
+                    // 西四局，强制终局
+                        if (currentKyoku.value >= kyokuList.length - 1) {
+                            return true
+                        }
+                    }
+                    else {
+                        // 南四局，强制终局
+                        if (currentKyoku.value >= 7) {
+                            return true
+                        }
+                    }
+                }
             }
         }
         else {
@@ -455,10 +477,15 @@ function checkGameOver(): boolean {
                         return true
                     }
                 }
-                // 南四局，强制终局
-                if (currentKyoku.value >= 7) {
-                    return true
+                else {
+                    // 南四局，强制终局
+                    if (currentKyoku.value >= 7) {
+                        return true
+                    }
                 }
+            }
+            else {
+                return true
             }
         }
     }
@@ -508,6 +535,24 @@ function goGameOver() {
 
     finalState.result = result
 
+    let riichibous = 0
+
+    for (const playerName of finalState.result) {
+        let player = gameStore.getPlayer(playerName)
+        if (player.riichi) {
+            player.riichi = false
+            riichibous ++
+        }
+        gameStore.setPlayer(player.name, player)
+    }
+
+    let finaleWinner = gameStore.getPlayer(finalState.result[0])
+    finaleWinner.point += riichibous * 1000 + kyoutaku.value * 1000
+    gameStore.setPlayer(finaleWinner.name, finaleWinner)
+
+    honba.value = 0
+    kyoutaku.value = 0
+
     finalState.on = true
 }
 
@@ -534,7 +579,14 @@ function calculateA(fan:number, fu:number): number {
 
 // 保存终局结果，返回setup页面
 const onFinalConfirm = () => {
-    saveHistory()
+    let result: HistoryData = {
+        timeStamp: Date.now(),
+        record: new Array<string []>()
+    }
+    for (let i = 0; i < gameStore.count; i++) {
+        result.record.push([finalState.result[i], (String)(gameStore.getPlayer(finalState.result[i]).point)])
+    }
+    saveHistory(result)
     gameStore.resetPlayer()
     finalState.on = false
     endingFlag = true
@@ -543,6 +595,9 @@ const onFinalConfirm = () => {
 
 const onRiichi = (seat: number) => {
     let player = gameStore.getSeat(seat)
+    if (!gameStore.negativeRiichi && player.point < 1000) {
+        return
+    }
     player.riichi = !player.riichi
     gameStore.setPlayer(player.name, player)
 }
@@ -677,7 +732,7 @@ const onRonConfirm = () => {
     
     var losePlayer: Player = gameStore.getPlayer(winState.loser)
     var loseSeat = gameStore.seatList.indexOf(winState.loser)
-    winSeats = winSeats.sort((a, b) => (a - loseSeat) % 4 - (b - loseSeat) % 4)
+    winSeats = winSeats.sort((a, b) => ((a - loseSeat + 4) % 4) - ((b - loseSeat + 4) % 4))
     console.log(winSeats)
     
     for (const winSeat of winSeats as number[]) {
