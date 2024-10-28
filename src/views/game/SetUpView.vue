@@ -121,6 +121,12 @@ const onClick = () => {
             return;
         }
     }
+    for (let i = 0; i < gameStore.count; i++) {
+        let player = gameStore.getSeat(i)
+        player.point = gameStore.startPoint
+        gameStore.setPlayer(player.name, player)
+    }
+
     router.push('/game');
 };
 </script>
