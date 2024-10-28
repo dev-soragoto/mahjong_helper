@@ -419,8 +419,6 @@ function checkGameOver(): boolean {
         var topPlayerNames = []
         var topPoint = 0
         for (const [name, point] of result) {
-            console.log(name)
-            console.log(point)
             if (point > topPoint) {
                 topPlayerNames = []
                 topPlayerNames.push(name)
@@ -431,7 +429,6 @@ function checkGameOver(): boolean {
                 topPlayerNames.push(name)
             }
         }
-        console.log(topPlayerNames)
 
         var topPlayerSeat = gameStore.startSeat - 1
         for (const playerName of topPlayerNames as string[]) {
@@ -441,9 +438,6 @@ function checkGameOver(): boolean {
             }            
         }
         var topPlayer = gameStore.getSeat(topPlayerSeat)
-        console.log(topPlayer)
-        console.log(oyaPlayer)
-        console.log(winState.oyaWinFlag)
         if (winState.oyaWinFlag) {
             // 亲家和了或流局听牌
             // 亲家是top，结束游戏
@@ -500,7 +494,6 @@ function goGameOver() {
         resultPoint.push(gameStore.getSeat(i).point)
     }
 
-    console.log(resultPoint)
     var result: string[] = gameStore.seatList.slice(0)
     var resultSeat: number[] = [0, 1, 2, 3]
     resultSeat = resultSeat.map(seat => (seat + 4 - gameStore.startSeat) % 4)
@@ -660,7 +653,6 @@ const onTsumoChange = () => {
             }
         }
 
-        console.log(winPlayer)
         winPlayer.point += 2 * payPoint[0] + payPoint[1] + kyoutaku.value * 1000 + riichibous * 1000
         gameStore.setPlayer(winPlayer.name, winPlayer)
     }
@@ -685,15 +677,12 @@ const onRon = () => {
 }
 
 const onRonCheckboxGroupChange = (value: any, context: { e: Event, current: string, type: string }) => {
-    console.log(context)
     let seat = gameStore.seatList.indexOf(context.current)
     if (context.type === 'check') {
         ronWinnerFlag[seat] = true
-        console.log(ronWinnerFlag)
     }
     else {
         ronWinnerFlag[seat] = false
-        console.log(ronWinnerFlag)
     }
 }
 
@@ -703,9 +692,6 @@ const onRonRadioGroupChange = () => {
 
 const onFanRonChange = (value: string, index: number) => {
     winState.fanfuRon[index].fan = value
-    console.log(value)
-    console.log(index)
-    console.log(winState.fanfuRon)
 }
 
 const onFuRonChange = (value: string, index: number) => {
@@ -733,12 +719,10 @@ const onRonConfirm = () => {
     var losePlayer: Player = gameStore.getPlayer(winState.loser)
     var loseSeat = gameStore.seatList.indexOf(winState.loser)
     winSeats = winSeats.sort((a, b) => ((a - loseSeat + 4) % 4) - ((b - loseSeat + 4) % 4))
-    console.log(winSeats)
     
     for (const winSeat of winSeats as number[]) {
        winPlayers.push(gameStore.getSeat(winSeat))
     }
-    console.log(winState.fanfuRon)
     
 
     for (let i = 0; i < winPlayers.length; i++) {
@@ -746,21 +730,18 @@ const onRonConfirm = () => {
         var winFan = fanList.indexOf(winState.fanfuRon[seat].fan) + 1
         var winFu = fuList[fuListStr.indexOf(winState.fanfuRon[seat].fu)]
         var a = calculateA(winFan, winFu)
-        console.log(a)
         if (winPlayers[i].seat === '东') {
             winState.oyaWinFlag = true
             var payPoint: number = Math.ceil(6 * a / 100) * 100
             winPlayers[i].point += payPoint
             winPlayers[i].riichi = false
             losePlayer.point -= payPoint
-            console.log(payPoint)
         }
         else {
             var payPoint: number = Math.ceil(4 * a / 100) * 100
             winPlayers[i].point += payPoint
             winPlayers[i].riichi = false
             losePlayer.point -= payPoint
-            console.log(payPoint)
         }
         if (i == 0) {
             for (var j = 0; j < gameStore.count; j++) {
@@ -877,13 +858,11 @@ const onEdit = () => {
 const onEditChange = () => {
     setRevokeState()
 
-    console.log(editState)
     let checkSum = 0
     for (const point of editState.pointList as string []) {
         checkSum += Number(point)
     }
     checkSum += Number(editState.kyoutaku) * 1000
-    console.log(checkSum)
     if (checkSum != gameStore.startPoint * gameStore.count) {
         Toast.error('总分校验不通过！')
         return
@@ -920,7 +899,6 @@ const onRevoke = () => {
 }
 
 const onRevokeConfirm = () => {
-    console.log(revokeState)
     currentKyoku.value = revokeState.currentKyoku
     honba.value = Number(revokeState.honba)
     kyoutaku.value = Number(revokeState.kyoutaku)

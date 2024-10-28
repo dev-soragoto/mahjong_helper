@@ -26,7 +26,7 @@ const handleChange = (val: number[]) => {
     values.value = val;
 };
 
-let historyDataList: HistoryData [] = readHistory()
+let historyDataList: HistoryData [] = reactive(readHistory())
 let timeList: string [] = []
 let data: any[][] = [];
 let columns: Ref<{ colKey: string, title: string, ellipsis: boolean,}[][]> = ref([])
@@ -38,7 +38,7 @@ console.log(data)
 console.log(columns)
 
 function loadData() {
-    historyDataList = readHistory()
+    historyDataList = reactive(readHistory())
     timeList = []
     data = []
     columns.value = []
@@ -87,7 +87,8 @@ const handleRowClick = (e: any) => {
 };
 
 const handleDelete = (index: number) => {
-    historyDataList.slice(index, 1)
+    console.log()
+    historyDataList.splice(index, 1)
     setHistory(historyDataList)
     loadData()
 
