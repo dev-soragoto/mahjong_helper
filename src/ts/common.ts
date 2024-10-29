@@ -1,4 +1,3 @@
-import type { Ref } from 'vue';
 
 export interface Player {
     name: string
@@ -13,6 +12,6 @@ export interface PlayerRef {
     key: number
 }
 
-export function genNonDuplicateID(){
+export function genNonDuplicateID() {
     return Math.random().toString(36).substring(2, 8)
 }

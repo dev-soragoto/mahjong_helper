@@ -1,11 +1,10 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 import { loadConfig } from '@/stores/storage';
+import { createPinia } from 'pinia';
+import { createApp } from 'vue';
 
-
-import App from './App.vue'
-import router from './router'
 import 'tdesign-mobile-vue/es/style/index.css';
+import App from './App.vue';
+import router from './router';
 
 
 const app = createApp(App)

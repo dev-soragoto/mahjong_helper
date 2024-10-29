@@ -1,5 +1,5 @@
-import type { Player, PlayerRef } from '@/ts/common'
-import { defineStore } from 'pinia'
+import type { Player, PlayerRef } from '@/ts/common';
+import { defineStore } from 'pinia';
 import { reactive, ref } from 'vue';
 
 export const historyStore = 'history';
@@ -108,7 +108,7 @@ export const useGameStore = defineStore('game', {
             }
             return this.playerListRef[index];
         },
-        setPlayerRef(name: string, visible: boolean): boolean{
+        setPlayerRef(name: string, visible: boolean): boolean {
             let index = this.playerListMap.get(name);
             if (index == undefined) {
                 console.log(name + '的映射不存在！');
@@ -121,7 +121,7 @@ export const useGameStore = defineStore('game', {
         getResult(): HistoryData {
             var result: HistoryData = {
                 timeStamp: Date.now(),
-                record: new Array<string []>()
+                record: new Array<string[]>()
             }
             for (const player of this.playerList) {
                 result.record.push([player.name, (String)(player.point)])
@@ -165,7 +165,7 @@ export const useGameStore = defineStore('game', {
 export interface GameConfig {
     count: number,
     playerList: Array<Player>,
-    playerListMap: {[s: string]: number},
+    playerListMap: { [s: string]: number },
     seatList: Array<string>,
     continuingIntoWest: boolean,
     bankruptcy: boolean,
@@ -178,7 +178,7 @@ export interface GameConfig {
 }
 export interface HistoryData {
     timeStamp: number,
-    record: string [][]
+    record: string[][]
 }
 
 
@@ -233,7 +233,7 @@ export function saveHistory(newResult: HistoryData): void {
     window.localStorage.setItem(historyStore, JSON.stringify(history));
 };
 
-export function readHistory(): HistoryData [] {
+export function readHistory(): HistoryData[] {
     var historyString = window.localStorage.getItem(historyStore);
     if (historyString == null) {
         return []
@@ -241,7 +241,7 @@ export function readHistory(): HistoryData [] {
     return JSON.parse(historyString);
 };
 
-export function setHistory(historyDataList: HistoryData []): void {
+export function setHistory(historyDataList: HistoryData[]): void {
     window.localStorage.setItem(historyStore, JSON.stringify(historyDataList));
 }
 

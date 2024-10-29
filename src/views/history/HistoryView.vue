@@ -1,7 +1,9 @@
 <template>
     <t-collapse expand-mutex :value="values" @change="handleChange">
-        <t-swipe-cell v-for="i in historyDataList.length" :key="i - 1" :value="i - 1" :right="cellEvent(i - 1)" @touchstart.stop @touchend.stop>
-            <t-collapse-panel :value="i - 1" :header="timeList[i - 1]" :header-right-content="columns[i - 1][0].title + ' 获胜'">
+        <t-swipe-cell v-for="i in historyDataList.length" :key="i - 1" :value="i - 1" :right="cellEvent(i - 1)"
+            @touchstart.stop @touchend.stop>
+            <t-collapse-panel :value="i - 1" :header="timeList[i - 1]"
+                :header-right-content="columns[i - 1][0].title + ' 获胜'">
                 <div class="content">
                     <t-table row-key="index" :data="data[i - 1]" :columns="columns[i - 1]" :show-header="showHeader"
                         cell-empty-content="-" @row-click="handleRowClick">
@@ -10,6 +12,7 @@
             </t-collapse-panel>
         </t-swipe-cell>
     </t-collapse>
+    <div style="height: var(--td-tab-bar-height);"></div>
 </template>
 
 
@@ -18,18 +21,18 @@ import { h, reactive, ref } from 'vue';
 import type { Ref } from "vue";
 import { DeleteIcon } from 'tdesign-icons-vue-next';
 import { Toast } from 'tdesign-mobile-vue';
-import {  readHistory, setHistory } from '@/stores/storage';
-import type {  HistoryData } from '@/stores/storage';
+import { readHistory, setHistory } from '@/stores/storage';
+import type { HistoryData } from '@/stores/storage';
 
 const values = ref([0]);
 const handleChange = (val: number[]) => {
     values.value = val;
 };
 
-let historyDataList: HistoryData [] = reactive(readHistory())
-let timeList: string [] = []
+let historyDataList: HistoryData[] = reactive(readHistory())
+let timeList: string[] = []
 let data: any[][] = [];
-let columns: Ref<{ colKey: string, title: string, ellipsis: boolean,}[][]> = ref([])
+let columns: Ref<{ colKey: string, title: string, ellipsis: boolean, }[][]> = ref([])
 
 loadData()
 
@@ -93,7 +96,7 @@ const handleDelete = (index: number) => {
 
 const delIcon = h(DeleteIcon, { size: '20px' });
 
-const cellEvent = (index: number) => { 
+const cellEvent = (index: number) => {
     return reactive(
         [
             { text: '删除', icon: delIcon, className: 'delete-btn', onClick: () => handleDelete(index) },

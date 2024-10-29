@@ -1,9 +1,14 @@
 <template>
-    <t-swipe-cell v-for="(item, index) of gameStore.playerList" :key="gameStore.playerListRef[index]" :right="cellEvent(item)" @touchstart.stop @touchend.stop>
-            <t-cell v-bind:title="item.name"></t-cell>
+    <t-swipe-cell v-for="(item, index) of gameStore.playerList" :key="gameStore.playerListRef[index]"
+        :right="cellEvent(item)" @touchstart.stop @touchend.stop>
+        <t-cell v-bind:title="item.name"></t-cell>
     </t-swipe-cell>
-    <t-dialog v-for="(item, index) of gameStore.playerList" :key="gameStore.playerListRef[index]" v-model:visible="gameStore.getPlayerRef(item.name).visible" title="设置玩家名称" confirm-btn="确定" cancel-btn="取消" @confirm="onChangePlayerName(item)" @cancel="closeDialog(item)">
-            <t-input v-model:value="gameStore.playerListRef[index].inputModel" borderless class="dialog-input" clearable slot="content" placeholder="输入名称" placeholder-class="placeholder"/>
+    <div style="height: var(--td-tab-bar-height);"></div>
+    <t-dialog v-for="(item, index) of gameStore.playerList" :key="gameStore.playerListRef[index]"
+        v-model:visible="gameStore.getPlayerRef(item.name).visible" title="设置玩家名称" confirm-btn="确定" cancel-btn="取消"
+        @confirm="onChangePlayerName(item)" @cancel="closeDialog(item)">
+        <t-input v-model:value="gameStore.playerListRef[index].inputModel" borderless class="dialog-input" clearable
+            slot="content" placeholder="输入名称" placeholder-class="placeholder" />
     </t-dialog>
 </template>
 
@@ -52,7 +57,7 @@ const onChangePlayerName = (item: Player) => {
         Toast.error('用户已存在！')
         return
     }
-    if(gameStore.setPlayer(item.name, player)) {
+    if (gameStore.setPlayer(item.name, player)) {
         Toast.success(`编辑成功`);
     }
     else {
@@ -71,10 +76,10 @@ const delIcon = h(DeleteIcon, { size: '20px' });
 
 const cellEvent = (item: Player) => {
     return reactive(
-    [
-        { text: '编辑', icon: editIcon, className: 'edit-btn', onClick: () => handleEdit(item) },
-        { text: '删除', icon: delIcon, className: 'delete-btn', onClick: () => handleDelete(item)},
-    ]
+        [
+            { text: '编辑', icon: editIcon, className: 'edit-btn', onClick: () => handleEdit(item) },
+            { text: '删除', icon: delIcon, className: 'delete-btn', onClick: () => handleDelete(item) },
+        ]
     )
 };
 </script>

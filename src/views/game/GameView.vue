@@ -13,16 +13,20 @@
         <div style="position: absolute; margin: auto; left: 0; right: 0; bottom: 2dvmin;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40dvmin; height: 25dvmin;">
-            <t-button class="riichi" style="margin-bottom: -2dvmin" :theme="gameStore.getSeat(0).riichi ? 'primary' : 'light'" @click="onRiichi(0)">立直</t-button>
-            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).seat }} {{ gameStore.getSeat(0).point }}</strong></p>
+            <t-button class="riichi" style="margin-bottom: -2dvmin"
+                :theme="gameStore.getSeat(0).riichi ? 'primary' : 'light'" @click="onRiichi(0)">立直</t-button>
+            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).seat }} {{
+                gameStore.getSeat(0).point }}</strong></p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).name }}</strong></p>
         </div>
 
         <div style="position: absolute; margin: auto; top: 2dvmin; left: 0; right: 0;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40dvmin; height: 25dvmin; transform: rotate(180deg);">
-            <t-button class="riichi" style="margin-bottom: -2dvmin" :theme="gameStore.getSeat(2).riichi ? 'primary' : 'light'" @click="onRiichi(2)">立直</t-button>
-            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).seat }} {{ gameStore.getSeat(2).point }}</strong></p>
+            <t-button class="riichi" style="margin-bottom: -2dvmin"
+                :theme="gameStore.getSeat(2).riichi ? 'primary' : 'light'" @click="onRiichi(2)">立直</t-button>
+            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).seat }} {{
+                gameStore.getSeat(2).point }}</strong></p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).name }}</strong></p>
         </div>
 
@@ -30,8 +34,10 @@
         <div style="position: absolute; margin: auto; top: 0;  right: -5.5dvmin; bottom: 0;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40dvmin; height: 25dvmin; transform: rotate(270deg);">
-            <t-button class="riichi" style="margin-bottom: -2dvmin" :theme="gameStore.getSeat(1).riichi ? 'primary' : 'light'" @click="onRiichi(1)">立直</t-button>
-            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).seat }} {{ gameStore.getSeat(1).point }}</strong></p>
+            <t-button class="riichi" style="margin-bottom: -2dvmin"
+                :theme="gameStore.getSeat(1).riichi ? 'primary' : 'light'" @click="onRiichi(1)">立直</t-button>
+            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).seat }} {{
+                gameStore.getSeat(1).point }}</strong></p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).name }}</strong></p>
         </div>
 
@@ -39,8 +45,10 @@
         <div style="position: absolute; margin: auto; top: 0;  left: -5.5dvmin; bottom: 0;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
               width: 40dvmin; height: 25dvmin; transform: rotate(90deg);">
-            <t-button class="riichi" style="margin-bottom: -2dvmin" :theme="gameStore.getSeat(3).riichi ? 'primary' : 'light'" @click="onRiichi(3)">立直</t-button>
-            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).seat }} {{ gameStore.getSeat(3).point }}</strong></p>
+            <t-button class="riichi" style="margin-bottom: -2dvmin"
+                :theme="gameStore.getSeat(3).riichi ? 'primary' : 'light'" @click="onRiichi(3)">立直</t-button>
+            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).seat }} {{
+                gameStore.getSeat(3).point }}</strong></p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).name }}</strong></p>
         </div>
 
@@ -72,23 +80,31 @@
         <t-checkbox-group v-model:value="winState.winners" @change="onRonCheckboxGroupChange">
             <t-checkbox :value="gameStore.getSeat(0).name" :label="gameStore.getSeat(0).name" />
             <t-dropdown-menu showOverlay>
-                <t-dropdown-item :options="fanfuList[0]" v-model:value="winState.fanfuRon[0].fan" @onChange="(value: string) => onFanRonChange(value, 0)" />
-                <t-dropdown-item :options="fanfuList[1]" v-model:value="winState.fanfuRon[0].fu" @onChange="(value: string) => onFuRonChange(value, 0)" />
+                <t-dropdown-item :options="fanfuList[0]" v-model:value="winState.fanfuRon[0].fan"
+                    @onChange="(value: string) => onFanRonChange(value, 0)" />
+                <t-dropdown-item :options="fanfuList[1]" v-model:value="winState.fanfuRon[0].fu"
+                    @onChange="(value: string) => onFuRonChange(value, 0)" />
             </t-dropdown-menu>
             <t-checkbox :value="gameStore.getSeat(1).name" :label="gameStore.getSeat(1).name" />
             <t-dropdown-menu showOverlay>
-                <t-dropdown-item :options="fanfuList[0]" v-model:value="winState.fanfuRon[1].fan" @onChange="(value: string) => onFanRonChange(value, 1)" />
-                <t-dropdown-item :options="fanfuList[1]" v-model:value="winState.fanfuRon[1].fu" @onChange="(value: string) => onFuRonChange(value, 1)" />
+                <t-dropdown-item :options="fanfuList[0]" v-model:value="winState.fanfuRon[1].fan"
+                    @onChange="(value: string) => onFanRonChange(value, 1)" />
+                <t-dropdown-item :options="fanfuList[1]" v-model:value="winState.fanfuRon[1].fu"
+                    @onChange="(value: string) => onFuRonChange(value, 1)" />
             </t-dropdown-menu>
             <t-checkbox :value="gameStore.getSeat(2).name" :label="gameStore.getSeat(2).name" />
             <t-dropdown-menu showOverlay>
-                <t-dropdown-item :options="fanfuList[0]" v-model:value="winState.fanfuRon[2].fan" @onChange="(value: string) => onFanRonChange(value, 2)" />
-                <t-dropdown-item :options="fanfuList[1]" v-model:value="winState.fanfuRon[2].fu" @onChange="(value: string) => onFuRonChange(value, 2)" />
+                <t-dropdown-item :options="fanfuList[0]" v-model:value="winState.fanfuRon[2].fan"
+                    @onChange="(value: string) => onFanRonChange(value, 2)" />
+                <t-dropdown-item :options="fanfuList[1]" v-model:value="winState.fanfuRon[2].fu"
+                    @onChange="(value: string) => onFuRonChange(value, 2)" />
             </t-dropdown-menu>
             <t-checkbox :value="gameStore.getSeat(3).name" :label="gameStore.getSeat(3).name" />
             <t-dropdown-menu showOverlay>
-                <t-dropdown-item :options="fanfuList[0]" v-model:value="winState.fanfuRon[3].fan" @onChange="(value: string) => onFanRonChange(value, 3)" />
-                <t-dropdown-item :options="fanfuList[1]" v-model:value="winState.fanfuRon[3].fu" @onChange="(value: string) => onFuRonChange(value, 3)" />
+                <t-dropdown-item :options="fanfuList[0]" v-model:value="winState.fanfuRon[3].fan"
+                    @onChange="(value: string) => onFanRonChange(value, 3)" />
+                <t-dropdown-item :options="fanfuList[1]" v-model:value="winState.fanfuRon[3].fu"
+                    @onChange="(value: string) => onFuRonChange(value, 3)" />
             </t-dropdown-menu>
         </t-checkbox-group>
         <t-cell title="选择放铳玩家" borderless></t-cell>
@@ -97,19 +113,23 @@
         </t-radio-group>
     </t-dialog>
 
-    <t-dialog v-model:visible="winState.ryuukyoku" confirm-btn="确定" cancel-btn="取消" @confirm="onRyuukyokuConfirm" @cancel="onRyuukyokuCancel">
+    <t-dialog v-model:visible="winState.ryuukyoku" confirm-btn="确定" cancel-btn="取消" @confirm="onRyuukyokuConfirm"
+        @cancel="onRyuukyokuCancel">
         <t-cell title="选择听牌玩家" borderless></t-cell>
-        <t-checkbox-group v-model:value="winState.winners" :options="options" @change="onRyuukyokuCheckboxGroupChange" />
+        <t-checkbox-group v-model:value="winState.winners" :options="options"
+            @change="onRyuukyokuCheckboxGroupChange" />
     </t-dialog>
 
     <t-dialog v-model:visible="editState.on">
-        <t-picker v-model="editState.currentKyoku" :columns="kyokuListOptions" @change="onEditChange" @cancel="onEditCancel" />
+        <t-picker v-model="editState.currentKyoku" :columns="kyokuListOptions" @change="onEditChange"
+            @cancel="onEditCancel" />
         <t-row>
             <t-col span="12">
                 <a>本场: </a>
             </t-col>
             <t-col span="12">
-                <t-input v-model:value="editState.honba" type="number" class="dialog-input" clearable slot="content" placeholder="输入本场" placeholder-class="placeholder"/>
+                <t-input v-model:value="editState.honba" type="number" class="dialog-input" clearable slot="content"
+                    placeholder="输入本场" placeholder-class="placeholder" />
             </t-col>
         </t-row>
         <t-row>
@@ -117,7 +137,8 @@
                 <a>供托(x1000): </a>
             </t-col>
             <t-col span="12">
-                <t-input v-model:value="editState.kyoutaku" type="number" class="dialog-input" clearable slot="content" placeholder="输入供托数" placeholder-class="placeholder"/>
+                <t-input v-model:value="editState.kyoutaku" type="number" class="dialog-input" clearable slot="content"
+                    placeholder="输入供托数" placeholder-class="placeholder" />
             </t-col>
         </t-row>
         <t-row v-for="(playerName, index) of gameStore.seatList" :key="index">
@@ -125,17 +146,20 @@
                 <a>{{ playerName }}: </a>
             </t-col>
             <t-col span="12">
-                <t-input v-model:value="editState.pointList[index]" type="number" class="dialog-input" clearable slot="content" placeholder="输入点数" placeholder-class="placeholder"/>
+                <t-input v-model:value="editState.pointList[index]" type="number" class="dialog-input" clearable
+                    slot="content" placeholder="输入点数" placeholder-class="placeholder" />
             </t-col>
         </t-row>
     </t-dialog>
 
     <t-dialog v-model:visible="revokeState.on" close-on-overlay-click content="撤销后无法回退，且仅能撤销一次，确认撤销吗？" cancel-btn="取消"
-        :confirm-btn="{ content: '确定', theme: 'danger' }" @confirm="onRevokeConfirm" @cancel="onRevokeCancel" @close="onRevokeClose">
+        :confirm-btn="{ content: '确定', theme: 'danger' }" @confirm="onRevokeConfirm" @cancel="onRevokeCancel"
+        @close="onRevokeClose">
     </t-dialog>
 
     <t-dialog v-model:visible="finalState.on" title="终局结果" confirm-btn="确定" @confirm="onFinalConfirm">
-        <p v-for="(playerName, index) of finalState.result" :key="index" class="text" style="margin-bottom: 2dvmin"><strong>{{ playerName }} : {{ gameStore.getPlayer(playerName).point }}</strong></p>
+        <p v-for="(playerName, index) of finalState.result" :key="index" class="text" style="margin-bottom: 2dvmin">
+            <strong>{{ playerName }} : {{ gameStore.getPlayer(playerName).point }}</strong></p>
     </t-dialog>
 
     <t-dialog v-model:visible="leave.showAlert" close-on-overlay-click content="现在退出不保存任何数据,确定吗?" cancel-btn="取消"
@@ -171,9 +195,9 @@ const ronWinnerFlag = reactive([false, false, false, false])
 
 // 和了，流局
 interface WinState {
-    fanfu: string [],
-    fanfuRon: { fan: string, fu: string } [],
-    winners: string [],
+    fanfu: string[],
+    fanfuRon: { fan: string, fu: string }[],
+    winners: string[],
     winner: string,
     loser: string,
     ron: boolean,
@@ -304,7 +328,7 @@ function resetwinState() {
     winState.fanfu = []
     winState.fanfuRon = []
     for (let i = 0; i < 4; i++) {
-        winState.fanfuRon.push({ fan:'一番', fu:'30符'})
+        winState.fanfuRon.push({ fan: '一番', fu: '30符' })
     }
     winState.winners = []
     winState.winner = ''
@@ -316,7 +340,7 @@ function resetwinState() {
     winState.ryuukyoku = false
     winState.ryuukyokuCheck = false
     winState.oyaWinFlag = false
-    
+
 }
 
 function setEditState() {
@@ -398,7 +422,7 @@ function checkGameOver(): boolean {
     }
 
     // all last
-    if (currentKyoku.value >= allLast ) {
+    if (currentKyoku.value >= allLast) {
         // 检查亲家和了和流局听牌状态
         var oyaPlayer: Player = {
             name: '',
@@ -410,7 +434,7 @@ function checkGameOver(): boolean {
             if (gameStore.getPlayer(winPlayer).seat === '东') {
                 oyaPlayer = gameStore.getPlayer(winPlayer)
                 break
-            }            
+            }
         }
 
         if (gameStore.getPlayer(winState.winner).seat === '东') {
@@ -438,19 +462,19 @@ function checkGameOver(): boolean {
             var playerSeat = gameStore.seatList.indexOf(playerName)
             if ((playerSeat + 4 - gameStore.startSeat) % 4 < (topPlayerSeat + 4 - gameStore.startSeat) % 4) {
                 topPlayerSeat = playerSeat
-            }            
+            }
         }
         var topPlayer = gameStore.getSeat(topPlayerSeat)
         if (winState.oyaWinFlag) {
             // 亲家和了或流局听牌
             // 亲家是top，结束游戏
             if (topPlayer.name === oyaPlayer.name) {
-                if (topPoint >=  gameStore.returnPoint) {
-                    return true   
+                if (topPoint >= gameStore.returnPoint) {
+                    return true
                 }
                 else {
                     if (gameStore.continuingIntoWest) {
-                    // 西四局，强制终局
+                        // 西四局，强制终局
                         if (currentKyoku.value >= kyokuList.length - 1) {
                             return true
                         }
@@ -486,7 +510,7 @@ function checkGameOver(): boolean {
             }
         }
     }
-    
+
 
     return false
 }
@@ -537,7 +561,7 @@ function goGameOver() {
         let player = gameStore.getPlayer(playerName)
         if (player.riichi) {
             player.riichi = false
-            riichibous ++
+            riichibous++
         }
         gameStore.setPlayer(player.name, player)
     }
@@ -552,7 +576,7 @@ function goGameOver() {
     finalState.on = true
 }
 
-function calculateA(fan:number, fu:number): number {
+function calculateA(fan: number, fu: number): number {
     var a = fu * (2 ** (fan + 2))
     if (a > 2000) {
         a = 2000
@@ -577,7 +601,7 @@ function calculateA(fan:number, fu:number): number {
 const onFinalConfirm = () => {
     let result: HistoryData = {
         timeStamp: Date.now(),
-        record: new Array<string []>()
+        record: new Array<string[]>()
     }
     for (let i = 0; i < 4; i++) {
         result.record.push([finalState.result[i], (String)(gameStore.getPlayer(finalState.result[i]).point)])
@@ -623,7 +647,7 @@ const onTsumoChange = () => {
     var riichibous = 0
     if (winPlayer.seat === '东') {
         winState.oyaWinFlag = true
-        var payPoint: number [] = [Math.ceil(2 * a / 100) * 100 + honba.value * 100]
+        var payPoint: number[] = [Math.ceil(2 * a / 100) * 100 + honba.value * 100]
         for (var i = 0; i < 4; i++) {
             let player = gameStore.getSeat(i)
             if (player.name === winPlayer.name) {
@@ -641,7 +665,7 @@ const onTsumoChange = () => {
         gameStore.setPlayer(winPlayer.name, winPlayer)
     }
     else {
-        var payPoint: number [] = [Math.ceil(a / 100) * 100 + honba.value * 100, Math.ceil(2 * a / 100) * 100 + honba.value * 100]
+        var payPoint: number[] = [Math.ceil(a / 100) * 100 + honba.value * 100, Math.ceil(2 * a / 100) * 100 + honba.value * 100]
         for (var i = 0; i < 4; i++) {
             let player = gameStore.getSeat(i)
             if (player.name === winPlayer.name) {
@@ -720,17 +744,17 @@ const onRonConfirm = () => {
     var winPlayers: Array<Player> = []
     var winSeats: number[] = []
     for (const winPlayerName of winState.winners as string[]) {
-       winSeats.push(gameStore.seatList.indexOf(winPlayerName))
+        winSeats.push(gameStore.seatList.indexOf(winPlayerName))
     }
-    
+
     var losePlayer: Player = gameStore.getPlayer(winState.loser)
     var loseSeat = gameStore.seatList.indexOf(winState.loser)
     winSeats = winSeats.sort((a, b) => ((a - loseSeat + 4) % 4) - ((b - loseSeat + 4) % 4))
-    
+
     for (const winSeat of winSeats as number[]) {
-       winPlayers.push(gameStore.getSeat(winSeat))
+        winPlayers.push(gameStore.getSeat(winSeat))
     }
-    
+
 
     for (let i = 0; i < winPlayers.length; i++) {
         var seat = winSeats[i]
@@ -798,7 +822,7 @@ const onRyuukyoku = () => {
 }
 
 const onRyuukyokuCheckboxGroupChange = () => {
-    
+
 }
 
 const onRyuukyokuConfirm = () => {
@@ -883,7 +907,7 @@ const onEditChange = () => {
         return
     }
 
-    for (const point of editState.pointList as string []) {
+    for (const point of editState.pointList as string[]) {
         if (!Number.isInteger(Number(point)) || Number(point) % 100 != 0 || point === '') {
             Toast.error('分数必须为100的整数倍！')
             return
@@ -893,7 +917,7 @@ const onEditChange = () => {
     setRevokeState()
 
     let checkSum = 0
-    for (const point of editState.pointList as string []) {
+    for (const point of editState.pointList as string[]) {
         checkSum += Number(point)
     }
     checkSum += Number(editState.kyoutaku) * 1000

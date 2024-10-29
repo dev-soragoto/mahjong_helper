@@ -4,7 +4,9 @@
             :note="state.player.join('')" @click="state.show = true" />
 
         <t-popup v-for="(state, index) in playerState" :key="index" v-model="state.show" placement="bottom">
-            <t-picker v-model="state.player" :columns="players" @change="(selectedPlayer: string[]) => onChange(selectedPlayer, index)" @confirm="onConfirm" @cancel="onCancel" />
+            <t-picker v-model="state.player" :columns="players"
+                @change="(selectedPlayer: string[]) => onChange(selectedPlayer, index)" @confirm="onConfirm"
+                @cancel="onCancel" />
         </t-popup>
 
         <t-cell title="局数" class="no-hover">
@@ -24,6 +26,7 @@
         </t-cell>
     </t-cell-group>
 
+    <div style="height: var(--td-tab-bar-height);"></div>
     <t-fab :icon="iconFunc" @click="onClick" :style="fabStyle" />
 </template>
 
@@ -115,7 +118,7 @@ const startSeatChange = (value: any, context: { e: Event }) => {
 
 
 const onClick = () => {
-    for (const player of playerState as { player: Array<string>}[]) {
+    for (const player of playerState as { player: Array<string> }[]) {
         if (player.player.join('') === '') {
             Toast.error('有玩家未选择座位！');
             return;
