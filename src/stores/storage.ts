@@ -205,8 +205,6 @@ export function saveConfig(): void {
 export function loadConfig(): void {
     const gameStore = useGameStore()
     var configString = window.localStorage.getItem(configStore);
-    console.log('loadConfig')
-    console.log(configString)
     if (configString == undefined) {
         return
     }

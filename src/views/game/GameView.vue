@@ -549,9 +549,6 @@ function goGameOver() {
     honba.value = 0
     kyoutaku.value = 0
 
-    console.log(finalState.result)
-    console.log(gameStore.seatList)
-
     finalState.on = true
 }
 

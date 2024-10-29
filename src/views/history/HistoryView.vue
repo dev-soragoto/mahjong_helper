@@ -33,10 +33,6 @@ let columns: Ref<{ colKey: string, title: string, ellipsis: boolean,}[][]> = ref
 
 loadData()
 
-console.log(timeList)
-console.log(data)
-console.log(columns)
-
 function loadData() {
     historyDataList = reactive(readHistory())
     timeList = []
@@ -87,7 +83,6 @@ const handleRowClick = (e: any) => {
 };
 
 const handleDelete = (index: number) => {
-    console.log()
     historyDataList.splice(index, 1)
     setHistory(historyDataList)
     loadData()
