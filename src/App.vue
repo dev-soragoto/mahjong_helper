@@ -18,12 +18,11 @@ const showTabBar = ref(true)
 watch(() => router.currentRoute.value.path, (newValue) => {
   showTabBar.value = newValue !== '/game'
 }, { immediate: true })
-
-
 </script>
 
 <style>
 :root {
   --td-button-large-height: 60px;
+  --td-tab-bar-height: 40px;
 }
 </style>
