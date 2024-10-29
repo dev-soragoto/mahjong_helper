@@ -34,6 +34,11 @@ const onChangePlayerName = (item: Player) => {
         return
     }
 
+    if (gameStore.playerListRef[mapIndex].inputModel === '') {
+        Toast.error('用户名不能为空！')
+        return
+    }
+
     var player: Player = {
         name: gameStore.playerListRef[mapIndex].inputModel,
         seat: item.seat,

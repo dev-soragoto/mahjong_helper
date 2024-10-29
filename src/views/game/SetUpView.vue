@@ -60,7 +60,7 @@ onMounted(() => {
     players.value = result;
 
     // 加载 playerState
-    for (var i = 0; i < gameStore.count; i++) {
+    for (var i = 0; i < 4; i++) {
         if (i > gameStore.seatList.length - 1) {
             break
         }
@@ -121,7 +121,7 @@ const onClick = () => {
             return;
         }
     }
-    for (let i = 0; i < gameStore.count; i++) {
+    for (let i = 0; i < 4; i++) {
         let player = gameStore.getSeat(i)
         player.point = gameStore.startPoint
         gameStore.setPlayer(player.name, player)

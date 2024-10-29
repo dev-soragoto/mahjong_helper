@@ -35,6 +35,7 @@
 
 <script lang="ts" setup>
 import { useGameStore, saveConfig } from '@/stores/storage';
+import { Toast } from 'tdesign-mobile-vue';
 import { reactive, ref } from 'vue';
 
 const gameStore = useGameStore()
@@ -84,6 +85,15 @@ const onChange = (key: keyof CheckedObject, val: boolean) => {
 };
 
 const onChangeStartPoint = () => {
+    if (startPointInput.value % 100 != 0) {
+        Toast.error('请输入100的倍数！')
+        return
+    }
+    if (startPointInput.value % 100 == null) {
+        Toast.error('输入不能为空！')
+        return
+    }
+
     startPoint.value = (String)(startPointInput.value)
     gameStore.setConfig(
         checked.continuingIntoWest, 

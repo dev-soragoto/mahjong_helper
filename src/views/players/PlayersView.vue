@@ -18,9 +18,6 @@ const iconFunc = () =>  h(AddIcon, { size: '30px' })
 const fabStyle = "bottom: 80px; right: 5dvw"
 
 const onClick = () => {
-    if (gameStore.count >= 4) {
-        return
-    }
     var player: Player = {
         name: '牌搭子' + genNonDuplicateID(),
         seat: '',
