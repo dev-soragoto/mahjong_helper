@@ -159,7 +159,8 @@
 
     <t-dialog v-model:visible="finalState.on" title="终局结果" confirm-btn="确定" @confirm="onFinalConfirm">
         <p v-for="(playerName, index) of finalState.result" :key="index" class="text" style="margin-bottom: 2dvmin">
-            <strong>{{ playerName }} : {{ gameStore.getPlayer(playerName).point }}</strong></p>
+            <strong>{{ playerName }} : {{ gameStore.getPlayer(playerName).point }}</strong>
+        </p>
     </t-dialog>
 
     <t-dialog v-model:visible="leave.showAlert" close-on-overlay-click content="现在退出不保存任何数据,确定吗?" cancel-btn="取消"
@@ -176,6 +177,34 @@ import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { onBeforeRouteLeave, type RouteLocationNormalized } from 'vue-router';
 import { Toast } from 'tdesign-mobile-vue';
 import type { Player } from '@/ts/common';
+
+let wakeLock: WakeLockSentinel | null = null;
+
+const setWakeLock = function () {
+    if (wakeLock) {
+        return;
+    }
+
+    navigator.wakeLock.request('screen').then(result => {
+        wakeLock = result;
+        wakeLock.addEventListener('release', () => {
+            wakeLock = null;
+        });
+    })
+};
+
+onMounted(() => {
+    setWakeLock()
+    window.addEventListener('focus', focus);
+})
+
+onUnmounted(() => {
+    window.removeEventListener('focus', focus);
+})
+
+function focus() {
+    setWakeLock()
+}
 
 const gameStore = useGameStore()
 
