@@ -8,10 +8,10 @@
 </template>
 
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import TabBar from './components/TabBar.vue'
-import router from './router';
 import { ref, watch } from 'vue';
+import { RouterView } from 'vue-router';
+import TabBar from './components/TabBar.vue';
+import router from './router';
 
 const showTabBar = ref(true)
 
@@ -24,5 +24,6 @@ watch(() => router.currentRoute.value.path, (newValue) => {
 :root {
   --td-button-large-height: 60px;
   --td-tab-bar-height: 40px;
+  --td-dialog-body-max-height: 70vh;
 }
 </style>

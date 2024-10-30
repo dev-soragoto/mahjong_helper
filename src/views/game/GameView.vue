@@ -75,42 +75,249 @@
         </t-radio-group>
     </t-dialog>
 
-    <t-dialog v-model:visible="winState.ron" confirm-btn="确定" cancel-btn="取消" @confirm="onRonConfirm">
-        <t-cell title="选择荣和玩家" borderless></t-cell>
-        <t-checkbox-group v-model:value="winState.winners" @change="onRonCheckboxGroupChange">
-            <t-checkbox :value="gameStore.getSeat(0).name" :label="gameStore.getSeat(0).name" />
-            <t-dropdown-menu showOverlay>
-                <t-dropdown-item :options="fanfuList[0]" v-model:value="winState.fanfuRon[0].fan"
-                    @onChange="(value: string) => onFanRonChange(value, 0)" />
-                <t-dropdown-item :options="fanfuList[1]" v-model:value="winState.fanfuRon[0].fu"
-                    @onChange="(value: string) => onFuRonChange(value, 0)" />
-            </t-dropdown-menu>
-            <t-checkbox :value="gameStore.getSeat(1).name" :label="gameStore.getSeat(1).name" />
-            <t-dropdown-menu showOverlay>
-                <t-dropdown-item :options="fanfuList[0]" v-model:value="winState.fanfuRon[1].fan"
-                    @onChange="(value: string) => onFanRonChange(value, 1)" />
-                <t-dropdown-item :options="fanfuList[1]" v-model:value="winState.fanfuRon[1].fu"
-                    @onChange="(value: string) => onFuRonChange(value, 1)" />
-            </t-dropdown-menu>
-            <t-checkbox :value="gameStore.getSeat(2).name" :label="gameStore.getSeat(2).name" />
-            <t-dropdown-menu showOverlay>
-                <t-dropdown-item :options="fanfuList[0]" v-model:value="winState.fanfuRon[2].fan"
-                    @onChange="(value: string) => onFanRonChange(value, 2)" />
-                <t-dropdown-item :options="fanfuList[1]" v-model:value="winState.fanfuRon[2].fu"
-                    @onChange="(value: string) => onFuRonChange(value, 2)" />
-            </t-dropdown-menu>
-            <t-checkbox :value="gameStore.getSeat(3).name" :label="gameStore.getSeat(3).name" />
-            <t-dropdown-menu showOverlay>
-                <t-dropdown-item :options="fanfuList[0]" v-model:value="winState.fanfuRon[3].fan"
-                    @onChange="(value: string) => onFanRonChange(value, 3)" />
-                <t-dropdown-item :options="fanfuList[1]" v-model:value="winState.fanfuRon[3].fu"
-                    @onChange="(value: string) => onFuRonChange(value, 3)" />
-            </t-dropdown-menu>
+    <t-dialog style="--td-dialog-width: 90dvw; font-size: 14px;" v-model:visible="winState.ron" confirm-btn="确定" cancel-btn="取消"
+        @confirm="onRonConfirm">
+        <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px"
+        visible content="选择荣和玩家" :prefix-icon="false" />
+        <t-checkbox-group style="--td-checkbox-border-color:none" v-model:value="winState.winners"
+            @change="onRonCheckboxGroupChange">
+            <t-checkbox :value="gameStore.getSeat(0).name" :contentDisabled="true">
+                <div style="display: flex;">
+                    <div style="flex: 3; text-align: left;">
+                        {{ gameStore.getSeat(0).name }}
+                    </div>
+                    <t-button style="flex: 1" block variant="outline" theme="primary" size="extra-small"
+                        @click="seat0FanChick = true">
+                        {{ winState.fanfuRon[0].fan }} </t-button>
+                    <t-overlay :visible="seat0FanChick" :zIndex="2000" />
+                    <div style="flex: 0.2"></div>
+                    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat0FanChick" title="选择番数" close-btn
+                        :zIndex="100000">
+                        <t-radio-group class="score" :value="winState.fanfuRon[0].fan"
+                            @change="(value: string) => onFanRonChange(value, 0)">
+                            <view v-for="fan in fanfuList[0]"
+                                :class="`card ${winState.fanfuRon[0].fan == fan.value ? 'card--active' : ''}`">
+                                <t-radio :value="fan.value" icon="none">
+                                    <div
+                                        style="display: flex;align-content: space-around;justify-content: center;flex-direction: row; align-items: flex-end;">
+                                        {{ fan.label }}
+                                        <div style="width: 8px; height: 25px;">
+                                        </div>
+                                    </div>
+                                </t-radio>
+                            </view>
+                        </t-radio-group>
+                    </t-dialog>
+
+                    <t-button style="flex:1" block variant="outline" theme="primary" size="extra-small"
+                        @click="seat0FuChick = true">
+                        {{ winState.fanfuRon[0].fu }} </t-button>
+                    <t-overlay :visible="seat0FuChick" :zIndex="2000" />
+
+                    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat0FuChick" title="选择符数" close-btn
+                        :zIndex="100000">
+                        <t-radio-group class="score" :value="winState.fanfuRon[0].fu"
+                            @change="(value: string) => onFuRonChange(value, 0)">
+                            <view v-for="fu in fanfuList[1]"
+                                :class="`card ${winState.fanfuRon[0].fu == fu.value ? 'card--active' : ''}`">
+                                <t-radio :value="fu.value" icon="none">
+                                    <div
+                                        style="display: flex;align-content: space-around;justify-content: center;flex-direction: row; align-items: flex-end;">
+                                        {{ fu.label }}
+                                        <div style="width: 8px; height: 25px;">
+                                        </div>
+                                    </div>
+                                </t-radio>
+                            </view>
+                        </t-radio-group>
+                    </t-dialog>
+                </div>
+            </t-checkbox>
+
+
+            <t-checkbox :value="gameStore.getSeat(1).name" :contentDisabled="true">
+                <div style="display: flex;">
+                    <div style="flex: 3; text-align: left;">
+                        {{ gameStore.getSeat(1).name }}
+                    </div>
+                    <t-button style="flex: 1" block variant="outline" theme="primary" size="extra-small"
+                        @click="seat1FanChick = true">
+                        {{ winState.fanfuRon[1].fan }} </t-button>
+                    <t-overlay :visible="seat1FanChick" :zIndex="2000" />
+                    <div style="flex: 0.2"></div>
+                    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat1FanChick" title="选择番数" close-btn
+                        :zIndex="100000">
+                        <t-radio-group class="score" :value="winState.fanfuRon[1].fan"
+                            @change="(value: string) => onFanRonChange(value, 1)">
+                            <view v-for="fan in fanfuList[0]"
+                                :class="`card ${winState.fanfuRon[1].fan == fan.value ? 'card--active' : ''}`">
+                                <t-radio :value="fan.value" icon="none">
+                                    <div
+                                        style="display: flex;align-content: space-around;justify-content: center;flex-direction: row; align-items: flex-end;">
+                                        {{ fan.label }}
+                                        <div style="width: 8px; height: 25px;">
+                                        </div>
+                                    </div>
+                                </t-radio>
+                            </view>
+                        </t-radio-group>
+                    </t-dialog>
+
+
+                    <t-button style="flex:1" block variant="outline" theme="primary" size="extra-small"
+                        @click="seat1FuChick = true">
+                        {{ winState.fanfuRon[1].fu }} </t-button>
+                    <t-overlay :visible="seat1FuChick" :zIndex="2000" />
+
+                    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat1FuChick" title="选择符数" close-btn
+                        :zIndex="100000">
+                        <t-radio-group class="score" :value="winState.fanfuRon[1].fu"
+                            @change="(value: string) => onFuRonChange(value, 1)">
+                            <view v-for="fu in fanfuList[1]"
+                                :class="`card ${winState.fanfuRon[1].fu == fu.value ? 'card--active' : ''}`">
+                                <t-radio :value="fu.value" icon="none">
+                                    <div
+                                        style="display: flex;align-content: space-around;justify-content: center;flex-direction: row; align-items: flex-end;">
+                                        {{ fu.label }}
+                                        <div style="width: 8px; height: 25px;">
+                                        </div>
+                                    </div>
+                                </t-radio>
+                            </view>
+                        </t-radio-group>
+                    </t-dialog>
+                </div>
+            </t-checkbox>
+
+
+            <t-checkbox :value="gameStore.getSeat(2).name" :contentDisabled="true">
+                <div style="display: flex;">
+                    <div style="flex: 3; text-align: left;">
+                        {{ gameStore.getSeat(2).name }}
+                    </div>
+                    <t-button style="flex: 1" block variant="outline" theme="primary" size="extra-small"
+                        @click="seat2FanChick = true">
+                        {{ winState.fanfuRon[2].fan }} </t-button>
+                    <t-overlay :visible="seat2FanChick" :zIndex="2000" />
+                    <div style="flex: 0.2"></div>
+                    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat2FanChick" title="选择番数" close-btn
+                        :zIndex="100000">
+                        <t-radio-group class="score" :value="winState.fanfuRon[2].fan"
+                            @change="(value: string) => onFanRonChange(value, 2)">
+                            <view v-for="fan in fanfuList[0]"
+                                :class="`card ${winState.fanfuRon[2].fan == fan.value ? 'card--active' : ''}`">
+                                <t-radio :value="fan.value" icon="none">
+                                    <div
+                                        style="display: flex;align-content: space-around;justify-content: center;flex-direction: row; align-items: flex-end;">
+                                        {{ fan.label }}
+                                        <div style="width: 8px; height: 25px;">
+                                        </div>
+                                    </div>
+                                </t-radio>
+                            </view>
+                        </t-radio-group>
+                    </t-dialog>
+
+
+                    <t-button style="flex:1" block variant="outline" theme="primary" size="extra-small"
+                        @click="seat2FuChick = true">
+                        {{ winState.fanfuRon[2].fu }} </t-button>
+                    <t-overlay :visible="seat2FuChick" :zIndex="2000" />
+
+                    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat2FuChick" title="选择符数" close-btn
+                        :zIndex="100000">
+                        <t-radio-group class="score" :value="winState.fanfuRon[2].fu"
+                            @change="(value: string) => onFuRonChange(value, 2)">
+                            <view v-for="fu in fanfuList[1]"
+                                :class="`card ${winState.fanfuRon[2].fu == fu.value ? 'card--active' : ''}`">
+                                <t-radio :value="fu.value" icon="none">
+                                    <div
+                                        style="display: flex;align-content: space-around;justify-content: center;flex-direction: row; align-items: flex-end;">
+                                        {{ fu.label }}
+                                        <div style="width: 8px; height: 25px;">
+                                        </div>
+                                    </div>
+                                </t-radio>
+                            </view>
+                        </t-radio-group>
+                    </t-dialog>
+                </div>
+            </t-checkbox>
+
+
+            <t-checkbox :value="gameStore.getSeat(3).name" :contentDisabled="true">
+                <div style="display: flex;">
+                    <div style="flex: 3; text-align: left;">
+                        {{ gameStore.getSeat(3).name }}
+                    </div>
+                    <t-button style="flex: 1" block variant="outline" theme="primary" size="extra-small"
+                        @click="seat3FanChick = true">
+                        {{ winState.fanfuRon[3].fan }} </t-button>
+                    <t-overlay :visible="seat3FanChick" :zIndex="2000" />
+                    <div style="flex: 0.2"></div>
+                    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat3FanChick" title="选择番数" close-btn
+                        :zIndex="100000">
+                        <t-radio-group class="score" :value="winState.fanfuRon[3].fan"
+                            @change="(value: string) => onFanRonChange(value, 3)">
+                            <view v-for="fan in fanfuList[0]"
+                                :class="`card ${winState.fanfuRon[3].fan == fan.value ? 'card--active' : ''}`">
+                                <t-radio :value="fan.value" icon="none">
+                                    <div
+                                        style="display: flex;align-content: space-around;justify-content: center;flex-direction: row; align-items: flex-end;">
+                                        {{ fan.label }}
+                                        <div style="width: 8px; height: 25px;">
+                                        </div>
+                                    </div>
+                                </t-radio>
+                            </view>
+                        </t-radio-group>
+                    </t-dialog>
+
+                    <t-button style="flex:1" block variant="outline" theme="primary" size="extra-small"
+                        @click="seat3FuChick = true">
+                        {{ winState.fanfuRon[3].fu }} </t-button>
+                    <t-overlay :visible="seat3FuChick" :zIndex="2000" />
+
+                    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat3FuChick" title="选择符数" close-btn
+                        :zIndex="100000">
+                        <t-radio-group class="score" :value="winState.fanfuRon[3].fu"
+                            @change="(value: string) => onFuRonChange(value, 3)">
+                            <view v-for="fu in fanfuList[1]"
+                                :class="`card ${winState.fanfuRon[3].fu == fu.value ? 'card--active' : ''}`">
+                                <t-radio :value="fu.value" icon="none">
+                                    <div
+                                        style="display: flex;align-content: space-around;justify-content: center;flex-direction: row; align-items: flex-end;">
+                                        {{ fu.label }}
+                                        <div style="width: 8px; height: 25px;">
+                                        </div>
+                                    </div>
+                                </t-radio>
+                            </view>
+                        </t-radio-group>
+                    </t-dialog>
+                </div>
+            </t-checkbox>
         </t-checkbox-group>
-        <t-cell title="选择放铳玩家" borderless></t-cell>
-        <t-radio-group v-model:value="winState.loser" @change="onRonRadioGroupChange">
-            <t-radio v-for="playerName of gameStore.seatList" name="lose" :value="playerName" :label="playerName" />
-        </t-radio-group>
+
+        <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px"
+        visible content="选择放铳玩家" :prefix-icon="false" />
+        <div style="padding: 16px;">
+            <t-radio-group class="player-selecter" v-model:value="winState.loser" @change="onRonRadioGroupChange">
+                <view v-for="playerName of gameStore.seatList"
+                    :class="`card ${winState.loser == playerName ? 'card--active' : ''}`">
+                    <t-radio :value="playerName" icon="none">
+                        <div
+                            style="display: flex;align-content: space-around;justify-content: center;flex-direction: row; align-items: flex-end;">
+                            {{ playerName }}
+                            <div style="width: 8px; height: 25px;">
+                            </div>
+                        </div>
+                    </t-radio>
+                </view>
+            </t-radio-group>
+
+        </div>
+
     </t-dialog>
 
     <t-dialog v-model:visible="winState.ryuukyoku" confirm-btn="确定" cancel-btn="取消" @confirm="onRyuukyokuConfirm"
@@ -170,22 +377,22 @@
 </template>
 
 <script lang="ts" setup>
+
 import router from '@/router';
-import { useGameStore, saveHistory } from '@/stores/storage';
 import type { HistoryData } from '@/stores/storage';
+import { saveHistory, useGameStore } from '@/stores/storage';
+import type { Player } from '@/ts/common';
+import { Toast } from 'tdesign-mobile-vue';
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { onBeforeRouteLeave, type RouteLocationNormalized } from 'vue-router';
-import { Toast } from 'tdesign-mobile-vue';
-import type { Player } from '@/ts/common';
 
 let wakeLock: WakeLockSentinel | null = null;
 
-const setWakeLock = function () {
+const setWakeLock = async () => {
     if (wakeLock) {
         return;
     }
-
-    navigator.wakeLock.request('screen').then(result => {
+    await navigator.wakeLock.request().then(result => {
         wakeLock = result;
         wakeLock.addEventListener('release', () => {
             wakeLock = null;
@@ -195,16 +402,13 @@ const setWakeLock = function () {
 
 onMounted(() => {
     setWakeLock()
-    window.addEventListener('focus', focus);
+    document.addEventListener('visibilitychange', setWakeLock);
 })
 
 onUnmounted(() => {
-    window.removeEventListener('focus', focus);
+    document.removeEventListener('visibilitychange', setWakeLock);
 })
 
-function focus() {
-    setWakeLock()
-}
 
 const gameStore = useGameStore()
 
@@ -750,6 +954,15 @@ const onRonRadioGroupChange = () => {
 
 }
 
+const seat0FanChick = ref(false)
+const seat0FuChick = ref(false)
+const seat1FanChick = ref(false)
+const seat1FuChick = ref(false)
+const seat2FanChick = ref(false)
+const seat2FuChick = ref(false)
+const seat3FanChick = ref(false)
+const seat3FuChick = ref(false)
+
 const onFanRonChange = (value: string, index: number) => {
     winState.fanfuRon[index].fan = value
 }
@@ -1089,5 +1302,87 @@ onUnmounted(() => {
     font-size: 4dvmin;
     line-height: 0.8dvmin;
     text-align: center;
+}
+
+.score {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+    gap: 2px;
+    --td-radio-vertical-padding: 0px;
+}
+
+.score>* {
+    padding: 0px;
+}
+
+.score .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90px;
+    height: 30px;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1.5px solid #777;
+}
+
+.score .card--active {
+    border-color: #0052d9;
+}
+
+.score .card--active::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    border: 8px solid #0052d9;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+}
+
+
+
+.player-selecter {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+    gap: 5px;
+    --td-radio-vertical-padding: 0px;
+}
+
+.player-selecter>* {
+    padding: 0px;
+}
+
+.player-selecter .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1.5px solid #777;
+}
+
+.player-selecter .card--active {
+    border-color: #0052d9;
+}
+
+.player-selecter .card--active::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    border: 8px solid #0052d9;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
 }
 </style>
