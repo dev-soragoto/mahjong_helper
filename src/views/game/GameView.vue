@@ -141,14 +141,13 @@
                     <t-button style="flex:1" block variant="outline" theme="primary" size="extra-small"
                         @click="seat3FuChick = true">
                         {{ winState.fanfuRon[3].fu }} </t-button>
-
-
                 </div>
             </t-checkbox>
         </t-checkbox-group>
 
         <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px" visible
             content="选择放铳玩家" :prefix-icon="false" />
+
         <div style="padding: 16px;">
             <t-radio-group class="player-selecter" v-model:value="winState.loser" @change="onRonRadioGroupChange">
                 <view v-for="playerName of gameStore.seatList"
@@ -202,7 +201,7 @@
         </t-radio-group>
     </t-dialog>
 
-    
+
     <t-overlay :visible="seat1FanChick" :zIndex="15000" />
     <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat1FanChick" title="选择番数" close-btn :zIndex="15001">
         <t-radio-group class="score" :value="winState.fanfuRon[1].fan"
@@ -316,8 +315,9 @@
 
     <t-dialog v-model:visible="winState.ryuukyoku" confirm-btn="确定" cancel-btn="取消" @confirm="onRyuukyokuConfirm"
         @cancel="onRyuukyokuCancel">
-        <t-cell title="选择听牌玩家" borderless></t-cell>
-        <t-checkbox-group v-model:value="winState.winners" :options="options"
+        <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px" visible
+            content="选择听牌玩家" :prefix-icon="false" />
+        <t-checkbox-group style="--td-checkbox-border-color:none" v-model:value="winState.winners" :options="options"
             @change="onRyuukyokuCheckboxGroupChange" />
     </t-dialog>
 
@@ -383,7 +383,7 @@ import { onBeforeRouteLeave, type RouteLocationNormalized } from 'vue-router';
 let wakeLock: WakeLockSentinel | null = null;
 
 const setWakeLock = async () => {
-    if (wakeLock) {
+    if (document.visibilityState != 'visible' || wakeLock) {
         return;
     }
     await navigator.wakeLock.request().then(result => {
@@ -391,7 +391,9 @@ const setWakeLock = async () => {
         wakeLock.addEventListener('release', () => {
             wakeLock = null;
         });
-    })
+    }).catch(err => {
+        console.log(`${err.name}, ${err.message}`);
+    });
 };
 
 onMounted(() => {
@@ -402,7 +404,6 @@ onMounted(() => {
 onUnmounted(() => {
     document.removeEventListener('visibilitychange', setWakeLock);
 })
-
 
 const gameStore = useGameStore()
 
@@ -1337,7 +1338,6 @@ onUnmounted(() => {
     border-bottom-color: transparent;
     border-right-color: transparent;
 }
-
 
 
 .player-selecter {

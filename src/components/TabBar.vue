@@ -47,14 +47,12 @@ const handleTouchEnd = (e: TouchEvent) => {
   if (endX - startX > threshold) {
     index = index > 0 ? index - 1 : list.value.length - 1;
     if (router.currentRoute.value.path === '/game') {
-      console.log('game');
       index = 0;
       router.push({ name: 'setup' })
     }
   } else if (startX - endX > threshold) {
     index = index < list.value.length - 1 ? index + 1 : 0;
     if (router.currentRoute.value.path === '/game') {
-      console.log('game');
       index = 0;
       router.push({ name: 'setup' })
     }
