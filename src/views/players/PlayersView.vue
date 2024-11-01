@@ -28,6 +28,11 @@ const newName = ref('')
 
 const onAddPlayerConfirm = () => {
 
+    if (newName.value === '') {
+        Toast.error('用户名不能为空！')
+        return
+    }
+
     if (gameStore.playerListMap.has(newName.value)) {
         Toast.error('用户已存在！')
         return
