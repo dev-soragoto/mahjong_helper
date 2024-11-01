@@ -1325,7 +1325,6 @@ const onCancel = () => {
 };
 
 const onClose = () => {
-    console.log('dialog: close');
 };
 
 const eventHandler = (event: Event) => {

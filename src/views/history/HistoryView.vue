@@ -82,7 +82,6 @@ const showHeader = ref(true);
 
 
 const handleRowClick = (e: any) => {
-    console.log('row-cliek=====', e);
 };
 
 const handleDelete = (index: number) => {
