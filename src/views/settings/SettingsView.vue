@@ -36,9 +36,9 @@
         </template>
     </t-cell>
 
-    <t-cell title="小提示" description="玩家和历史界面可以左滑编辑/删除，所有界面都可以左右滑切换目录。" />
+    <t-cell title="小提示" description="玩家和历史界面可以左滑编辑/删除，所有界面都可以左右滑切换目录。所有设置以及对局记录都保存在本地，不会被云端记录" />
 
-    <t-cell title="前往github仓库"  description="听话，让我看看！" @click="openGithub" />
+    <t-cell title="前往github仓库"  description="代码一点也不优雅，但是能用。" @click="openGithub" />
 
     <t-cell title="开发者们">
         <div class="contributors">
