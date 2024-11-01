@@ -35,13 +35,28 @@
                 @change="(val: boolean) => onChange('negativeRiichi', val)"></t-switch>
         </template>
     </t-cell>
+
+    <t-cell title="小提示" description="玩家和历史界面可以左滑编辑/删除，所有界面都可以左右滑切换目录。" />
+
+    <t-cell title="前往github仓库"  description="听话，让我看看！" @click="openGithub" />
+
+    <t-cell title="开发者们">
+        <div class="contributors">
+            <div v-for="contributor in contributors" :key="contributor.id" class="contributor">
+                <a :href="contributor.html_url" target="_blank">
+                    <img :src="contributor.avatar_url" :alt="contributor.login" class="avatar" />
+                </a>
+            </div>
+        </div>
+    </t-cell>
+
     <div style="height: var(--td-tab-bar-height);"></div>
 </template>
 
 <script lang="ts" setup>
-import { useGameStore, saveConfig } from '@/stores/storage';
+import { saveConfig, useGameStore } from '@/stores/storage';
 import { Toast } from 'tdesign-mobile-vue';
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 
 const gameStore = useGameStore()
 
@@ -124,6 +139,50 @@ const onChangeReturnPoint = () => {
     saveConfig()
 }
 
+function openGithub() {
+  window.open('https://github.com/dev-soragoto/mahjong_helper', '_blank');
+}
+
+
+const contributors = reactive<any[]>([]);
+
+onMounted(() => {
+    getContributors()
+})
+
+async function getContributors() {
+    try {
+        const response = await fetch('https://api.github.com/repos/dev-soragoto/mahjong_helper/contributors');
+        if (!response.ok) {
+            throw new Error('网络响应错误');
+        }
+        const data = await response.json();
+        contributors.push(...data);
+    } catch (error) {
+        console.error('获取贡献者列表失败:', error);
+    }
+}
+
 
 
 </script>
+
+
+<style>
+.contributors {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.contributor {
+    margin: 1px;
+    text-align: center;
+}
+
+.avatar {
+    margin-left: 5px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+</style>
