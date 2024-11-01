@@ -1,6 +1,6 @@
 <template>
-  <t-tab-bar v-model="value" theme="tag" :split="false" :fixed="true">
-    <t-tab-bar-item v-for="item in list" :key="item.value" :value="item.value">
+  <t-tab-bar v-model="currentPath" theme="tag" :split="false" :fixed="true">
+    <t-tab-bar-item v-for="item in routeList" :key="item.value" :value="item.value">
       {{ item.label }}
       <template #icon>
         <t-icon :name="item.icon" />
@@ -11,13 +11,13 @@
 
 <script setup lang="ts">
 
-import { onMounted, onUnmounted, ref, watch } from 'vue';
-import { Icon as TIcon } from 'tdesign-icons-vue-next';
 import router from '@/router';
+import { Icon as TIcon } from 'tdesign-icons-vue-next';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 
-const value = ref('setup');
+const currentPath = ref('setup');
 
-const list = ref([
+const routeList = ref([
   { value: 'setup', label: '开始', icon: 'play' },
   { value: 'players', label: '玩家', icon: 'usergroup' },
   { value: 'history', label: '历史', icon: 'history' },
@@ -25,12 +25,22 @@ const list = ref([
 ]);
 
 watch(
-  () => value.value,
+  () => currentPath.value,
   (newValue) => {
     router.push({ name: newValue });
   },
 );
 
+watch(
+  () => router.currentRoute.value.name?.toString(),
+  (newValue) => {
+    if (routeList.value.find(item => item.value === newValue) === undefined) {
+      currentPath.value = 'setup';
+    } else {
+      currentPath.value = newValue ?? 'setup';
+    }
+  },
+);
 
 let startX = 0;
 let endX = 0;
@@ -43,21 +53,21 @@ const handleTouchStart = (e: TouchEvent) => {
 
 const handleTouchEnd = (e: TouchEvent) => {
   endX = e.changedTouches[0].clientX;
-  let index = list.value.findIndex(item => item.value === value.value);
+  let index = routeList.value.findIndex(item => item.value === currentPath.value);
   if (endX - startX > threshold) {
-    index = index > 0 ? index - 1 : list.value.length - 1;
+    index = index > 0 ? index - 1 : routeList.value.length - 1;
     if (router.currentRoute.value.path === '/game') {
       index = 0;
       router.push({ name: 'setup' })
     }
   } else if (startX - endX > threshold) {
-    index = index < list.value.length - 1 ? index + 1 : 0;
+    index = index < routeList.value.length - 1 ? index + 1 : 0;
     if (router.currentRoute.value.path === '/game') {
       index = 0;
       router.push({ name: 'setup' })
     }
   }
-  value.value = list.value[index].value;
+  currentPath.value = routeList.value[index].value;
 };
 
 onMounted(() => {
