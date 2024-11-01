@@ -67,12 +67,76 @@
 
     </div>
 
-    <t-dialog v-model:visible="winState.tsumo">
-        <t-picker v-model="winState.fanfu" :columns="fanfuList" @change="onTsumoChange" @cancel="onTsumoCancel" />
+    <!-- <t-dialog v-model:visible="winState.tsumo">
+        <t-picker v-model="winState.fanfu" :columns="fanfuList" @change="onTsumoConfirm" @cancel="onTsumoCancel" />
         <t-cell title="选择自摸玩家" borderless></t-cell>
         <t-radio-group v-model:value="winState.winner" @change="onTsumoRadioGroupChange">
             <t-radio v-for="playerName of gameStore.seatList" name="winner" :value="playerName" :label="playerName" />
         </t-radio-group>
+    </t-dialog> -->
+
+    <t-dialog style="--td-dialog-width: 90dvw; font-size: 14px;" v-model:visible="winState.tsumo" confirm-btn="确定"
+        cancel-btn="取消" @confirm="onTsumoConfirm">
+
+        <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px" visible
+            content="选择番数" :prefix-icon="false" />
+
+        <div style="padding-top: 8px; padding-bottom: 8px;">
+            <t-radio-group class="score" :value="winState.fanfutsumo.fan"
+                @change="(value: string) => onFantsumoChange(value)">
+                <view v-for="fan in fanfuList[0]"
+                    :class="`card ${winState.fanfutsumo.fan == fan.value ? 'card--active' : ''}`">
+                    <t-radio :value="fan.value" icon="none">
+                        <div
+                            style="display: flex;align-content: space-around;justify-content: center;flex-direction: row; align-items: flex-end;">
+                            {{ fan.label }}
+                            <div style="width: 8px; height: 25px;">
+                            </div>
+                        </div>
+                    </t-radio>
+                </view>
+            </t-radio-group>
+        </div>
+
+        <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px" visible
+            content="选择符数" :prefix-icon="false" />
+
+        <div style="padding-top: 8px; padding-bottom: 8px;">
+            <t-radio-group class="score" :value="winState.fanfutsumo.fu"
+                @change="(value: string) => onFutsumoChange(value)">
+                <view v-for="fu in fanfuList[1]"
+                    :class="`card ${winState.fanfutsumo.fu == fu.value ? 'card--active' : ''}`">
+                    <t-radio :value="fu.value" icon="none">
+                        <div
+                            style="display: flex;align-content: space-around;justify-content: center;flex-direction: row; align-items: flex-end;">
+                            {{ fu.label }}
+                            <div style="width: 8px; height: 25px;">
+                            </div>
+                        </div>
+                    </t-radio>
+                </view>
+            </t-radio-group>
+        </div>
+
+
+        <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px" visible
+            content="选择自摸玩家" :prefix-icon="false" />
+
+        <div style="padding-top: 8px;">
+            <t-radio-group class="player-selecter" v-model:value="winState.winner" @change="onTsumoRadioGroupChange">
+                <view v-for="playerName of gameStore.seatList"
+                    :class="`card ${winState.winner == playerName ? 'card--active' : ''}`">
+                    <t-radio :value="playerName" icon="none">
+                        <div
+                            style="display: flex;align-content: space-around;justify-content: center;flex-direction: row; align-items: flex-end;">
+                            {{ playerName }}
+                            <div style="width: 8px; height: 25px;">
+                            </div>
+                        </div>
+                    </t-radio>
+                </view>
+            </t-radio-group>
+        </div>
     </t-dialog>
 
 
@@ -423,7 +487,7 @@ const ronWinnerFlag = reactive([false, false, false, false])
 
 // 和了，流局
 interface WinState {
-    fanfu: string[],
+    fanfutsumo: { fan: string, fu: string },
     fanfuRon: { fan: string, fu: string }[],
     winners: string[],
     winner: string,
@@ -438,7 +502,7 @@ interface WinState {
 }
 
 const winState: WinState = reactive({
-    fanfu: [],
+    fanfutsumo: { fan: '一番', fu: '30符' },
     fanfuRon: [],
     winners: [],
     winner: '',
@@ -553,7 +617,7 @@ onMounted(() => {
 })
 
 function resetwinState() {
-    winState.fanfu = []
+    winState.fanfutsumo = { fan: '一番', fu: '30符' }
     winState.fanfuRon = []
     for (let i = 0; i < 4; i++) {
         winState.fanfuRon.push({ fan: '一番', fu: '30符' })
@@ -859,7 +923,8 @@ const onTsumoRadioGroupChange = () => {
 
 }
 
-const onTsumoChange = () => {
+const onTsumoConfirm = () => {
+
     if (winState.winner === '') {
         Toast.error('未选择自摸玩家！')
         return
@@ -868,8 +933,8 @@ const onTsumoChange = () => {
     setRevokeState()
 
     var winPlayer = gameStore.getPlayer(winState.winner)
-    var winFan = fanList.indexOf(winState.fanfu[0]) + 1
-    var winFu = fuList[fuListStr.indexOf(winState.fanfu[1])]
+    var winFan = fanList.indexOf(winState.fanfutsumo.fan) + 1
+    var winFu = fuList[fuListStr.indexOf(winState.fanfutsumo.fu)]
     var a = calculateA(winFan, winFu)
 
     var riichibous = 0
@@ -964,6 +1029,15 @@ const onFanRonChange = (value: string, index: number) => {
 
 const onFuRonChange = (value: string, index: number) => {
     winState.fanfuRon[index].fu = value
+}
+
+
+const onFantsumoChange = (value: string) => {
+    winState.fanfutsumo.fan = value
+}
+
+const onFutsumoChange = (value: string) => {
+    winState.fanfutsumo.fu = value
 }
 
 const onRonConfirm = () => {
