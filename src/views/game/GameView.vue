@@ -1269,7 +1269,7 @@ const onRyuukyokuConfirm = () => {
             }
             else {
                 player.point += 1500
-                pointChangeList[i] -= 1500
+                pointChangeList[i] += 1500
             }
             gameStore.setPlayer(player.name, player)
         }
@@ -1283,7 +1283,7 @@ const onRyuukyokuConfirm = () => {
             }
             else {
                 player.point += 3000
-                pointChangeList[i] -= 3000
+                pointChangeList[i] += 3000
             }
             gameStore.setPlayer(player.name, player)
         }
