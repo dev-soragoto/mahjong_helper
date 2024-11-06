@@ -945,8 +945,6 @@ function pointChange() {
         }
     }
 
-    console.log(pointChangeList)
-    console.log(pointChangeFlag)
     setTimeout(() => {
         for (let i = 0; i < 4; i++) {
             pointChangeFlag[i] = false
