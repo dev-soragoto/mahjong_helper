@@ -12,11 +12,18 @@
 
         <div style="position: absolute; margin: auto; left: 0; right: 0; bottom: 2dvmin;
               background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
-              width: 40dvmin; height: 25dvmin;">
+              width: 80dvmin; height: 25dvmin;">
             <t-button class="riichi" style="margin-bottom: -2dvmin"
                 :theme="gameStore.getSeat(0).riichi ? 'primary' : 'light'" @click="onRiichi(0)">立直</t-button>
             <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).seat }} {{
-                gameStore.getSeat(0).point }}</strong></p>
+                gameStore.getSeat(0).point }}</strong>
+                <div class="text" style="position: absolute; margin: auto; left: 63dvmin; right: 0; background-color: transparent; 
+                display: flex; flex-direction: row; flex: 0 1 auto;">
+                    <Transition name="slide-fade">
+                        <a :style="[pointPositiveFlag[0] ? pointPositiveStyle : pointNegativeStyle]" v-if="pointChangeFlag[0]">{{ pointChangeListStr[0] }}</a>
+                    </Transition>
+                </div>
+            </p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).name }}</strong></p>
         </div>
 
@@ -26,7 +33,14 @@
             <t-button class="riichi" style="margin-bottom: -2dvmin"
                 :theme="gameStore.getSeat(2).riichi ? 'primary' : 'light'" @click="onRiichi(2)">立直</t-button>
             <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).seat }} {{
-                gameStore.getSeat(2).point }}</strong></p>
+                gameStore.getSeat(2).point }}</strong>
+                <div class="text" style="position: absolute; margin: auto; left: 43dvmin; right: 0; background-color: transparent; 
+                display: flex; flex-direction: row; flex: 0 1 auto;">
+                    <Transition name="slide-fade">
+                        <a :style="[pointPositiveFlag[2] ? pointPositiveStyle : pointNegativeStyle]" v-if="pointChangeFlag[2]">{{ pointChangeListStr[2] }}</a>
+                    </Transition>   
+                </div> 
+            </p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).name }}</strong></p>
         </div>
 
@@ -37,7 +51,14 @@
             <t-button class="riichi" style="margin-bottom: -2dvmin"
                 :theme="gameStore.getSeat(1).riichi ? 'primary' : 'light'" @click="onRiichi(1)">立直</t-button>
             <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).seat }} {{
-                gameStore.getSeat(1).point }}</strong></p>
+                gameStore.getSeat(1).point }}</strong>
+                <div class="text" style="position: absolute; margin: auto; left: 43dvmin; right: 0; background-color: transparent; 
+                display: flex; flex-direction: row; flex: 0 1 auto;">
+                    <Transition name="slide-fade">
+                        <a :style="[pointPositiveFlag[1] ? pointPositiveStyle : pointNegativeStyle]" v-if="pointChangeFlag[1]">{{ pointChangeListStr[1] }}</a>
+                    </Transition>    
+                </div>
+            </p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).name }}</strong></p>
         </div>
 
@@ -48,7 +69,14 @@
             <t-button class="riichi" style="margin-bottom: -2dvmin"
                 :theme="gameStore.getSeat(3).riichi ? 'primary' : 'light'" @click="onRiichi(3)">立直</t-button>
             <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).seat }} {{
-                gameStore.getSeat(3).point }}</strong></p>
+                gameStore.getSeat(3).point }}</strong>
+                <div class="text" style="position: absolute; margin: auto; left: 43dvmin; right: 0; background-color: transparent; 
+                display: flex; flex-direction: row; flex: 0 1 auto;">
+                    <Transition name="slide-fade">
+                        <a :style="[pointPositiveFlag[3] ? pointPositiveStyle : pointNegativeStyle]" v-if="pointChangeFlag[3]">{{ pointChangeListStr[3] }}</a>
+                    </Transition>    
+                </div>
+            </p>
             <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).name }}</strong></p>
         </div>
 
@@ -484,6 +512,20 @@ const honba = ref<number>(0)
 const kyoutaku = ref<number>(0)
 let endingFlag = false
 const ronWinnerFlag = reactive([false, false, false, false])
+const pointChangeFlag = reactive([false, false, false, false])
+const pointPositiveFlag = reactive([false, false, false, false])
+const pointChangeList = reactive([0, 0, 0, 0])
+const pointChangeListStr = reactive(['0', '0', '0', '0'])
+
+const pointPositiveStyle = reactive({
+  color: 'green',
+  fontSize: '4dvmin'
+})
+
+const pointNegativeStyle = reactive({
+  color: 'red',
+  fontSize: '4dvmin'
+})
 
 // 和了，流局
 interface WinState {
@@ -889,6 +931,37 @@ function calculateA(fan: number, fu: number): number {
     return a
 }
 
+function pointChange() {
+    for (let i = 0; i < 4; i++) {
+        if (pointChangeList[i] != 0) {
+            pointChangeFlag[i] = true
+            if (pointChangeList[i] > 0) {
+                pointChangeListStr[i] = '+' + (String)(pointChangeList[i])
+                pointPositiveFlag[i] = true
+            }
+            else {
+                pointChangeListStr[i] = (String)(pointChangeList[i])
+            }
+        }
+    }
+
+    console.log(pointChangeList)
+    console.log(pointChangeFlag)
+    setTimeout(() => {
+        for (let i = 0; i < 4; i++) {
+            pointChangeFlag[i] = false
+        }
+    }, 3000);
+}
+
+function resetPointChange() {
+    for (let i = 0; i < 4; i++) {
+        pointChangeList[i] = 0
+        pointChangeListStr[i] = '0'
+        pointPositiveFlag[i] = false
+    }
+}
+
 // 保存终局结果，返回setup页面
 const onFinalConfirm = () => {
     let result: HistoryData = {
@@ -924,7 +997,7 @@ const onTsumoRadioGroupChange = () => {
 }
 
 const onTsumoConfirm = () => {
-
+    resetPointChange()
     if (winState.winner === '') {
         Toast.error('未选择自摸玩家！')
         return
@@ -947,13 +1020,16 @@ const onTsumoConfirm = () => {
                 continue
             }
             player.point -= payPoint[0]
+            pointChangeList[i] -= payPoint[0]
             if (player.riichi) {
                 riichibous++
                 player.point -= 1000
+                pointChangeList[i] -= 1000
             }
             gameStore.setPlayer(player.name, player)
         }
         winPlayer.point += 3 * payPoint[0] + kyoutaku.value * 1000 + riichibous * 1000
+        pointChangeList[gameStore.seatList.indexOf(winPlayer.name)] += 3 * payPoint[0] + kyoutaku.value * 1000 + riichibous * 1000
         winPlayer.riichi = false
         gameStore.setPlayer(winPlayer.name, winPlayer)
     }
@@ -966,18 +1042,22 @@ const onTsumoConfirm = () => {
             }
             if (player.seat === '东') {
                 player.point -= payPoint[1]
+                pointChangeList[i] -= payPoint[1]
             }
             else {
                 player.point -= payPoint[0]
+                pointChangeList[i] -= payPoint[0]
             }
             if (player.riichi) {
                 riichibous++
                 player.point -= 1000
+                pointChangeList[i] -= 1000
             }
             gameStore.setPlayer(player.name, player)
         }
 
         winPlayer.point += 2 * payPoint[0] + payPoint[1] + kyoutaku.value * 1000 + riichibous * 1000
+        pointChangeList[gameStore.seatList.indexOf(winPlayer.name)] += 2 * payPoint[0] + payPoint[1] + kyoutaku.value * 1000 + riichibous * 1000
         gameStore.setPlayer(winPlayer.name, winPlayer)
     }
 
@@ -989,6 +1069,7 @@ const onTsumoConfirm = () => {
     goNextKyoku()
     setEditState()
     winState.tsumo = false
+    pointChange()
 }
 
 const onTsumoCancel = () => {
@@ -1041,6 +1122,7 @@ const onFutsumoChange = (value: string) => {
 }
 
 const onRonConfirm = () => {
+    resetPointChange()
     if (winState.winners.length < 1) {
         Toast.error('未选择和了玩家！')
         return
@@ -1076,14 +1158,18 @@ const onRonConfirm = () => {
             winState.oyaWinFlag = true
             var payPoint: number = Math.ceil(6 * a / 100) * 100
             winPlayers[i].point += payPoint
+            pointChangeList[gameStore.seatList.indexOf(winPlayers[i].name)] += payPoint
             winPlayers[i].riichi = false
             losePlayer.point -= payPoint
+            pointChangeList[gameStore.seatList.indexOf(losePlayer.name)] -= payPoint
         }
         else {
             var payPoint: number = Math.ceil(4 * a / 100) * 100
             winPlayers[i].point += payPoint
+            pointChangeList[gameStore.seatList.indexOf(winPlayers[i].name)] += payPoint
             winPlayers[i].riichi = false
             losePlayer.point -= payPoint
+            pointChangeList[gameStore.seatList.indexOf(losePlayer.name)] -= payPoint
         }
         if (i == 0) {
             for (var j = 0; j < 4; j++) {
@@ -1094,12 +1180,17 @@ const onRonConfirm = () => {
                 if (player.riichi) {
                     player.riichi = false
                     player.point -= 1000
+                    pointChangeList[i] -= 1000
                     winPlayers[i].point += 1000
+                    pointChangeList[gameStore.seatList.indexOf(winPlayers[i].name)] += 1000
                 }
                 gameStore.setPlayer(player.name, player)
             }
 
             winPlayers[i].point += honba.value * 300 + kyoutaku.value * 1000
+            pointChangeList[gameStore.seatList.indexOf(winPlayers[i].name)] += honba.value * 300 + kyoutaku.value * 1000
+            losePlayer.point -= honba.value * 300
+            pointChangeList[gameStore.seatList.indexOf(losePlayer.name)] -= honba.value * 300
         }
 
         gameStore.setPlayer(winPlayers[i].name, winPlayers[i])
@@ -1115,6 +1206,7 @@ const onRonConfirm = () => {
     setEditState()
     resetwinState()
     winState.ron = false
+    pointChange()
 }
 
 const onRonCancel = () => {
@@ -1137,6 +1229,7 @@ const onRyuukyokuCheckboxGroupChange = () => {
 }
 
 const onRyuukyokuConfirm = () => {
+    resetPointChange()
     setRevokeState()
 
     var winPlayers: Array<object> = []
@@ -1145,6 +1238,7 @@ const onRyuukyokuConfirm = () => {
         winPlayers.push(winPlayer)
         if (winPlayer.riichi) {
             winPlayer.point -= 1000
+            pointChangeList[gameStore.seatList.indexOf(winPlayerName)] -= 1000
             gameStore.setPlayer(winPlayer.name, winPlayer)
         }
         if (winPlayer.seat === '东') {
@@ -1157,9 +1251,11 @@ const onRyuukyokuConfirm = () => {
             let player = gameStore.getSeat(i)
             if (winState.winners.indexOf(player.name) < 0) {
                 player.point -= 3000
+                pointChangeList[i] -= 3000
             }
             else {
                 player.point += 1000
+                pointChangeList[i] += 1000
             }
             gameStore.setPlayer(player.name, player)
         }
@@ -1169,9 +1265,11 @@ const onRyuukyokuConfirm = () => {
             let player = gameStore.getSeat(i)
             if (winState.winners.indexOf(player.name) < 0) {
                 player.point -= 1500
+                pointChangeList[i] -= 1500
             }
             else {
                 player.point += 1500
+                pointChangeList[i] -= 1500
             }
             gameStore.setPlayer(player.name, player)
         }
@@ -1181,9 +1279,11 @@ const onRyuukyokuConfirm = () => {
             let player = gameStore.getSeat(i)
             if (winState.winners.indexOf(player.name) < 0) {
                 player.point -= 1000
+                pointChangeList[i] -= 1000
             }
             else {
                 player.point += 3000
+                pointChangeList[i] -= 3000
             }
             gameStore.setPlayer(player.name, player)
         }
@@ -1197,6 +1297,7 @@ const onRyuukyokuConfirm = () => {
     goNextKyoku()
     setEditState()
     winState.ryuukyoku = false
+    pointChange()
 }
 
 const onRyuukyokuCancel = () => {
@@ -1452,4 +1553,20 @@ onUnmounted(() => {
     border-bottom-color: transparent;
     border-right-color: transparent;
 }
+
+.slide-fade-enter-active {
+  transition: all 0s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 1.5s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
 </style>
+
