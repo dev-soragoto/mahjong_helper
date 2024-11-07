@@ -418,29 +418,35 @@
             @cancel="onEditCancel" />
         <t-row>
             <t-col span="12">
-                <a>本场: </a>
+                <div style="margin: auto; text-align: right">
+                    <p><b>本场: </b></p>
+                </div>
             </t-col>
             <t-col span="12">
                 <t-input v-model:value="editState.honba" type="number" class="dialog-input" clearable slot="content"
-                    placeholder="输入本场" placeholder-class="placeholder" />
+                    placeholder="输入本场" placeholder-class="placeholder" borderless />
             </t-col>
         </t-row>
         <t-row>
             <t-col span="12">
-                <a>供托(x1000): </a>
+                <div style="margin: auto; text-align: right;">
+                <p><b>供托(x1000): </b></p>
+                </div>
             </t-col>
             <t-col span="12">
                 <t-input v-model:value="editState.kyoutaku" type="number" class="dialog-input" clearable slot="content"
-                    placeholder="输入供托数" placeholder-class="placeholder" />
+                    placeholder="输入供托数" placeholder-class="placeholder" borderless />
             </t-col>
         </t-row>
         <t-row v-for="(playerName, index) of gameStore.seatList" :key="index">
             <t-col span="12">
-                <a>{{ playerName }}: </a>
+                <div style="margin: auto; text-align: right;">
+                <p><b>{{ playerName }}: </b></p>
+                </div>
             </t-col>
             <t-col span="12">
                 <t-input v-model:value="editState.pointList[index]" type="number" class="dialog-input" clearable
-                    slot="content" placeholder="输入点数" placeholder-class="placeholder" />
+                    slot="content" placeholder="输入点数" placeholder-class="placeholder" borderless />
             </t-col>
         </t-row>
     </t-dialog>
