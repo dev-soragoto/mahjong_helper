@@ -25,5 +25,11 @@ watch(() => router.currentRoute.value.path, (newValue) => {
   --td-button-large-height: 60px;
   --td-tab-bar-height: 40px;
   --td-dialog-body-max-height: 70vh;
+  --td-navbar-height: 48px;
+  --td-bg-color-page: #eee;
+}
+
+body {
+  background-color: var(--td-bg-color-page);
 }
 </style>

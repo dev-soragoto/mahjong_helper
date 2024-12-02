@@ -1,10 +1,28 @@
 <template>
-    <t-cell-group>
+    <t-navbar title="对局设置" :fixed="true"/>
+    <div style="height: var(--td-navbar-height);"></div>
+    <t-row>
+        <t-col span="16">
+            <h2>对局选手</h2>
+        </t-col>
+        <t-col span="8">
+        <!-- TODO 三四麻切换
+            <t-switch id="three-person-switch" v-model="currentMatchStore.threePerson" inactive-color="#faab0c">
+                <template #node>
+                    <div>
+                      {{currentMatchStore.threePerson ? "三" : "四"}}
+                    </div>
+                </template>
+            </t-switch>
+        -->
+        </t-col>
+    </t-row>
+    <t-cell-group theme="card">
         <t-cell v-for="(state, index) in playerState" :key="index" arrow :title="titles[index]"
             :note="state.player.join('')" @click="state.show = true" />
 
         <t-popup v-for="(state, index) in playerState" :key="index" v-model="state.show" placement="bottom">
-            <t-picker v-model="state.player" :columns="players"
+            <t-picker v-model="state.player" :columns="players" :title="titles[index]"
                 @change="(selectedPlayer: string[]) => onChange(selectedPlayer, index)" @confirm="onConfirm"
                 @cancel="onCancel" />
         </t-popup>
@@ -25,7 +43,6 @@
             </t-radio-group>
         </t-cell>
     </t-cell-group>
-
     <div style="height: var(--td-tab-bar-height);"></div>
     <t-fab :icon="iconFunc" @click="onClick" :style="fabStyle" />
 </template>
@@ -135,7 +152,12 @@ const onClick = () => {
 </script>
 
 <style>
-.no-hover {
-    background-color: #fff !important;
+h2 {
+  color: var(--td-text-color-primary);
+  margin: 16px 32px 16px 32px;
+}
+.t-navbar {
+    z-index: 9999;
+    --td-navbar-height: var(--td-navbar-height);
 }
 </style>
