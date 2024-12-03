@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "postinstall": "patch-package",
     "dev": "vite --host",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
@@ -17,6 +18,7 @@
     "tdesign-icons-vue-next": "^0.2.6",
     "tdesign-mobile-vue": "^1.5.0",
     "vue": "^3.4.29",
+    "vue-i18n": "^10.x.x",
     "vue-resource": "^1.5.3",
     "vue-router": "^4.4.5"
   },
@@ -27,6 +29,7 @@
     "@vitejs/plugin-vue-jsx": "^4.0.0",
     "@vue/tsconfig": "^0.5.1",
     "npm-run-all2": "^6.2.0",
+    "patch-package": "^8.0.0",
     "typescript": "~5.4.0",
     "unplugin-auto-import": "^0.17.6",
     "unplugin-vue-components": "^0.27.0",
