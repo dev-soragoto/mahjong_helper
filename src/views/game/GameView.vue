@@ -739,7 +739,7 @@ function goNextKyoku() {
         currentKyoku.value++
         for (var i = 0; i < 4; i++) {
             var player = gameStore.getSeat(i)
-            player.seat = kazeList[(i + 4 - gameStore.startSeat + 12 - currentKyoku.value) % 4]
+            player.seat = kazeList[(i + 4 - gameStore.startSeat + 16 - currentKyoku.value) % 4]
             gameStore.setPlayer(player.name, player)
         }
     }
@@ -1357,7 +1357,7 @@ const onEditChange = () => {
 
     for (var i = 0; i < 4; i++) {
         var player = gameStore.getSeat(i)
-        player.seat = kazeList[(i + 4 - gameStore.startSeat + 12 - currentKyoku.value) % 4]
+        player.seat = kazeList[(i + 4 - gameStore.startSeat + 16 - currentKyoku.value) % 4]
         gameStore.setPlayer(player.name, player)
     }
 
@@ -1389,7 +1389,7 @@ const onRevokeConfirm = () => {
 
     for (var i = 0; i < 4; i++) {
         var player = gameStore.getSeat(i)
-        player.seat = kazeList[(i + 4 - gameStore.startSeat + 12 - currentKyoku.value) % 4]
+        player.seat = kazeList[(i + 4 - gameStore.startSeat + 16 - currentKyoku.value) % 4]
         gameStore.setPlayer(player.name, player)
     }
 
