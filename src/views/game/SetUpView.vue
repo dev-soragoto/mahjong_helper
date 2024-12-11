@@ -1,9 +1,9 @@
 <template>
-    <t-navbar title="对局设置" :fixed="true"/>
+    <t-navbar :title="$t('message.matchSetting')" :fixed="true"/>
     <div style="height: var(--td-navbar-height);"></div>
     <t-row>
         <t-col span="16">
-            <h2>对局选手</h2>
+            <h2>{{ $t('message.matchPlayer') }}</h2>
         </t-col>
         <t-col span="8">
         <!-- TODO 三四麻切换
@@ -18,28 +18,28 @@
         </t-col>
     </t-row>
     <t-cell-group theme="card">
-        <t-cell v-for="(state, index) in playerState" :key="index" arrow :title="titles[index]"
+        <t-cell v-for="(state, index) in playerState" :key="index" arrow :title="$t(titles[index])"
             :note="state.player.join('')" @click="state.show = true" />
 
         <t-popup v-for="(state, index) in playerState" :key="index" v-model="state.show" placement="bottom">
-            <t-picker v-model="state.player" :columns="players" :title="titles[index]"
+            <t-picker v-model="state.player" :columns="players" :title="$t(titles[index])"
                 @change="(selectedPlayer: string[]) => onChange(selectedPlayer, index)" @confirm="onConfirm"
                 @cancel="onCancel" />
         </t-popup>
 
-        <t-cell title="局数" class="no-hover">
+        <t-cell :title="$t('message.winds')">
             <t-radio-group class="box" :default-value="gameStore.gameType" borderless @change="roundChange">
-                <t-radio :block="false" name="round" value="eastWind" label="东风战" />
-                <t-radio :block="false" name="round" value="halfGame" label="半庄战" />
+                <t-radio :block="false" name="round" value="eastWind" :label="$t('message.tong')" />
+                <t-radio :block="false" name="round" value="halfGame" :label="$t('message.half')" />
             </t-radio-group>
         </t-cell>
 
-        <t-cell title="起家" class="no-hover">
+        <t-cell :title="$t('message.firstDealer')">
             <t-radio-group class="box" :default-value="seats[gameStore.startSeat]" borderless @change="startSeatChange">
-                <t-radio :block="false" name="startSeat" :value="seats[0]" label="自家" />
-                <t-radio :block="false" name="startSeat" :value="seats[1]" label="下家" />
-                <t-radio :block="false" name="startSeat" :value="seats[2]" label="对家" />
-                <t-radio :block="false" name="startSeat" :value="seats[3]" label="上家" />
+                <t-radio :block="false" name="startSeat" :value="seats[0]" :label="$t('message.self')" />
+                <t-radio :block="false" name="startSeat" :value="seats[1]" :label="$t('message.right')" />
+                <t-radio :block="false" name="startSeat" :value="seats[2]" :label="$t('message.across')" />
+                <t-radio :block="false" name="startSeat" :value="seats[3]" :label="$t('message.left')" />
             </t-radio-group>
         </t-cell>
     </t-cell-group>
@@ -54,12 +54,15 @@ import { PlayIcon } from 'tdesign-icons-vue-next';
 import { Toast } from 'tdesign-mobile-vue';
 import type { PickerValue } from 'tdesign-mobile-vue/es/picker/type';
 import { h, onMounted, reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const iconFunc = () => h(PlayIcon, { size: '30px' });
 const fabStyle = "bottom: 80px; right: 5dvw"
 
 const gameStore = useGameStore()
-const titles = ['自家', '下家', '对家', '上家'];
+const titles = ['message.self', 'message.right', 'message.across', 'message.left'];
 const seats = ['self', 'next', 'across', 'previous']
 
 const players = ref<{ label: string, value: string }[][]>([]);
@@ -137,7 +140,7 @@ const startSeatChange = (value: any, context: { e: Event }) => {
 const onClick = () => {
     for (const player of playerState as { player: Array<string> }[]) {
         if (player.player.join('') === '') {
-            Toast.error('有玩家未选择座位！');
+            Toast.error(t('message.playerNotChooseSeat'));
             return;
         }
     }
@@ -154,7 +157,7 @@ const onClick = () => {
 <style>
 h2 {
   color: var(--td-text-color-primary);
-  margin: 16px 32px 16px 32px;
+  margin: 16px 32px 0px 32px;
 }
 .t-navbar {
     z-index: 9999;

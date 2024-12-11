@@ -3,7 +3,7 @@
         <t-swipe-cell v-for="i in historyDataList.length" :key="i - 1" :value="i - 1" :right="cellEvent(i - 1)"
             @touchstart.stop @touchend.stop>
             <t-collapse-panel :value="i - 1" :header="timeList[i - 1]"
-                :header-right-content="columns[i - 1][0].title + ' 获胜'">
+                :header-right-content="columns[i - 1][0].title + ' ' + $t('message.wins')">
                 <div class="content">
                     <t-table row-key="index" :data="data[i - 1]" :columns="columns[i - 1]" :show-header="showHeader"
                         cell-empty-content="-" @row-click="handleRowClick">
@@ -23,6 +23,9 @@ import { DeleteIcon } from 'tdesign-icons-vue-next';
 import { Toast } from 'tdesign-mobile-vue';
 import { readHistory, setHistory } from '@/stores/storage';
 import type { HistoryData } from '@/stores/storage';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const values = ref([0]);
 const handleChange = (val: number[]) => {
@@ -89,7 +92,7 @@ const handleDelete = (index: number) => {
     setHistory(historyDataList)
     loadData()
 
-    Toast.success(`删除成功`);
+    Toast.success(t('message.deleteSuccess'));
 };
 
 
@@ -98,7 +101,7 @@ const delIcon = h(DeleteIcon, { size: '20px' });
 const cellEvent = (index: number) => {
     return reactive(
         [
-            { text: '删除', icon: delIcon, className: 'delete-btn', onClick: () => handleDelete(index) },
+            { text: t('message.delete'), icon: delIcon, className: 'delete-btn', onClick: () => handleDelete(index) },
         ]
     )
 }

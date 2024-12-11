@@ -2,8 +2,8 @@
     <UserCell />
     <t-fab :icon="iconFunc" @click="onClick" :style="fabStyle" />
 
-    <t-dialog v-model:visible="visible" title="设置玩家名称" confirm-btn="确定" cancel-btn="取消" @confirm="onAddPlayerConfirm()">
-        <t-input v-model:value="newName" borderless class="dialog-input" clearable slot="content" placeholder="输入名称"
+    <t-dialog v-model:visible="visible" :title="$t('message.setPlayerName')" :confirm-btn="$t('message.confirm')" :cancel-btn="$t('message.cancel')" @confirm="onAddPlayerConfirm()">
+        <t-input v-model:value="newName" borderless class="dialog-input" clearable slot="content" :placeholder="$t('message.enterPlayerName')"
             placeholder-class="placeholder" />
     </t-dialog>
 
@@ -17,7 +17,9 @@ import { AddIcon } from 'tdesign-icons-vue-next';
 import { h, ref } from 'vue';
 import UserCell from '../../components/UserCell.vue';
 import { Toast } from 'tdesign-mobile-vue';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const gameStore = useGameStore()
 
 const iconFunc = () => h(AddIcon, { size: '30px' })
@@ -29,12 +31,12 @@ const newName = ref('')
 const onAddPlayerConfirm = () => {
 
     if (newName.value === '') {
-        Toast.error('用户名不能为空！')
+        Toast.error(t('message.playerNameEmpty'))
         return
     }
 
     if (gameStore.playerListMap.has(newName.value)) {
-        Toast.error('用户已存在！')
+        Toast.error(t('message.usernameExisted'))
         return
     }
 

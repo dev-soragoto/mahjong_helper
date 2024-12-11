@@ -1,54 +1,66 @@
 <template>
-    <t-cell title="西入" description="All last结束时,如果四家点数都不到返点,游戏继续">
-        <template #rightIcon>
-            <t-switch :value="checked.continuingIntoWest"
-                @change="(val: boolean) => onChange('continuingIntoWest', val)"></t-switch>
+    <t-cell-group theme="card">
+        <t-cell arrow :title="$t('message.language')" :note="languageState.language.join('')" @click="languageState.show = true" />
+        <t-popup v-model="languageState.show" placement="bottom">
+                    <t-picker 
+                        v-model="languageState.language" 
+                        :columns="()=>{return Object.entries(Language).map(([label, value]) => {return {label:value, value:value}})}"
+                        :title="$t('message.language')"
+                        @confirm="onLanguagePickerConfirm"
+                        @cancel="languageState.show = false" 
+                    />
+                    </t-popup>
+        <t-cell :title="$t('message.enteringWest')" :description="$t('describe.enteringWest')">
+            <template #rightIcon>
+                <t-switch :value="checked.continuingIntoWest"
+                    @change="(val: boolean) => onChange('continuingIntoWest', val)"></t-switch>
+            </template>
+        </t-cell>
+
+        <t-cell :title="$t('message.initialScore')" v-bind:description="startPoint.value" @click="showStartPointInput.on = true" />
+            <template>
+                <t-dialog v-model:visible="showStartPointInput.on" :title="$t('message.setInitialScore')" :confirm-btn="$t('message.confirm')" :cancel-btn="$t('message.cancel')"
+                    @confirm="onChangeStartPoint" bind:cancel="closeDialog">
+                    <t-input v-model="startPointInput" type="number" borderless class="dialog-input" clearable slot="content"
+                        :placeholder="$t('message.enterPoint')" placeholder-class="placeholder" />
+                </t-dialog>
+            </template>
+        <t-cell :title="$t('message.targetScore')" v-bind:description="returnPoint.value" @click="showReturnPointInput.on = true" />
+        <template>
+            <t-dialog v-model:visible="showReturnPointInput.on" :title="$t('message.setTargetScore')" :confirm-btn="$t('message.confirm')" :cancel-btn="$t('message.cancel')"
+                @confirm="onChangeReturnPoint" bind:cancel="closeDialog">
+                <t-input v-model="returnPointInput" type="number" borderless class="dialog-input" clearable slot="content"
+                    :placeholder="$t('message.enterPoint')" placeholder-class="placeholder" />
+            </t-dialog>
         </template>
-    </t-cell>
 
-    <t-cell title="原点" v-bind:description="startPoint.value" @click="showStartPointInput.on = true" />
-    <template>
-        <t-dialog v-model:visible="showStartPointInput.on" title="设置原点" confirm-btn="确定" cancel-btn="取消"
-            @confirm="onChangeStartPoint" bind:cancel="closeDialog">
-            <t-input v-model="startPointInput" type="number" borderless class="dialog-input" clearable slot="content"
-                placeholder="输入点数" placeholder-class="placeholder" />
-        </t-dialog>
-    </template>
-    <t-cell title="返点" v-bind:description="returnPoint.value" @click="showReturnPointInput.on = true" />
-    <template>
-        <t-dialog v-model:visible="showReturnPointInput.on" title="设置返点" confirm-btn="确定" cancel-btn="取消"
-            @confirm="onChangeReturnPoint" bind:cancel="closeDialog">
-            <t-input v-model="returnPointInput" type="number" borderless class="dialog-input" clearable slot="content"
-                placeholder="输入点数" placeholder-class="placeholder" />
-        </t-dialog>
-    </template>
+        <t-cell :title="$t('message.bankruptcy')" :description="$t('describe.bankruptcy')">
+            <template #rightIcon>
+                <t-switch :value="checked.bankruptcy" @change="(val: boolean) => onChange('bankruptcy', val)"></t-switch>
+            </template>
+        </t-cell>
 
-    <t-cell title="击飞" description="一家点数为负游戏结束">
-        <template #rightIcon>
-            <t-switch :value="checked.bankruptcy" @change="(val: boolean) => onChange('bankruptcy', val)"></t-switch>
-        </template>
-    </t-cell>
+        <t-cell :title="$t('message.negativeRiichi')" :description="$t('describe.negativeRiichi')">
+            <template #rightIcon>
+                <t-switch :value="checked.negativeRiichi"
+                    @change="(val: boolean) => onChange('negativeRiichi', val)"></t-switch>
+            </template>
+        </t-cell>
 
-    <t-cell title="负分立直" description="当分数<1000时(即立直后负分)允许立直">
-        <template #rightIcon>
-            <t-switch :value="checked.negativeRiichi"
-                @change="(val: boolean) => onChange('negativeRiichi', val)"></t-switch>
-        </template>
-    </t-cell>
+        <t-cell :title="$t('message.tips')" :description="$t('describe.tips')" />
 
-    <t-cell title="小提示" description="玩家和历史界面可以左滑编辑/删除，所有界面都可以左右滑切换目录。所有设置以及对局记录都保存在本地，不会被云端记录" />
+        <t-cell :title="$t('message.goGithub')"  :description="$t('describe.goGithub')" @click="openGithub" />
 
-    <t-cell title="前往github仓库"  description="代码一点也不优雅，但是能用。" @click="openGithub" />
-
-    <t-cell title="开发者们">
-        <div class="contributors">
-            <div v-for="contributor in contributors" :key="contributor.id" class="contributor">
-                <a :href="contributor.html_url" target="_blank">
-                    <img :src="contributor.avatar_url" :alt="contributor.login" class="avatar" />
-                </a>
+        <t-cell :title="$t('message.contributors')">
+            <div class="contributors">
+                <div v-for="contributor in contributors" :key="contributor.id" class="contributor">
+                    <a :href="contributor.html_url" target="_blank">
+                        <img :src="contributor.avatar_url" :alt="contributor.login" class="avatar" />
+                    </a>
+                </div>
             </div>
-        </div>
-    </t-cell>
+        </t-cell>
+    </t-cell-group>
 
     <div style="height: var(--td-tab-bar-height);"></div>
 </template>
@@ -57,10 +69,17 @@
 import { saveConfig, useGameStore } from '@/stores/storage';
 import { Toast } from 'tdesign-mobile-vue';
 import { onMounted, reactive, ref } from 'vue';
+import { Language} from '@/ts/common'
+import { useI18n } from 'vue-i18n';
 
-const gameStore = useGameStore()
-
+const gameStore = useGameStore();
+const {locale, t} = useI18n();
 //设置逻辑
+const languageState = reactive({
+    show: false,
+    language: [gameStore.language as string]
+});
+
 const startPoint = reactive({
     value: (String)(gameStore.startPoint)
 })
@@ -91,6 +110,12 @@ const checked: CheckedObject = reactive({
     negativeRiichi: gameStore.negativeRiichi,
 });
 
+const onLanguagePickerConfirm = (selectedOptions : Language[]) => {
+        languageState.show = false;
+        languageState.language = selectedOptions;
+        gameStore.setLanguage(selectedOptions[0], locale);
+    };
+
 const onChange = (key: keyof CheckedObject, val: boolean) => {
     checked[key] = val;
     gameStore.setConfig(
@@ -106,11 +131,11 @@ const onChange = (key: keyof CheckedObject, val: boolean) => {
 
 const onChangeStartPoint = () => {
     if (startPointInput.value % 100 != 0) {
-        Toast.error('请输入100的倍数！')
+        Toast.error(t('message.enterMultiples100'))
         return
     }
     if (startPointInput.value % 100 == null) {
-        Toast.error('输入不能为空！')
+        Toast.error(t('message.enterEmpty'))
         return
     }
 
@@ -154,12 +179,12 @@ async function getContributors() {
     try {
         const response = await fetch('https://api.github.com/repos/dev-soragoto/mahjong_helper/contributors');
         if (!response.ok) {
-            throw new Error('网络响应错误');
+            throw new Error(t('message.netError'));
         }
         const data = await response.json();
         contributors.push(...data);
     } catch (error) {
-        console.error('获取贡献者列表失败:', error);
+        console.error(t('message.getContributorsFailed') + ':', error);
     }
 }
 
@@ -184,5 +209,9 @@ async function getContributors() {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+}
+
+.t-cell-group {
+    margin: 16px;
 }
 </style>

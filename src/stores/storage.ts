@@ -1,6 +1,10 @@
-import type { Player, PlayerRef } from '@/ts/common';
+import type { Player, PlayerRef} from '@/ts/common';
+import { Language } from '@/ts/common';
 import { defineStore } from 'pinia';
 import { reactive, ref } from 'vue';
+import enConfig from 'tdesign-mobile-vue/es/locale/en_US';
+import zhConfig from 'tdesign-mobile-vue/es/locale/zh_CN';
+import jaConfig from 'tdesign-mobile-vue/es/locale/ja_JP';
 
 export const historyStore = 'history';
 export const configStore = 'config'
@@ -20,7 +24,9 @@ export const useGameStore = defineStore('game', {
             returnPoint: 30000,
             playerListRef: reactive<Array<PlayerRef>>(new Array<PlayerRef>()),
             gameType: 'halfGame',
-            startSeat: ref<number>(0)
+            startSeat: ref<number>(0),
+            language: Language.zhCN,
+            tdesignLanguageConfig: zhConfig
         }
     },
 
@@ -158,7 +164,25 @@ export const useGameStore = defineStore('game', {
             for (var i = 0; i < this.count; i++) {
                 this.playerList[i].point = this.startPoint
             }
-        }
+        },
+        setLanguage(inLanguage:Language, locale: any) {
+            this.language = inLanguage;
+            switch(inLanguage){
+              case Language.zhCN:
+                locale.value = 'zhCN';
+                this.tdesignLanguageConfig = zhConfig;
+                break;
+              case Language.jaJP:
+                locale.value = 'jaJP';
+                this.tdesignLanguageConfig= jaConfig;
+                break;
+              case Language.enUS:
+                locale.value = 'enUS';
+                this.tdesignLanguageConfig = enConfig;
+                break;
+            }
+            saveConfig();
+          }
     }
 });
 
@@ -200,9 +224,10 @@ export function saveConfig(): void {
         startSeat: gameStore.startSeat
     };
     window.localStorage.setItem(configStore, JSON.stringify(gameConfig));
+    window.localStorage.setItem("language",gameStore.language);
 }
 
-export function loadConfig(): void {
+export function loadConfig(locale:any): void {
     const gameStore = useGameStore()
     var configString = window.localStorage.getItem(configStore);
     if (configString == undefined) {
@@ -225,6 +250,7 @@ export function loadConfig(): void {
     gameStore.playerListRef = reactive(gameConfig.playerListRef);
     gameStore.gameType = gameConfig.gameType;
     gameStore.startSeat = gameConfig.startSeat;
+    gameStore.setLanguage(window.localStorage.getItem("language")?  window.localStorage.getItem("language") as Language : Language.zhCN, locale);
 }
 
 export function saveHistory(newResult: HistoryData): void {

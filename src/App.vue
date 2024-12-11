@@ -1,19 +1,26 @@
 <template>
-  <div>
-    <router-view />
-  </div>
-  <div>
-    <TabBar class="tabbar" v-show="showTabBar" />
-  </div>
+  <t-config-provider :globalConfig="gameStore.tdesignLanguageConfig">
+    <div>
+      <router-view />
+    </div>
+    <div>
+      <TabBar class="tabbar" v-show="showTabBar" />
+    </div>
+  </t-config-provider>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch,  provide} from 'vue';
 import { RouterView } from 'vue-router';
+import { useGameStore } from '@/stores/storage';
 import TabBar from './components/TabBar.vue';
 import router from './router';
 
 const showTabBar = ref(true)
+
+const key = ref(0)
+
+const gameStore = useGameStore()
 
 watch(() => router.currentRoute.value.path, (newValue) => {
   showTabBar.value = newValue !== '/game'

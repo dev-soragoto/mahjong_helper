@@ -1,98 +1,80 @@
 <template>
-    <div style="height: 90dvh; width: 100dvw; position: absolute; margin: auto; 
-        top: 0; left: 0; right: 0; background-color: #fcbad3;">
+    <div class="main-board">
 
-        <div style="position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;
-              background-color: blanchedalmond; display: flex; flex-direction: column; flex: 0 1 auto;
-              width: 35dvmin; height: 35dvmin;">
-            <p class="title"><strong>{{ kyokuList[currentKyoku] }}</strong></p>
-            <p class="text"><strong>{{ honba }}本场</strong></p>
-            <p class="text"><strong>{{ kyoutaku * 1000 }}供托</strong></p>
+        <div class="round-board child-place-center">
+            <div class="title child-place-center" style="height:50%"><strong>{{ kyokuList[currentKyoku] }}</strong></div>
+            <div class="child-place-center" style="height:50%">
+                <div class="text" style="margin-bottom: 5px;"><strong>{{ honba }} {{ $t('message.honba', honba) }}</strong></div>
+                <div class="text"><strong>{{ kyoutaku * 1000 }} {{ $t('message.deposits') }}</strong></div>
+            </div>
         </div>
 
-        <div style="position: absolute; margin: auto; left: 0; right: 0; bottom: 2dvmin;
-              background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
-              width: 80dvmin; height: 25dvmin;">
-            <t-button class="riichi" style="margin-bottom: -2dvmin"
-                :theme="gameStore.getSeat(0).riichi ? 'primary' : 'light'" @click="onRiichi(0)">立直</t-button>
-            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).seat }} {{
+        <div class="child-place-center score-board bottom">
+            <t-button class="riichi":theme="gameStore.getSeat(0).riichi ? 'primary' : 'light'"
+                @click="onRiichi(0)">{{ $t('message.riichi')}}</t-button>
+            <div class="title"><strong>{{ gameStore.getSeat(0).seat }}&nbsp;{{
                 gameStore.getSeat(0).point }}</strong>
-                <div class="text" style="position: absolute; margin: auto; left: 63dvmin; right: 0; background-color: transparent; 
-                display: flex; flex-direction: row; flex: 0 1 auto;">
+                <div class="text score-change">
                     <Transition name="slide-fade">
                         <a :style="[pointPositiveFlag[0] ? pointPositiveStyle : pointNegativeStyle]" v-if="pointChangeFlag[0]">{{ pointChangeListStr[0] }}</a>
                     </Transition>
                 </div>
-            </p>
-            <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(0).name }}</strong></p>
+            </div>
+            <div class="text"><strong>{{ gameStore.getSeat(0).name }}</strong></div>
         </div>
 
-        <div style="position: absolute; margin: auto; top: 2dvmin; left: 0; right: 0;
-              background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
-              width: 40dvmin; height: 25dvmin; transform: rotate(180deg);">
-            <t-button class="riichi" style="margin-bottom: -2dvmin"
-                :theme="gameStore.getSeat(2).riichi ? 'primary' : 'light'" @click="onRiichi(2)">立直</t-button>
-            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).seat }} {{
+        <div class="child-place-center score-board top">
+            <t-button class="riichi" :theme="gameStore.getSeat(2).riichi ? 'primary' : 'light'" 
+                @click="onRiichi(2)">{{ $t('message.riichi')}}</t-button>
+            <div class="title"><strong>{{ gameStore.getSeat(2).seat }}&nbsp;{{
                 gameStore.getSeat(2).point }}</strong>
-                <div class="text" style="position: absolute; margin: auto; left: 43dvmin; right: 0; background-color: transparent; 
-                display: flex; flex-direction: row; flex: 0 1 auto;">
+                <div class="text score-change">
                     <Transition name="slide-fade">
                         <a :style="[pointPositiveFlag[2] ? pointPositiveStyle : pointNegativeStyle]" v-if="pointChangeFlag[2]">{{ pointChangeListStr[2] }}</a>
                     </Transition>   
                 </div> 
-            </p>
-            <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(2).name }}</strong></p>
+            </div>
+            <div class="text"><strong>{{ gameStore.getSeat(2).name }}</strong></div>
         </div>
 
 
-        <div style="position: absolute; margin: auto; top: 0;  right: -5.5dvmin; bottom: 0;
-              background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
-              width: 40dvmin; height: 25dvmin; transform: rotate(270deg);">
-            <t-button class="riichi" style="margin-bottom: -2dvmin"
-                :theme="gameStore.getSeat(1).riichi ? 'primary' : 'light'" @click="onRiichi(1)">立直</t-button>
-            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).seat }} {{
+        <div class="child-place-center score-board right">
+            <t-button class="riichi" :theme="gameStore.getSeat(1).riichi ? 'primary' : 'light'"
+                @click="onRiichi(1)">{{ $t('message.riichi')}}</t-button>
+            <div class="title"><strong>{{ gameStore.getSeat(1).seat }}&nbsp;{{
                 gameStore.getSeat(1).point }}</strong>
-                <div class="text" style="position: absolute; margin: auto; left: 43dvmin; right: 0; background-color: transparent; 
-                display: flex; flex-direction: row; flex: 0 1 auto;">
+                <div class="text score-change">
                     <Transition name="slide-fade">
                         <a :style="[pointPositiveFlag[1] ? pointPositiveStyle : pointNegativeStyle]" v-if="pointChangeFlag[1]">{{ pointChangeListStr[1] }}</a>
                     </Transition>    
                 </div>
-            </p>
-            <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(1).name }}</strong></p>
+            </div>
+            <div class="text"><strong>{{ gameStore.getSeat(1).name }}</strong></div>
         </div>
 
 
-        <div style="position: absolute; margin: auto; top: 0;  left: -5.5dvmin; bottom: 0;
-              background-color: transparent; display: flex; flex-direction: column; flex: 0 1 auto;
-              width: 40dvmin; height: 25dvmin; transform: rotate(90deg);">
-            <t-button class="riichi" style="margin-bottom: -2dvmin"
-                :theme="gameStore.getSeat(3).riichi ? 'primary' : 'light'" @click="onRiichi(3)">立直</t-button>
-            <p class="title" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).seat }} {{
+        <div class="child-place-center score-board left">
+            <t-button class="riichi" :theme="gameStore.getSeat(3).riichi ? 'primary' : 'light'"
+                @click="onRiichi(3)">{{ $t('message.riichi')}}</t-button>
+            <div class="title"><strong>{{ gameStore.getSeat(3).seat }}&nbsp;{{
                 gameStore.getSeat(3).point }}</strong>
-                <div class="text" style="position: absolute; margin: auto; left: 43dvmin; right: 0; background-color: transparent; 
-                display: flex; flex-direction: row; flex: 0 1 auto;">
+                <div class="text score-change">
                     <Transition name="slide-fade">
                         <a :style="[pointPositiveFlag[3] ? pointPositiveStyle : pointNegativeStyle]" v-if="pointChangeFlag[3]">{{ pointChangeListStr[3] }}</a>
                     </Transition>    
                 </div>
-            </p>
-            <p class="text" style="margin-bottom: 2dvmin"><strong>{{ gameStore.getSeat(3).name }}</strong></p>
+            </div>
+            <div class="text"><strong>{{ gameStore.getSeat(3).name }}</strong></div>
         </div>
 
     </div>
 
-    <div style="height: 10dvh; width: 100dvw; position: absolute; margin: auto; 
-        bottom: 0; left: 0; right: 0; background-color: #aa96da;">
-        <div style="position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;
-              background-color: transparent; display: flex; justify-content: space-between; align-items: center;">
-            <t-button class="actionButton" theme="light" @click="onTsumo">自摸</t-button>
-            <t-button class="actionButton" theme="light" @click="onRon">荣和</t-button>
-            <t-button class="actionButton" theme="light" @click="onRyuukyoku">流局</t-button>
-            <t-button class="actionButton" theme="light" @click="onEdit">编辑</t-button>
-            <t-button class="actionButton" theme="light" @click="onRevoke">撤销</t-button>
-        </div>
-
+    <div class = "button-board">
+        <t-button class="actionButton" theme="light" @click="onTsumo">{{$t("message.tsumo")}}</t-button>
+        <t-button class="actionButton" theme="light" @click="onRon">{{$t('message.ron')}}</t-button>
+        <t-button class="actionButton" theme="light" @click="onRyuukyoku">{{$t('message.draw')}}</t-button>
+        <t-button class="actionButton" theme="light" @click="onEdit">{{$t('message.edit')}}</t-button>
+        <t-button class="actionButton" theme="light" @click="onRevoke">{{$t('message.revoke')}}</t-button>
     </div>
 
     <!-- <t-dialog v-model:visible="winState.tsumo">
@@ -103,11 +85,11 @@
         </t-radio-group>
     </t-dialog> -->
 
-    <t-dialog style="--td-dialog-width: 90dvw; font-size: 14px;" v-model:visible="winState.tsumo" confirm-btn="确定"
-        cancel-btn="取消" @confirm="onTsumoConfirm">
+    <t-dialog style="--td-dialog-width: 90dvw; font-size: 14px;" v-model:visible="winState.tsumo" :confirm-btn="$t('message.confirm')" 
+        :cancel-btn="$t('message.cancel')" @confirm="onTsumoConfirm">
 
         <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px" visible
-            content="选择番数" :prefix-icon="false" />
+            :content="$t('message.chooseHan')" :prefix-icon="false" />
 
         <div style="padding-top: 8px; padding-bottom: 8px;">
             <t-radio-group class="score" :value="winState.fanfutsumo.fan"
@@ -127,7 +109,7 @@
         </div>
 
         <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px" visible
-            content="选择符数" :prefix-icon="false" />
+            :content="$t('message.chooseFu')" :prefix-icon="false" />
 
         <div style="padding-top: 8px; padding-bottom: 8px;">
             <t-radio-group class="score" :value="winState.fanfutsumo.fu"
@@ -148,7 +130,7 @@
 
 
         <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px" visible
-            content="选择自摸玩家" :prefix-icon="false" />
+            :content="$t('message.chooseSelfDrawPlayer')" :prefix-icon="false" />
 
         <div style="padding-top: 8px;">
             <t-radio-group class="player-selecter" v-model:value="winState.winner" @change="onTsumoRadioGroupChange">
@@ -168,10 +150,10 @@
     </t-dialog>
 
 
-    <t-dialog style="--td-dialog-width: 90dvw; font-size: 14px;" v-model:visible="winState.ron" confirm-btn="确定"
-        cancel-btn="取消" @confirm="onRonConfirm">
+    <t-dialog style="--td-dialog-width: 90dvw; font-size: 14px;" v-model:visible="winState.ron" :confirm-btn="$t('message.confirm')" 
+        :cancel-btn="$t('message.cancel')" @confirm="onRonConfirm">
         <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px" visible
-            content="选择荣和玩家" :prefix-icon="false" />
+            :content="$t('message.chooseRonPlayer')" :prefix-icon="false" />
         <t-checkbox-group style="--td-checkbox-border-color:none" v-model:value="winState.winners"
             @change="onRonCheckboxGroupChange">
             <t-checkbox :value="gameStore.getSeat(0).name" :contentDisabled="true">
@@ -238,7 +220,7 @@
         </t-checkbox-group>
 
         <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px" visible
-            content="选择放铳玩家" :prefix-icon="false" />
+            :content="$t('message.chooseDealInPlayer')" :prefix-icon="false" />
 
         <div style="padding: 16px;">
             <t-radio-group class="player-selecter" v-model:value="winState.loser" @change="onRonRadioGroupChange">
@@ -258,7 +240,7 @@
     </t-dialog>
 
     <t-overlay :visible="seat0FanChick" :zIndex="15000" />
-    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat0FanChick" title="选择番数" close-btn :zIndex="15001">
+    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat0FanChick" :title="$t('message.chooseHan')" close-btn :zIndex="15001">
         <t-radio-group class="score" :value="winState.fanfuRon[0].fan"
             @change="(value: string) => onFanRonChange(value, 0)">
             <view v-for="fan in fanfuList[0]"
@@ -276,7 +258,7 @@
     </t-dialog>
 
     <t-overlay :visible="seat0FuChick" :zIndex="15000" />
-    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat0FuChick" title="选择符数" close-btn :zIndex="15001">
+    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat0FuChick" :title="$t('message.chooseFu')" close-btn :zIndex="15001">
         <t-radio-group class="score" :value="winState.fanfuRon[0].fu"
             @change="(value: string) => onFuRonChange(value, 0)">
             <view v-for="fu in fanfuList[1]"
@@ -295,7 +277,7 @@
 
 
     <t-overlay :visible="seat1FanChick" :zIndex="15000" />
-    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat1FanChick" title="选择番数" close-btn :zIndex="15001">
+    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat1FanChick" :title="$t('message.chooseHan')" close-btn :zIndex="15001">
         <t-radio-group class="score" :value="winState.fanfuRon[1].fan"
             @change="(value: string) => onFanRonChange(value, 1)">
             <view v-for="fan in fanfuList[0]"
@@ -313,7 +295,7 @@
     </t-dialog>
 
     <t-overlay :visible="seat1FuChick" :zIndex="15000" />
-    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat1FuChick" title="选择符数" close-btn :zIndex="15001">
+    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat1FuChick" :title="$t('message.chooseFu')" close-btn :zIndex="15001">
         <t-radio-group class="score" :value="winState.fanfuRon[1].fu"
             @change="(value: string) => onFuRonChange(value, 1)">
             <view v-for="fu in fanfuList[1]"
@@ -332,7 +314,7 @@
 
 
     <t-overlay :visible="seat2FanChick" :zIndex="15000" />
-    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat2FanChick" title="选择番数" close-btn :zIndex="15001">
+    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat2FanChick" :title="$t('message.chooseHan')" close-btn :zIndex="15001">
         <t-radio-group class="score" :value="winState.fanfuRon[2].fan"
             @change="(value: string) => onFanRonChange(value, 2)">
             <view v-for="fan in fanfuList[0]"
@@ -350,7 +332,7 @@
     </t-dialog>
 
     <t-overlay :visible="seat2FuChick" :zIndex="15000" />
-    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat2FuChick" title="选择符数" close-btn :zIndex="15001">
+    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat2FuChick" :title="$t('message.chooseFu')" close-btn :zIndex="15001">
         <t-radio-group class="score" :value="winState.fanfuRon[2].fu"
             @change="(value: string) => onFuRonChange(value, 2)">
             <view v-for="fu in fanfuList[1]"
@@ -369,7 +351,7 @@
 
 
     <t-overlay :visible="seat3FanChick" :zIndex="15000" />
-    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat3FanChick" title="选择番数" close-btn :zIndex="15001">
+    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat3FanChick" :title="$t('message.chooseHan')" close-btn :zIndex="15001">
         <t-radio-group class="score" :value="winState.fanfuRon[3].fan"
             @change="(value: string) => onFanRonChange(value, 3)">
             <view v-for="fan in fanfuList[0]"
@@ -387,7 +369,7 @@
     </t-dialog>
 
     <t-overlay :visible="seat3FuChick" :zIndex="15000" />
-    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat3FuChick" title="选择符数" close-btn :zIndex="15001">
+    <t-dialog style="--td-dialog-width: 85dvw" v-model:visible="seat3FuChick" :title="$t('message.chooseFu')" close-btn :zIndex="15001">
         <t-radio-group class="score" :value="winState.fanfuRon[3].fu"
             @change="(value: string) => onFuRonChange(value, 3)">
             <view v-for="fu in fanfuList[1]"
@@ -405,10 +387,10 @@
     </t-dialog>
 
 
-    <t-dialog v-model:visible="winState.ryuukyoku" confirm-btn="确定" cancel-btn="取消" @confirm="onRyuukyokuConfirm"
+    <t-dialog v-model:visible="winState.ryuukyoku" :confirm-btn="$t('message.confirm')" :cancel-btn="$t('message.cancel')" @confirm="onRyuukyokuConfirm"
         @cancel="onRyuukyokuCancel">
         <t-notice-bar style="font-size: 16px; text-align: left; font-weight: 300; border-radius: 8px" visible
-            content="选择听牌玩家" :prefix-icon="false" />
+            :content="$t('message.chooseTenpaiPlayer')" :prefix-icon="false" />
         <t-checkbox-group style="--td-checkbox-border-color:none" v-model:value="winState.winners" :options="options"
             @change="onRyuukyokuCheckboxGroupChange" />
     </t-dialog>
@@ -419,23 +401,23 @@
         <t-row>
             <t-col span="12">
                 <div style="margin: auto; text-align: right">
-                    <p><b>本场: </b></p>
+                    <p><b>{{$t('message.honba', 0)}}: </b></p>
                 </div>
             </t-col>
             <t-col span="12">
                 <t-input v-model:value="editState.honba" type="number" class="dialog-input" clearable slot="content"
-                    placeholder="输入本场" placeholder-class="placeholder" borderless />
+                    :placeholder="$t('message.enterHonba')" placeholder-class="placeholder" borderless />
             </t-col>
         </t-row>
         <t-row>
             <t-col span="12">
                 <div style="margin: auto; text-align: right;">
-                <p><b>供托(x1000): </b></p>
+                <p><b>{{$t('message.deposits')}}(x1000): </b></p>
                 </div>
             </t-col>
             <t-col span="12">
                 <t-input v-model:value="editState.kyoutaku" type="number" class="dialog-input" clearable slot="content"
-                    placeholder="输入供托数" placeholder-class="placeholder" borderless />
+                    :placeholder="$t('message.enterDeposits')" placeholder-class="placeholder" borderless />
             </t-col>
         </t-row>
         <t-row v-for="(playerName, index) of gameStore.seatList" :key="index">
@@ -446,24 +428,24 @@
             </t-col>
             <t-col span="12">
                 <t-input v-model:value="editState.pointList[index]" type="number" class="dialog-input" clearable
-                    slot="content" placeholder="输入点数" placeholder-class="placeholder" borderless />
+                    slot="content" :placeholder="$t('message.enterPoint')" placeholder-class="placeholder" borderless />
             </t-col>
         </t-row>
     </t-dialog>
 
-    <t-dialog v-model:visible="revokeState.on" close-on-overlay-click content="撤销后无法回退，且仅能撤销一次，确认撤销吗？" cancel-btn="取消"
-        :confirm-btn="{ content: '确定', theme: 'danger' }" @confirm="onRevokeConfirm" @cancel="onRevokeCancel"
+    <t-dialog v-model:visible="revokeState.on" close-on-overlay-click :content="$t('message.revokeAlert')" :cancel-btn="$t('message.cancel')"
+        :confirm-btn="{ content: $t('message.confirm'), theme: 'danger' }" @confirm="onRevokeConfirm" @cancel="onRevokeCancel"
         @close="onRevokeClose">
     </t-dialog>
 
-    <t-dialog v-model:visible="finalState.on" title="终局结果" confirm-btn="确定" @confirm="onFinalConfirm">
+    <t-dialog v-model:visible="finalState.on" :title="$t('message.matchResult')" :confirm-btn="$t('message.confirm')" @confirm="onFinalConfirm">
         <p v-for="(playerName, index) of finalState.result" :key="index" class="text" style="margin-bottom: 2dvmin">
             <strong>{{ playerName }} : {{ gameStore.getPlayer(playerName).point }}</strong>
         </p>
     </t-dialog>
 
-    <t-dialog v-model:visible="leave.showAlert" close-on-overlay-click content="现在退出不保存任何数据,确定吗?" cancel-btn="取消"
-        :confirm-btn="{ content: '确定', theme: 'danger' }" @confirm="onConfirm" @cancel="onCancel" @close="onClose">
+    <t-dialog v-model:visible="leave.showAlert" close-on-overlay-click :content="$t('message.leaveAlert')" :cancel-btn="$t('message.cancel')"
+        :confirm-btn="{ content: $t('message.confirm'), theme: 'danger' }" @confirm="onConfirm" @cancel="onCancel" @close="onClose">
     </t-dialog>
 
 </template>
@@ -474,9 +456,13 @@ import router from '@/router';
 import type { HistoryData } from '@/stores/storage';
 import { saveHistory, useGameStore } from '@/stores/storage';
 import type { Player } from '@/ts/common';
+import { toDigitString } from '@/ts/common';
 import { Toast } from 'tdesign-mobile-vue';
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { onBeforeRouteLeave, type RouteLocationNormalized } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+
+const {t} = useI18n();
 
 let wakeLock: WakeLockSentinel | null = null;
 
@@ -506,8 +492,15 @@ onUnmounted(() => {
 const gameStore = useGameStore()
 
 // 局内逻辑
-const kyokuList = ['东一局', '东二局', '东三局', '东四局', '南一局', '南二局', '南三局', '南四局', '西一局', '西二局', '西三局', '西四局']
-const kazeList = ['东', '南', '西', '北']
+const kyokuList = [] as string[];
+const kazeList = [t('position.east'), t('position.south'), t('position.west'), t('position.north')]
+for(let i in kazeList)
+{
+    for(let j = 1; j <= 4; j++)
+    {
+        kyokuList.push(t('message.kyoku', {wind: kazeList[i],gameNum: toDigitString(j, gameStore.language)}))
+    }
+}
 const fanList = ['一番', '两番', '三番', '四番', '满贯', '跳满', '倍满', '三倍满', '役满', '两倍役满', '三倍役满', '四倍役满', '五倍役满', '六倍役满']
 const fuListStr = ['20符', '25符', '30符', '40符', '50符', '60符', '70符', '80符', '90符', '100符', '110符']
 const fuList = [20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 110]
@@ -1315,17 +1308,17 @@ const onEdit = () => {
 
 const onEditChange = () => {
     if (!Number.isInteger(Number(editState.honba)) || Number(editState.honba) < 0 || editState.honba === '') {
-        Toast.error('本场必须为大于0的整数！')
+        Toast.error(t('message.honbaError'))
         return
     }
     if (!Number.isInteger(Number(editState.kyoutaku)) || Number(editState.kyoutaku) < 0 || editState.kyoutaku === '') {
-        Toast.error('供托必须为大于0的整数！')
+        Toast.error(t('message.depositsError'))
         return
     }
 
     for (const point of editState.pointList as string[]) {
         if (!Number.isInteger(Number(point)) || Number(point) % 100 != 0 || point === '') {
-            Toast.error('分数必须为100的整数倍！')
+            Toast.error(t('message.pointMutiple100'))
             return
         }
     }
@@ -1338,7 +1331,7 @@ const onEditChange = () => {
     }
     checkSum += Number(editState.kyoutaku) * 1000
     if (checkSum != gameStore.startPoint * 4) {
-        Toast.error('总分校验不通过！')
+        Toast.error(t('message.totalPointError'))
         return
     }
 
@@ -1449,6 +1442,93 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="less">
+
+.main-board {
+    height: 90dvh;
+    width: 100dvw;
+    position: absolute;
+    margin: auto; 
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fcbad3;
+}
+
+.round-board {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: blanchedalmond;
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 auto;
+    width: 35dvmin;
+    height: 35dvmin;
+}
+
+.child-place-center {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    flex-direction:column;
+}
+
+.button-board {
+    height: 10dvh;
+    width: 100dvw;
+    position: absolute;
+    margin: auto; 
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #aa96da;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.score-board 
+{
+    width: 40dvmin;
+    height: 25dvmin;
+    position: absolute;
+    &.bottom
+    {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 2dvmin;
+    }
+    &.top
+    {
+        left: 50%;
+        transform: translateX(-50%) rotate(180deg);
+        top: 2dvmin;
+    }
+    &.left
+    {
+        top: 50%;
+        transform: translateY(-50%) rotate(90deg) ;
+        left: -5dvmin;
+    }
+    &.right
+    {
+        top: 50%;
+        transform: translateY(-50%) rotate(270deg);
+        right: -5dvmin;
+    }
+}
+
+.score-change
+{
+    display: inline-block;
+    position: absolute;
+    right: -20dvmin;
+    background-color: transparent; 
+}
+
 .actionButton {
     width: 10dvmin;
     height: 7dvmin;
@@ -1467,13 +1547,12 @@ onUnmounted(() => {
 
 .title {
     font-size: 8dvmin;
-    line-height: 0.5dvmin;
+    line-height: 7dvmin;
     text-align: center;
 }
 
 .text {
     font-size: 4dvmin;
-    line-height: 0.8dvmin;
     text-align: center;
 }
 

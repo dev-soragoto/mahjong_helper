@@ -1,7 +1,7 @@
 <template>
   <t-tab-bar v-model="currentPath" theme="tag" :split="false" :fixed="true">
     <t-tab-bar-item v-for="item in routeList" :key="item.value" :value="item.value">
-      {{ item.label }}
+      {{ $t(item.label) }}
       <template #icon>
         <t-icon :name="item.icon" />
       </template>
@@ -18,10 +18,10 @@ import { onMounted, onUnmounted, ref, watch } from 'vue';
 const currentPath = ref('setup');
 
 const routeList = ref([
-  { value: 'setup', label: '开始', icon: 'play' },
-  { value: 'players', label: '玩家', icon: 'usergroup' },
-  { value: 'history', label: '历史', icon: 'history' },
-  { value: 'settings', label: '设定', icon: 'setting-1' },
+  { value: 'setup', label: 'tab.start', icon: 'play' },
+  { value: 'players', label: 'tab.player', icon: 'usergroup' },
+  { value: 'history', label: 'tab.record', icon: 'history' },
+  { value: 'settings', label: 'tab.setting', icon: 'setting-1' },
 ]);
 
 watch(
