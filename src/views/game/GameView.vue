@@ -1006,7 +1006,7 @@ const onTsumoRadioGroupChange = () => {
 const onTsumoConfirm = () => {
     resetPointChange()
     if (winState.winner === '') {
-        Toast.error('未选择自摸玩家！')
+        Toast.error(t('message.tsumoPlayerNotChosen'))
         return
     }
 
@@ -1131,11 +1131,11 @@ const onFutsumoChange = (value: string) => {
 const onRonConfirm = () => {
     resetPointChange()
     if (winState.winners.length < 1) {
-        Toast.error('未选择和了玩家！')
+        Toast.error(t('message.winningPlayerNotChosen'))
         return
     }
     if (winState.loser === '') {
-        Toast.error('未选择放铳玩家！')
+        Toast.error(t('message.dealinPlayerNotChosen'))
         return
     }
 

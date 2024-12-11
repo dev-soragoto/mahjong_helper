@@ -10,9 +10,9 @@
     "baiman": "倍满",
     "haneman": "跳满",
     "mangan": "满贯",
+    "multiYakuman": "{num}倍役满",
     "sanbaiman": "三倍满",
-    "yakuman": "役满",
-    "multiYakuman": "{num}倍役满"
+    "yakuman": "役满"
   },
   "message": {
     "across": "对家",
@@ -29,6 +29,7 @@
     "chooseTenpaiPlayer": "选择听牌玩家",
     "confirm": "确定",
     "contributors": "开发者们",
+    "dealinPlayerNotChosen": "未选择放铳玩家！",
     "delete": "删除",
     "deleteSuccess": "删除成功",
     "deposits": "供托",
@@ -100,10 +101,12 @@
     "topTakeDeposit": "完场场供归一位",
     "totalPointError": "总分校验不通过！",
     "tsumo": "自摸",
+    "tsumoPlayerNotChosen": "未选择自摸玩家！",
     "uma": "顺位马",
     "usernameExisted": "玩家已存在！",
     "winAndStop": "和牌完场",
     "winds": "局数",
+    "winningPlayerNotChosen": "未选择和了玩家！",
     "wins": "获胜"
   },
   "position": {

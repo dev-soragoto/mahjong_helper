@@ -10,9 +10,9 @@
     "baiman": "Baiman",
     "haneman": "Haneman",
     "mangan": "Mangan",
+    "multiYakuman": "{num}-Yakuman",
     "sanbaiman": "Sanbaiman",
-    "yakuman": "Yakuman",
-    "multiYakuman": "{num}-Yakuman"
+    "yakuman": "Yakuman"
   },
   "message": {
     "across": "Across",
@@ -29,6 +29,7 @@
     "chooseTenpaiPlayer": "Choose Tenpai Player",
     "confirm": "Confirm",
     "contributors": "Contributors",
+    "dealinPlayerNotChosen": "Deal-in player not chosen!",
     "delete": "delete",
     "deleteSuccess": "Deleting successed",
     "deposits": "deposits",
@@ -100,10 +101,12 @@
     "topTakeDeposit": "Top player taker deposit",
     "totalPointError": "Total points validation failed!",
     "tsumo": "Tsumo",
+    "tsumoPlayerNotChosen": "Tsumo player not chosen!",
     "uma": "Uma",
     "usernameExisted": "Player already exists!",
     "winAndStop": "Win & Stop",
     "winds": "Rounds",
+    "winningPlayerNotChosen": "Winning player not chosen!",
     "wins": "Wins"
   },
   "position": {

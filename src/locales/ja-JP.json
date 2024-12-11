@@ -10,9 +10,9 @@
     "baiman": "倍満",
     "haneman": "跳満",
     "mangan": "満貫",
+    "multiYakuman": "{num}倍役満",
     "sanbaiman": "三倍満",
-    "yakuman": "役満",
-    "multiYakuman": "{num}倍役満"
+    "yakuman": "役満"
   },
   "message": {
     "across": "対面",
@@ -29,6 +29,7 @@
     "chooseTenpaiPlayer": "聴牌の選手を選ぶ",
     "confirm": "確認",
     "contributors": "開発者",
+    "dealinPlayerNotChosen": "放銃プレイヤーを選択していません！",
     "delete": "削除",
     "deleteSuccess": "削除されました",
     "deposits": "供託",
@@ -100,10 +101,12 @@
     "topTakeDeposit": "供託はトップ取り",
     "totalPointError": "合計ポイントの検証に失敗しました",
     "tsumo": "ツモ",
+    "tsumoPlayerNotChosen": "ツモプレイヤーを選択していません！",
     "uma": "ウマ",
     "usernameExisted": "プレーヤーはすでに存在します!",
     "winAndStop": "和了止め",
     "winds": "場数",
+    "winningPlayerNotChosen": "ロンプレイヤーを選択していません！",
     "wins": "勝つ"
   },
   "position": {
