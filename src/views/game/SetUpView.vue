@@ -146,8 +146,14 @@ h2 {
   margin: 16px 32px 0px 32px;
 }
 .t-navbar {
-    z-index: 9999;
+    z-index: 1000;
     --td-navbar-height: var(--td-navbar-height);
+}
+.t-cell-group .t-navbar {
+    z-index: 0;
+}
+.t-fab {
+    z-index:1000
 }
 .horizontal-selector {
     padding:0;
@@ -171,9 +177,9 @@ h2 {
                 }
                 .t-radio__icon {
                     position: absolute;
+                    z-index: 1;
                     width:100%;
                     height: 100%;
-                    z-index: 999;
                     margin: 0;
                     background-color: #e7e7e7;
                     &.t-radio__icon--checked{
@@ -185,7 +191,7 @@ h2 {
                 }
                 .t-radio__content {
                     position: absolute;
-                    z-index: 1000;
+                    z-index: 2;
                     left:0;
                     right:0;
                     top:0;
