@@ -1,17 +1,21 @@
 <template>
-    <t-collapse expand-mutex :value="values" @change="handleChange">
-        <t-swipe-cell v-for="i in historyDataList.length" :key="i - 1" :value="i - 1" :right="cellEvent(i - 1)"
-            @touchstart.stop @touchend.stop>
-            <t-collapse-panel :value="i - 1" :header="timeList[i - 1]"
-                :header-right-content="columns[i - 1][0].title + ' ' + $t('message.wins')">
-                <div class="content">
-                    <t-table row-key="index" :data="data[i - 1]" :columns="columns[i - 1]" :show-header="showHeader"
-                        cell-empty-content="-" @row-click="handleRowClick">
-                    </t-table>
-                </div>
-            </t-collapse-panel>
-        </t-swipe-cell>
+    <t-navbar :title="$t('tab.record')" :fixed="true"/>
+    <div style="height: var(--td-navbar-height);"></div>
+    <t-cell-group theme="card">
+        <t-collapse expand-mutex :value="values" @change="handleChange">
+            <t-swipe-cell v-for="i in historyDataList.length" :key="i - 1" :value="i - 1" :right="cellEvent(i - 1)"
+                @touchstart.stop @touchend.stop>
+                <t-collapse-panel :value="i - 1" :header="timeList[i - 1]"
+                    :header-right-content="columns[i - 1][0].title + ' ' + $t('message.wins')">
+                    <div class="content">
+                        <t-table row-key="index" :data="data[i - 1]" :columns="columns[i - 1]" :show-header="showHeader"
+                            cell-empty-content="-" @row-click="handleRowClick">
+                        </t-table>
+                    </div>
+                </t-collapse-panel>
+            </t-swipe-cell>
     </t-collapse>
+    </t-cell-group>
     <div style="height: var(--td-tab-bar-height);"></div>
 </template>
 

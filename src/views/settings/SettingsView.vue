@@ -1,4 +1,7 @@
 <template>
+    <t-navbar :title="$t('tab.setting')" :fixed="true"/>
+    <div style="height: var(--td-navbar-height);"></div>
+
     <t-cell-group theme="card">
         <t-cell arrow :title="$t('message.language')" :note="languageState.language.join('')" @click="languageState.show = true" />
         <t-popup v-model="languageState.show" placement="bottom">
