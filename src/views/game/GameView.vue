@@ -456,7 +456,7 @@ import router from '@/router';
 import type { HistoryData } from '@/stores/storage';
 import { saveHistory, useGameStore } from '@/stores/storage';
 import type { Player } from '@/ts/common';
-import { toDigitString } from '@/ts/common';
+import { GameLength, toDigitString} from '@/ts/common';
 import { Toast } from 'tdesign-mobile-vue';
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { onBeforeRouteLeave, type RouteLocationNormalized } from 'vue-router';
@@ -501,9 +501,20 @@ for(let i in kazeList)
         kyokuList.push(t('message.kyoku', {wind: kazeList[i],gameNum: toDigitString(j, gameStore.language)}))
     }
 }
-const fanList = ['一番', '两番', '三番', '四番', '满贯', '跳满', '倍满', '三倍满', '役满', '两倍役满', '三倍役满', '四倍役满', '五倍役满', '六倍役满']
-const fuListStr = ['20符', '25符', '30符', '40符', '50符', '60符', '70符', '80符', '90符', '100符', '110符']
+const fanList = [
+    toDigitString( 1, gameStore.language) + t('message.fan'),
+    toDigitString( 2, gameStore.language) + t('message.fan'),
+    toDigitString( 3, gameStore.language) + t('message.fan'),
+    toDigitString( 4, gameStore.language) + t('message.fan'),
+    t('fan.mangan'), t('fan.haneman'), t('fan.baiman'), t('fan.sanbaiman'), t('fan.yakuman'), 
+    t('fan.multiYakuman', {num: toDigitString( 2, gameStore.language)}),
+    t('fan.multiYakuman', {num: toDigitString( 3, gameStore.language)}), 
+    t('fan.multiYakuman', {num: toDigitString( 4, gameStore.language)}), 
+    t('fan.multiYakuman', {num: toDigitString( 5, gameStore.language)}), 
+    t('fan.multiYakuman', {num: toDigitString( 6, gameStore.language)}), 
+]
 const fuList = [20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 110]
+const fuListStr = fuList.map((fu:number)=> fu.toString() + " " + t('message.fu'));
 const kyokuListOptions = ref<{ label: string, value: string }[][]>([]);
 const fanfuList = ref<{ label: string, value: string }[][]>([]);
 const currentKyoku = ref<number>(0)
@@ -543,7 +554,7 @@ interface WinState {
 }
 
 const winState: WinState = reactive({
-    fanfutsumo: { fan: '一番', fu: '30符' },
+    fanfutsumo: { fan: fanList[0], fu: fuListStr[2] },
     fanfuRon: [],
     winners: [],
     winner: '',
@@ -658,10 +669,10 @@ onMounted(() => {
 })
 
 function resetwinState() {
-    winState.fanfutsumo = { fan: '一番', fu: '30符' }
+    winState.fanfutsumo = { fan: fanList[0], fu: fuListStr[2] }
     winState.fanfuRon = []
     for (let i = 0; i < 4; i++) {
-        winState.fanfuRon.push({ fan: '一番', fu: '30符' })
+        winState.fanfuRon.push({ fan: fanList[0], fu: fuListStr[2] })
     }
     winState.winners = []
     winState.winner = ''
@@ -750,7 +761,7 @@ function checkGameOver(): boolean {
 
     var allLast = 7
     // 东风战
-    if (gameStore.gameType === 'eastWind') {
+    if (gameStore.gameType === GameLength.quarterGame) {
         allLast = 3
     }
 
@@ -764,13 +775,13 @@ function checkGameOver(): boolean {
             riichi: false
         }
         for (var winPlayer of winState.winners as string[]) {
-            if (gameStore.getPlayer(winPlayer).seat === '东') {
+            if (gameStore.getPlayer(winPlayer).seat === kazeList[0]) {
                 oyaPlayer = gameStore.getPlayer(winPlayer)
                 break
             }
         }
 
-        if (gameStore.getPlayer(winState.winner).seat === '东') {
+        if (gameStore.getPlayer(winState.winner).seat === kazeList[0]) {
             oyaPlayer = gameStore.getPlayer(winState.winner)
         }
 
@@ -808,7 +819,7 @@ function checkGameOver(): boolean {
                 else {
                     if (gameStore.continuingIntoWest) {
                         // 西四局，强制终局
-                        if (currentKyoku.value >= kyokuList.length - 1) {
+                        if (currentKyoku.value >= 11) {
                             return true
                         }
                     }
@@ -827,7 +838,7 @@ function checkGameOver(): boolean {
             if (topPoint < gameStore.returnPoint) {
                 if (gameStore.continuingIntoWest) {
                     // 西四局，强制终局
-                    if (currentKyoku.value >= kyokuList.length - 1) {
+                    if (currentKyoku.value >= 11) {
                         return true
                     }
                 }
@@ -1008,7 +1019,7 @@ const onTsumoConfirm = () => {
     var a = calculateA(winFan, winFu)
 
     var riichibous = 0
-    if (winPlayer.seat === '东') {
+    if (winPlayer.seat === kazeList[0]) {
         winState.oyaWinFlag = true
         var payPoint: number[] = [Math.ceil(2 * a / 100) * 100 + honba.value * 100]
         for (var i = 0; i < 4; i++) {
@@ -1037,7 +1048,7 @@ const onTsumoConfirm = () => {
             if (player.name === winPlayer.name) {
                 continue
             }
-            if (player.seat === '东') {
+            if (player.seat === kazeList[0]) {
                 player.point -= payPoint[1]
                 pointChangeList[i] -= payPoint[1]
             }
@@ -1151,7 +1162,7 @@ const onRonConfirm = () => {
         var winFan = fanList.indexOf(winState.fanfuRon[seat].fan) + 1
         var winFu = fuList[fuListStr.indexOf(winState.fanfuRon[seat].fu)]
         var a = calculateA(winFan, winFu)
-        if (winPlayers[i].seat === '东') {
+        if (winPlayers[i].seat === kazeList[0]) {
             winState.oyaWinFlag = true
             var payPoint: number = Math.ceil(6 * a / 100) * 100
             winPlayers[i].point += payPoint
@@ -1238,7 +1249,7 @@ const onRyuukyokuConfirm = () => {
             pointChangeList[gameStore.seatList.indexOf(winPlayerName)] -= 1000
             gameStore.setPlayer(winPlayer.name, winPlayer)
         }
-        if (winPlayer.seat === '东') {
+        if (winPlayer.seat === kazeList[0]) {
             winState.oyaWinFlag = true
         }
     }
@@ -1561,39 +1572,40 @@ onUnmounted(() => {
     grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
     gap: 2px;
     --td-radio-vertical-padding: 0px;
-}
 
-.score>* {
-    padding: 0px;
-}
+    >*{
+        padding: 0px;
+    }
 
-.score .card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 90px;
-    height: 30px;
-    position: relative;
-    border-radius: 6px;
-    overflow: hidden;
-    box-sizing: border-box;
-    border: 1.5px solid #777;
-}
+    .card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+        height: 30px;
+        font-size: 2dvmin;
+        position: relative;
+        border-radius: 6px;
+        overflow: hidden;
+        box-sizing: border-box;
+        border: 1.5px solid #777;
+        --td-radio-font-size: 14px;
+    }
 
-.score .card--active {
-    border-color: #0052d9;
-}
-
-.score .card--active::after {
-    content: '';
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 0;
-    border: 8px solid #0052d9;
-    border-bottom-color: transparent;
-    border-right-color: transparent;
+    .card--active {
+        border-color: #0052d9;
+        &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            border: 8px solid #0052d9;
+            border-bottom-color: transparent;
+            border-right-color: transparent;
+        }
+    }
 }
 
 
@@ -1602,39 +1614,39 @@ onUnmounted(() => {
     grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
     gap: 5px;
     --td-radio-vertical-padding: 0px;
-}
 
-.player-selecter>* {
-    padding: 0px;
-}
+    >*{
+        padding: 0px;
+    }
 
-.player-selecter .card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 30px;
-    position: relative;
-    border-radius: 6px;
-    overflow: hidden;
-    box-sizing: border-box;
-    border: 1.5px solid #777;
-}
+    .card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 30px;
+        position: relative;
+        border-radius: 6px;
+        overflow: hidden;
+        box-sizing: border-box;
+        border: 1.5px solid #777;
+    }
 
-.player-selecter .card--active {
-    border-color: #0052d9;
-}
+    .card--active {
+        border-color: #0052d9;
 
-.player-selecter .card--active::after {
-    content: '';
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 0;
-    border: 8px solid #0052d9;
-    border-bottom-color: transparent;
-    border-right-color: transparent;
+        &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            border: 8px solid #0052d9;
+            border-bottom-color: transparent;
+            border-right-color: transparent;
+        }
+    }
 }
 
 .slide-fade-enter-active {

@@ -1,5 +1,5 @@
 import type { Player, PlayerRef} from '@/ts/common';
-import { Language } from '@/ts/common';
+import { Language , GameLength} from '@/ts/common';
 import { defineStore } from 'pinia';
 import { reactive, ref } from 'vue';
 import enConfig from 'tdesign-mobile-vue/es/locale/en_US';
@@ -23,7 +23,7 @@ export const useGameStore = defineStore('game', {
             startPoint: 25000,
             returnPoint: 30000,
             playerListRef: reactive<Array<PlayerRef>>(new Array<PlayerRef>()),
-            gameType: 'halfGame',
+            gameType: GameLength.halfGame,
             startSeat: ref<number>(0),
             language: Language.zhCN,
             tdesignLanguageConfig: zhConfig
@@ -248,7 +248,7 @@ export function loadConfig(locale:any): void {
     gameStore.startPoint = gameConfig.startPoint;
     gameStore.returnPoint = gameConfig.returnPoint;
     gameStore.playerListRef = reactive(gameConfig.playerListRef);
-    gameStore.gameType = gameConfig.gameType;
+    gameStore.gameType = gameConfig.gameType as GameLength;
     gameStore.startSeat = gameConfig.startSeat;
     gameStore.setLanguage(window.localStorage.getItem("language")?  window.localStorage.getItem("language") as Language : Language.zhCN, locale);
 }

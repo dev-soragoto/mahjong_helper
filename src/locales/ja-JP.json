@@ -6,6 +6,14 @@
     "negativeRiichi": "ポイントが 1000 未満の場合 (つまり、立直しだ後はマイナスポイント)、立直が許可されます。",
     "tips": "プレーヤーと履歴インターフェイスは左にスワイプすることで編集/削除でき、すべてのインターフェイスで左または右にスワイプすることでタブーを切り替えることができます。\nすべての設定とゲーム記録はローカルに保存され、クラウドには記録されません。"
   },
+  "fan": {
+    "baiman": "倍満",
+    "haneman": "跳満",
+    "mangan": "満貫",
+    "sanbaiman": "三倍満",
+    "yakuman": "役満",
+    "multiYakuman": "{num}倍役満"
+  },
   "message": {
     "across": "対面",
     "addPlayer": "プレイヤー追加",
@@ -38,8 +46,10 @@
     "enterPlayerName": "名前",
     "enterPoint": "ポイントを入力",
     "enteringWest": "西入",
+    "fan": "飜",
     "firstDealer": "起家",
     "four": "四",
+    "fu": "符",
     "full": "一荘戦",
     "getContributorsFailed": "貢献者リストの取得に失敗しました",
     "goGithub": "githubリポジトリに移動します",
@@ -71,7 +81,7 @@
     "revokeAlert": "取り消し後は元に戻すことはできません。取り消しできるのは 1 回だけです。取り消しを確認しますか?",
     "right": "下家",
     "riichi": "立直",
-    "ron": "栄",
+    "ron": "ロン",
     "roundUpMangan": "切り上げ",
     "ruleSetting": "ルール設定",
     "sameScorePlacement": "同点は風順で順位を決定",
@@ -89,7 +99,7 @@
     "tong": "東風戦",
     "topTakeDeposit": "供託はトップ取り",
     "totalPointError": "合計ポイントの検証に失敗しました",
-    "tsumo": "自摸",
+    "tsumo": "ツモ",
     "uma": "ウマ",
     "usernameExisted": "プレーヤーはすでに存在します!",
     "winAndStop": "和了止め",

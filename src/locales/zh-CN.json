@@ -6,6 +6,14 @@
     "negativeRiichi": "当分数<1000时(即立直后负分)允许立直",
     "tips": "玩家和历史界面可以左滑编辑/删除，所有界面都可以左右滑切换目录。所有设置以及对局记录都保存在本地，不会被云端记录"
   },
+  "fan": {
+    "baiman": "倍满",
+    "haneman": "跳满",
+    "mangan": "满贯",
+    "sanbaiman": "三倍满",
+    "yakuman": "役满",
+    "multiYakuman": "{num}倍役满"
+  },
   "message": {
     "across": "对家",
     "addPlayer": "新增选手",
@@ -38,8 +46,10 @@
     "enterPlayerName": "输入名称",
     "enterPoint": "输入点数",
     "enteringWest": "西入",
+    "fan": "番",
     "firstDealer": "起家",
     "four": "四",
+    "fu": "符",
     "full": "全庄战",
     "getContributorsFailed": "获取贡献者列表失败",
     "goGithub": "前往github仓库",

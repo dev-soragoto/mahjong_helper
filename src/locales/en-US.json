@@ -6,6 +6,14 @@
     "negativeRiichi": "When the score is <1000 (i.e. negative points after riichi), riichi is allowed",
     "tips": "Players and history entry can be edited/delete by swiping left, and tabs can be switched by swiping left or right on all interfaces. \nAll settings and game records are saved locally and will not be recorded in the cloud."
   },
+  "fan": {
+    "baiman": "Baiman",
+    "haneman": "Haneman",
+    "mangan": "Mangan",
+    "sanbaiman": "Sanbaiman",
+    "yakuman": "Yakuman",
+    "multiYakuman": "{num}-Yakuman"
+  },
   "message": {
     "across": "Across",
     "addPlayer": "Add player",
@@ -38,8 +46,10 @@
     "enterPlayerName": "Enter player name",
     "enterPoint": "Enter points",
     "enteringWest": "Entering west",
+    "fan": " Fan",
     "firstDealer": "First dealer",
     "four": "4",
+    "fu": "fu",
     "full": "4-Winds",
     "getContributorsFailed": "Failed to get contributor list",
     "goGithub": "Go to github repository",

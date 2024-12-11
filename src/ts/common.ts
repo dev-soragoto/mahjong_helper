@@ -18,6 +18,12 @@ export enum Language{
     enUS = "English"
 }
 
+export enum GameLength{
+    quarterGame = "eastWind",
+    halfGame = "halfGame",
+    fullGame = "fullGame"
+}
+
 //数字转汉字表示
 //仅支持整数
 export function toDigitString(digit: number | string , lang: Language) : string {
