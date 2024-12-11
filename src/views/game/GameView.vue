@@ -759,10 +759,19 @@ function checkGameOver(): boolean {
         }
     }
 
-    var allLast = 7
-    // 东风战
-    if (gameStore.gameType === GameLength.quarterGame) {
-        allLast = 3
+    var allLast = 7;
+    // 对局长度
+    switch(gameStore.gameType)
+    {
+        case GameLength.quarterGame:
+            allLast = 3;
+            break;
+        case GameLength.halfGame:
+            allLast = 7;
+            break;
+        case GameLength.fullGame:
+            allLast = 15;
+            break;
     }
 
     // all last
@@ -816,35 +825,25 @@ function checkGameOver(): boolean {
                 if (topPoint >= gameStore.returnPoint) {
                     return true
                 }
-                else {
-                    if (gameStore.continuingIntoWest) {
-                        // 西四局，强制终局
-                        if (currentKyoku.value >= 11) {
-                            return true
-                        }
-                    }
-                    else {
-                        // 南四局，强制终局
-                        if (currentKyoku.value >= 7) {
-                            return true
-                        }
-                    }
-                }
             }
         }
         else {
             //亲家未和了且流局未听牌
             // top低于返点，继续游戏（在强制终局前）
             if (topPoint < gameStore.returnPoint) {
+                //全庄结束
+                if (currentKyoku.value >= 15) {
+                        return true;
+                }
                 if (gameStore.continuingIntoWest) {
                     // 西四局，强制终局
-                    if (currentKyoku.value >= 11) {
+                    if (currentKyoku.value >= allLast + 4) {
                         return true
                     }
                 }
                 else {
                     // 南四局，强制终局
-                    if (currentKyoku.value >= 7) {
+                    if (currentKyoku.value >= allLast) {
                         return true
                     }
                 }
@@ -1541,10 +1540,10 @@ onUnmounted(() => {
 }
 
 .actionButton {
-    width: 10dvmin;
+    width: 14dvmin;
     height: 7dvmin;
-    margin-left: 4dvmin;
-    margin-right: 4dvmin;
+    margin-left: 2dvmin;
+    margin-right: 2dvmin;
 }
 
 

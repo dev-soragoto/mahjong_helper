@@ -1,22 +1,7 @@
 <template>
     <t-navbar :title="$t('message.matchSetting')" :fixed="true"/>
     <div style="height: var(--td-navbar-height);"></div>
-    <t-row>
-        <t-col span="16">
-            <h2>{{ $t('message.matchPlayer') }}</h2>
-        </t-col>
-        <t-col span="8">
-        <!-- TODO 三四麻切换
-            <t-switch id="three-person-switch" v-model="currentMatchStore.threePerson" inactive-color="#faab0c">
-                <template #node>
-                    <div>
-                      {{currentMatchStore.threePerson ? "三" : "四"}}
-                    </div>
-                </template>
-            </t-switch>
-        -->
-        </t-col>
-    </t-row>
+    <!-- TODO 三麻支持-->
     <t-cell-group theme="card">
         <t-cell v-for="(state, index) in playerState" :key="index" arrow :title="$t(titles[index])"
             :note="state.player.join('')" @click="state.show = true" />
@@ -26,15 +11,16 @@
                 @change="(selectedPlayer: string[]) => onChange(selectedPlayer, index)" @confirm="onConfirm"
                 @cancel="onCancel" />
         </t-popup>
-
-        <t-cell :title="$t('message.winds')">
+        <t-navbar :title="$t('message.winds')" :fixed="false"/>
+        <t-cell class="horizontal-selector">
             <t-radio-group class="box" :default-value="gameStore.gameType" borderless @change="roundChange">
                 <t-radio :block="false" name="round" value="eastWind" :label="$t('message.tong')" />
                 <t-radio :block="false" name="round" value="halfGame" :label="$t('message.half')" />
+                <t-radio :block="false" name="round" value="fullGame" :label="$t('message.full')" />
             </t-radio-group>
         </t-cell>
-
-        <t-cell :title="$t('message.firstDealer')">
+        <t-navbar :title="$t('message.firstDealer')" :fixed="false"/>
+        <t-cell class="horizontal-selector">
             <t-radio-group class="box" :default-value="seats[gameStore.startSeat]" borderless @change="startSeatChange">
                 <t-radio :block="false" name="startSeat" :value="seats[0]" :label="$t('message.self')" />
                 <t-radio :block="false" name="startSeat" :value="seats[1]" :label="$t('message.right')" />
@@ -162,5 +148,62 @@ h2 {
 .t-navbar {
     z-index: 9999;
     --td-navbar-height: var(--td-navbar-height);
+}
+.horizontal-selector {
+    padding:0;
+    height: 60px;
+    .t-cell__note
+    {
+        height:100%;
+        .t-radio-group {
+            width:100%;
+            height:100%;
+            display: flex;
+            justify-content: space-around;
+
+            .t-radio {
+                width: 100%;
+                height: 100%;
+                
+                border-left:1px solid #eee;
+                &:first-child{
+                    border-left:0px;
+                }
+                .t-radio__icon {
+                    position: absolute;
+                    width:100%;
+                    height: 100%;
+                    z-index: 999;
+                    margin: 0;
+                    background-color: #e7e7e7;
+                    &.t-radio__icon--checked{
+                        background-color: #0052d9;
+                    }
+                    >*{
+                        display:none !important;
+                    }
+                }
+                .t-radio__content {
+                    position: absolute;
+                    z-index: 1000;
+                    left:0;
+                    right:0;
+                    top:0;
+                    bottom:0;
+                    margin:auto;
+                    display:flex;
+                    justify-content:center;
+                    align-items: center;
+                }
+                &:has(.t-radio__icon--checked)
+                {
+                    .t-radio__content span{
+                        color:white;
+                    }
+                }
+            }
+        }
+    }
+    
 }
 </style>
