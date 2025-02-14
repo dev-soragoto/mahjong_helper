@@ -1231,6 +1231,10 @@ const onRyuukyoku = () => {
     winState.ryuukyoku = true
 }
 
+const onRyuukyokuCancel = () => {
+    resetwinState()
+}
+
 const onRyuukyokuCheckboxGroupChange = () => {
 
 }
@@ -1305,10 +1309,6 @@ const onRyuukyokuConfirm = () => {
     setEditState()
     winState.ryuukyoku = false
     pointChange()
-}
-
-const onRyuukyokuCancel = () => {
-    winState.ryuukyoku = false
 }
 
 // 编辑
