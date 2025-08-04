@@ -790,7 +790,7 @@ function checkGameOver(): boolean {
             }
         }
 
-        if (gameStore.getPlayer(winState.winner).seat === kazeList[0]) {
+        if (winState.winner && winState.winner !== '' && gameStore.getPlayer(winState.winner).seat === kazeList[0]) {
             oyaPlayer = gameStore.getPlayer(winState.winner)
         }
 
@@ -1249,7 +1249,8 @@ const onRyuukyokuConfirm = () => {
         winPlayers.push(winPlayer)
         if (winPlayer.riichi) {
             winPlayer.point -= 1000
-            pointChangeList[gameStore.seatList.indexOf(winPlayerName)] -= 1000
+            var winPlayerSeatIndex = gameStore.seatList.indexOf(winPlayerName)
+            pointChangeList[winPlayerSeatIndex] -= 1000
             gameStore.setPlayer(winPlayer.name, winPlayer)
         }
         if (winPlayer.seat === kazeList[0]) {
