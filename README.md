@@ -2,6 +2,12 @@
 
 ## 面麻计分器
 
+### 警告
+
+本项目由 **能工智人**、**cursor**、**github-copilot** 强力驱动，出问题也是在所难免的。
+
+~~又不是不能用~~
+
 ### [**点这里开始使用**](https://dev-soragoto.github.io/mahjong_helper)
 
 
