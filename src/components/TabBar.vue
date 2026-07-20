@@ -1,5 +1,5 @@
 <template>
-  <t-tab-bar v-model="currentPath" theme="tag" :split="false" :fixed="true">
+  <t-tab-bar v-model="currentPath" theme="tag" :split="false" :fixed="true" :placeholder="true">
     <t-tab-bar-item v-for="item in routeList" :key="item.value" :value="item.value">
       {{ $t(item.label) }}
       <template #icon>
@@ -86,5 +86,9 @@ onUnmounted(() => {
 .t-tab-bar {
   z-index: 9999;
   position: fixed;
+  left: 0;
+  right: 0;
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
 }
 </style>

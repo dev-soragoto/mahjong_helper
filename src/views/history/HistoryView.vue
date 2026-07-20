@@ -1,6 +1,6 @@
 <template>
     <t-navbar :title="$t('tab.record')" :fixed="true"/>
-    <div style="height: var(--td-navbar-height);"></div>
+    <div style="height: var(--app-navbar-space);"></div>
     <t-cell-group theme="card">
         <t-collapse expand-mutex :value="values" @change="handleChange">
             <t-swipe-cell v-for="i in historyDataList.length" :key="i - 1" :value="i - 1" :right="cellEvent(i - 1)"
@@ -16,7 +16,6 @@
             </t-swipe-cell>
     </t-collapse>
     </t-cell-group>
-    <div style="height: var(--td-tab-bar-height);"></div>
 </template>
 
 

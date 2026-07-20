@@ -1,10 +1,9 @@
 <template> 
     <t-navbar :title="$t('message.player')" :fixed="true"/>
-    <div style="height: var(--td-navbar-height);"></div>
+    <div style="height: var(--app-navbar-space);"></div>
     <t-cell-group theme="card">
         <UserCell />
     </t-cell-group>
-    <div style="height: var(--td-tab-bar-height);"></div>
     <t-fab :icon="iconFunc" @click="onClick" :style="fabStyle" />
 
     <t-dialog v-model:visible="visible" :title="$t('message.setPlayerName')" :confirm-btn="$t('message.confirm')" :cancel-btn="$t('message.cancel')" @confirm="onAddPlayerConfirm()">

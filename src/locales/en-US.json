@@ -109,6 +109,18 @@
     "winningPlayerNotChosen": "Winning player not chosen!",
     "wins": "Wins"
   },
+  "pwa": {
+    "appName": "Mahjong Helper",
+    "install": "Install app",
+    "installDescription": "Install on this device for offline use",
+    "iosInstallGuide": "Tap Share in your browser, then choose “Add to Home Screen”",
+    "safeAreaExtra": "Screen fit",
+    "safeAreaDescription": "Drag the slider until the UI fits your screen",
+    "updateTitle": "Update available",
+    "updateDescription": "A new version is ready. Update now?",
+    "updateNow": "Update now",
+    "updateLater": "Later"
+  },
   "position": {
     "east": "East",
     "north": "North",

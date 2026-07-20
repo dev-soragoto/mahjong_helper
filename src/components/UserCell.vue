@@ -3,7 +3,6 @@
         :right="cellEvent(item)" @touchstart.stop @touchend.stop>
         <t-cell v-bind:title="item.name"></t-cell>
     </t-swipe-cell>
-    <div style="height: var(--td-tab-bar-height);"></div>
     <t-dialog v-for="(item, index) of gameStore.playerList" :key="gameStore.playerListRef[index]"
         v-model:visible="gameStore.getPlayerRef(item.name).visible" :title="$t('message.setPlayerName')" :confirm-btn="$t('message.confirm')" :cancel-btn="$t('message.cancel')"
         @confirm="onChangePlayerName(item)" @cancel="closeDialog(item)">

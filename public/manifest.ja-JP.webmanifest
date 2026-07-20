@@ -1,0 +1,17 @@
+{
+  "id": "/mahjong_helper/",
+  "name": "麻雀点数記録",
+  "short_name": "麻雀点数記録",
+  "description": "対面麻雀の点数記録ツール",
+  "lang": "ja-JP",
+  "start_url": "/mahjong_helper/",
+  "scope": "/mahjong_helper/",
+  "display": "standalone",
+  "background_color": "#eeeeee",
+  "theme_color": "#f5a9b8",
+  "icons": [
+    { "src": "icons/pwa-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/pwa-512x512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/pwa-maskable-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

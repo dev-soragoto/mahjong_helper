@@ -26,6 +26,7 @@ export const useGameStore = defineStore('game', {
             gameType: GameLength.halfGame,
             startSeat: ref<number>(0),
             language: Language.zhCN,
+            safeAreaExtra: 0,
             tdesignLanguageConfig: zhConfig
         }
     },
@@ -182,6 +183,9 @@ export const useGameStore = defineStore('game', {
                 break;
             }
             saveConfig();
+          },
+        setSafeAreaExtra(value: number) {
+            this.safeAreaExtra = Math.min(48, Math.max(0, Math.round(value)));
           }
     }
 });
@@ -199,6 +203,7 @@ export interface GameConfig {
     playerListRef: Array<PlayerRef>,
     gameType: string,
     startSeat: number
+    safeAreaExtra: number
 }
 export interface HistoryData {
     timeStamp: number,
@@ -222,6 +227,7 @@ export function saveConfig(): void {
         playerListRef: gameStore.playerListRef,
         gameType: gameStore.gameType,
         startSeat: gameStore.startSeat
+        ,safeAreaExtra: gameStore.safeAreaExtra
     };
     window.localStorage.setItem(configStore, JSON.stringify(gameConfig));
     window.localStorage.setItem("language",gameStore.language);
@@ -250,6 +256,7 @@ export function loadConfig(locale:any): void {
     gameStore.playerListRef = reactive(gameConfig.playerListRef);
     gameStore.gameType = gameConfig.gameType as GameLength;
     gameStore.startSeat = gameConfig.startSeat;
+    gameStore.safeAreaExtra = Number.isFinite(gameConfig.safeAreaExtra) ? gameConfig.safeAreaExtra : 0;
     gameStore.setLanguage(window.localStorage.getItem("language")?  window.localStorage.getItem("language") as Language : Language.zhCN, locale);
 }
 

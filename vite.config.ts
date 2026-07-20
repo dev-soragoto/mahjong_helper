@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 import AutoImport from 'unplugin-auto-import/vite';
 import { TDesignResolver } from 'unplugin-vue-components/resolvers';
@@ -18,6 +19,18 @@ export default defineConfig({
       }
     }),
     vueJsx(),
+    VitePWA({
+      registerType: 'prompt',
+      injectRegister: null,
+      manifest: false,
+      workbox: {
+        cleanupOutdatedCaches: true,
+        navigateFallback: 'index.html',
+        navigateFallbackDenylist: [/^\/api\//],
+        globPatterns: ['**/*.{js,css,html,svg,png,webmanifest}'],
+        runtimeCaching: []
+      }
+    }),
     AutoImport({
       resolvers: [TDesignResolver({
         library: 'mobile-vue'

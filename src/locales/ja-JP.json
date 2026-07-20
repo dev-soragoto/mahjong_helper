@@ -109,6 +109,18 @@
     "winningPlayerNotChosen": "ロンプレイヤーを選択していません！",
     "wins": "勝つ"
   },
+  "pwa": {
+    "appName": "麻雀点数記録",
+    "install": "アプリをインストール",
+    "installDescription": "端末にインストールしてオフラインでも使用できます",
+    "iosInstallGuide": "ブラウザの共有ボタンをタップし、「ホーム画面に追加」を選択してください",
+    "safeAreaExtra": "画面表示の調整",
+    "safeAreaDescription": "UI が画面に合う位置までスライダーを調整してください",
+    "updateTitle": "新しいバージョンがあります",
+    "updateDescription": "更新の準備ができました。今すぐ更新しますか？",
+    "updateNow": "今すぐ更新",
+    "updateLater": "後で"
+  },
   "position": {
     "east": "東",
     "north": "北",

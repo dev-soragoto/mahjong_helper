@@ -1455,13 +1455,13 @@ onUnmounted(() => {
 <style scoped lang="less">
 
 .main-board {
-    height: 90dvh;
-    width: 100dvw;
+    height: calc(90dvh - var(--safe-top) - var(--safe-bottom));
+    width: calc(100dvw - var(--safe-left) - var(--safe-right));
     position: absolute;
     margin: auto; 
-    top: 0;
-    left: 0;
-    right: 0;
+    top: var(--safe-top);
+    left: var(--safe-left);
+    right: var(--safe-right);
     background-color: #fcbad3;
 }
 
@@ -1489,12 +1489,12 @@ onUnmounted(() => {
 
 .button-board {
     height: 10dvh;
-    width: 100dvw;
+    width: calc(100dvw - var(--safe-left) - var(--safe-right));
     position: absolute;
     margin: auto; 
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: var(--safe-bottom);
+    left: var(--safe-left);
+    right: var(--safe-right);
     background-color: #aa96da;
     display: flex;
     justify-content: space-between;

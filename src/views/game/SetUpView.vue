@@ -1,6 +1,6 @@
 <template>
     <t-navbar :title="$t('message.matchSetting')" :fixed="true"/>
-    <div style="height: var(--td-navbar-height);"></div>
+    <div style="height: var(--app-navbar-space);"></div>
     <!-- TODO 三麻支持-->
     <t-cell-group theme="card">
         <t-cell v-for="(state, index) in playerState" :key="index" arrow :title="$t(titles[index])"
@@ -29,7 +29,6 @@
             </t-radio-group>
         </t-cell>
     </t-cell-group>
-    <div style="height: var(--td-tab-bar-height);"></div>
     <t-fab :icon="iconFunc" @click="onClick" :style="fabStyle" />
 </template>
 

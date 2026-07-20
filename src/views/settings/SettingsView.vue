@@ -1,8 +1,8 @@
 <template>
     <t-navbar :title="$t('tab.setting')" :fixed="true"/>
-    <div style="height: var(--td-navbar-height);"></div>
+    <div style="height: var(--app-navbar-space);"></div>
 
-    <t-cell-group theme="card">
+    <t-cell-group class="settings-card" theme="card">
         <t-cell arrow :title="$t('message.language')" :note="languageState.language.join('')" @click="languageState.show = true" />
         <t-popup v-model="languageState.show" placement="bottom">
                     <t-picker 
@@ -13,6 +13,22 @@
                         @cancel="languageState.show = false" 
                     />
                     </t-popup>
+        <t-cell v-if="canInstall" arrow :title="$t('pwa.install')" :description="$t('pwa.installDescription')" @click="install" />
+        <t-cell v-else-if="showIosGuide" :title="$t('pwa.install')" :description="$t('pwa.iosInstallGuide')" />
+        <t-cell :title="$t('pwa.safeAreaExtra')">
+            <template #note>{{ safeAreaPreview }}px</template>
+            <template #description>
+                <div>{{ $t('pwa.safeAreaDescription') }}</div>
+                <t-slider
+                    class="safe-area-slider"
+                    v-model="safeAreaPreview"
+                    :min="0"
+                    :max="48"
+                    :step="1"
+                    @dragend="saveSafeArea"
+                />
+            </template>
+        </t-cell>
         <t-cell :title="$t('message.enteringWest')" :description="$t('describe.enteringWest')">
             <template #rightIcon>
                 <t-switch :value="checked.continuingIntoWest"
@@ -65,18 +81,26 @@
         </t-cell>
     </t-cell-group>
 
-    <div style="height: var(--td-tab-bar-height);"></div>
 </template>
 
 <script lang="ts" setup>
 import { saveConfig, useGameStore } from '@/stores/storage';
 import { Toast } from 'tdesign-mobile-vue';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import { Language} from '@/ts/common'
 import { useI18n } from 'vue-i18n';
+import { usePwaInstall } from '@/composables/usePwaInstall';
 
 const gameStore = useGameStore();
 const {locale, t} = useI18n();
+const { canInstall, showIosGuide, install } = usePwaInstall();
+const safeAreaPreview = ref(gameStore.safeAreaExtra);
+
+watch(safeAreaPreview, value => gameStore.setSafeAreaExtra(value));
+const saveSafeArea = (value: number) => {
+    gameStore.setSafeAreaExtra(value);
+    saveConfig();
+};
 //设置逻辑
 const languageState = reactive({
     show: false,
@@ -217,4 +241,10 @@ async function getContributors() {
 .t-cell-group {
     margin: 16px;
 }
+
+.safe-area-slider {
+    margin-top: 14px;
+    margin-bottom: 4px;
+}
+
 </style>
