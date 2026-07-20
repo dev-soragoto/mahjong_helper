@@ -44,7 +44,7 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 
 const iconFunc = () => h(PlayIcon, { size: '30px' });
-const fabStyle = "bottom: 80px; right: 5dvw"
+const fabStyle = "bottom: calc(var(--td-tab-bar-height) + var(--safe-bottom) + 30px); right: calc(var(--safe-right) + 16px)"
 
 const gameStore = useGameStore()
 const titles = ['message.self', 'message.right', 'message.across', 'message.left'];

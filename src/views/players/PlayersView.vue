@@ -27,7 +27,7 @@ const { t } = useI18n();
 const gameStore = useGameStore()
 
 const iconFunc = () => h(AddIcon, { size: '30px' })
-const fabStyle = "bottom: 80px; right: 5dvw"
+const fabStyle = "bottom: calc(var(--td-tab-bar-height) + var(--safe-bottom) + 30px); right: calc(var(--safe-right) + 16px)"
 
 const visible = ref(false)
 const newName = ref('')
