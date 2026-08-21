@@ -6,7 +6,7 @@
   "lang": "ja-JP",
   "start_url": "/mahjong_helper/",
   "scope": "/mahjong_helper/",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#eeeeee",
   "theme_color": "#f5a9b8",
   "icons": [
